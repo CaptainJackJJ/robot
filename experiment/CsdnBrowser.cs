@@ -8,15 +8,12 @@ using System.Windows.Forms;
 
 namespace experiment
 {
-    class MyBrowser
+    class CsdnBrowser
     {
-        bool m_bNeedClickAccountLogin = false;
-        bool m_bNeedClickLogin = false;
-
         public WebBrowser m_browser = null;
         Timer m_timerAfterDocCompleted = null;
 
-        public MyBrowser(WebBrowser w, Timer timerAfterDocCompleted)
+        public CsdnBrowser(WebBrowser w, Timer timerAfterDocCompleted)
         {
             m_browser = w;
             m_timerAfterDocCompleted = timerAfterDocCompleted;
@@ -27,11 +24,12 @@ namespace experiment
             // This flag make script error dlg disappear.
             m_browser.ScriptErrorsSuppressed = true;
 
-            // Handle DocumentCompleted to gain access to the Document object.
             m_browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
+        }
 
-            m_bNeedClickAccountLogin = true;
-            m_browser.Navigate("https://passport.csdn.net/account/login");            
+        public void NavigateToLoginPage()
+        {
+            m_browser.Navigate("https://passport.csdn.net/account/login");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -75,25 +73,17 @@ namespace experiment
             //((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
         }
 
-        private bool IsLogedin()
+        public void timerAfterDocCompleted()
+        {
+            m_timerAfterDocCompleted.Enabled = false;
+            Tools.CloseSecurityAlert();
+        }
+
+        public bool IsLogedin()
         {
             if (GetEleByTagAndOuterHtml("a", "账号登录") == null)
                 return true;
             return false;
-        }
-
-        public void timerAfterDocCompleted()
-        {
-            Tools.CloseSecurityAlert();
-
-            m_timerAfterDocCompleted.Enabled = false;
-
-            if (m_bNeedClickAccountLogin && !IsLogedin())
-            {                
-                ClickAccountLogin();
-                m_bNeedClickAccountLogin = false;
-                Login("sdhiiwfssf", "Cq&86tjUKHEG");
-            }            
         }
 
         public bool Login(string uName,string password)
