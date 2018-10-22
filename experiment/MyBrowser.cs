@@ -24,8 +24,8 @@ namespace experiment
             m_timerAfterDocCompleted.Enabled = false;
             m_timerAfterDocCompleted.Interval = 1000;
 
-            // Ensure that ScriptErrorsSuppressed is set to false.
-            m_browser.ScriptErrorsSuppressed = false;
+            // This flag make script error dlg disappear.
+            m_browser.ScriptErrorsSuppressed = true;
 
             // Handle DocumentCompleted to gain access to the Document object.
             m_browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
@@ -62,17 +62,17 @@ namespace experiment
             ClickEleByTagAndOuterHtml("a", "https://passport.csdn.net/account/login");
         }
 
-        // do not show scriptError dlg
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            e.Handled = true;
-        }
+        // do not show scriptError dlg. But seems does not work
+        //private void Window_Error(object sender, HtmlElementErrorEventArgs e)
+        //{
+        //    e.Handled = true;
+        //}
 
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             m_timerAfterDocCompleted.Enabled = true;
 
-            ((WebBrowser)m_browser).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+            //((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
         }
 
         private bool IsLogedin()
