@@ -24,9 +24,7 @@ namespace experiment
             Tools.SetWebBrowserFeatures(11);
             this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            m_browser = new MyBrowser(webBrowser1,timerAfterDocCompleted);
-
-            webBrowser1.Navigate("https://passport.csdn.net/account/login");
+            m_browser = new MyBrowser(webBrowser1,timerAfterDocCompleted);                    
         }
 
 
@@ -46,8 +44,15 @@ namespace experiment
             m_browser.ClickAccountLogin();
         }
 
+        // do not show scriptError dlg
+        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         private void timerAfterDocCompleted_Tick(object sender, EventArgs e)
         {
+            ((WebBrowser)m_browser.m_browser).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
             m_browser.timerAfterDocCompleted();
         }
     }

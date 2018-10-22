@@ -10,7 +10,10 @@ namespace experiment
 {
     class MyBrowser
     {
-        WebBrowser m_browser = null;
+        bool m_bNeedClickAccountLogin = false;
+        bool m_bNeedClickLogin = false;
+
+        public WebBrowser m_browser = null;
         Timer m_timerAfterDocCompleted = null;
 
         public MyBrowser(WebBrowser w, Timer timerAfterDocCompleted)
@@ -26,14 +29,17 @@ namespace experiment
 
             // Handle DocumentCompleted to gain access to the Document object.
             m_browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
+
+            m_bNeedClickAccountLogin = true;
+            m_browser.Navigate("https://passport.csdn.net/account/login");            
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
         {
-            HtmlElementCollection collection = m_browser.Document.GetElementsByTagName("a");
+            HtmlElementCollection collection = m_browser.Document.GetElementsByTagName(tag);
             foreach (HtmlElement ele in collection)
             {
-                if (ele.OuterHtml.Contains("账号登录"))
+                if (ele.OuterHtml.Contains(html))
                 {
                     return ele;
                 }
@@ -57,17 +63,13 @@ namespace experiment
             ClickEleByTagAndOuterHtml("a", "https://passport.csdn.net/account/login");
         }
 
-        // do not show scriptError dlg
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            e.Handled = true;
-        }
+
 
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             m_timerAfterDocCompleted.Enabled = true;
 
-            ((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+            
         }
 
 
@@ -76,6 +78,27 @@ namespace experiment
             Tools.CloseSecurityAlert();
 
             m_timerAfterDocCompleted.Enabled = false;
+
+            if (m_bNeedClickAccountLogin)
+            {
+                ClickAccountLogin();
+                m_bNeedClickAccountLogin = false;
+                Login("sdhiiwfssf", "Cq&86tjUKHEG");
+            }            
+        }
+
+        public bool Login(string uName,string password)
+        {
+            HtmlElement ele = m_browser.Document.GetElementById("username");            
+            if (ele == null) return false;
+            ele.SetAttribute("value", uName);
+
+            ele = m_browser.Document.GetElementById("password");
+            if (ele == null) return false;
+            ele.SetAttribute("value", password);
+
+            ClickEleByTagAndOuterHtml("input", "登 录");
+            return false;
         }
     }
 }
