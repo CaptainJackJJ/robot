@@ -44,7 +44,6 @@ namespace experiment
                     return ele;
                 }
             }
-            MessageBox.Show("did not find ele tag is '" + tag + "' outerHtml is " + html);
             return null;
         }
 
@@ -63,15 +62,25 @@ namespace experiment
             ClickEleByTagAndOuterHtml("a", "https://passport.csdn.net/account/login");
         }
 
-
+        // do not show scriptError dlg
+        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
+        {
+            e.Handled = true;
+        }
 
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             m_timerAfterDocCompleted.Enabled = true;
 
-            
+            ((WebBrowser)m_browser).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
         }
 
+        private bool IsLogedin()
+        {
+            if (GetEleByTagAndOuterHtml("a", "账号登录") == null)
+                return true;
+            return false;
+        }
 
         public void timerAfterDocCompleted()
         {
@@ -79,8 +88,8 @@ namespace experiment
 
             m_timerAfterDocCompleted.Enabled = false;
 
-            if (m_bNeedClickAccountLogin)
-            {
+            if (m_bNeedClickAccountLogin && !IsLogedin())
+            {                
                 ClickAccountLogin();
                 m_bNeedClickAccountLogin = false;
                 Login("sdhiiwfssf", "Cq&86tjUKHEG");

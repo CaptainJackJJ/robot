@@ -44,15 +44,8 @@ namespace experiment
             m_browser.ClickAccountLogin();
         }
 
-        // do not show scriptError dlg
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            e.Handled = true;
-        }
-
         private void timerAfterDocCompleted_Tick(object sender, EventArgs e)
-        {
-            ((WebBrowser)m_browser.m_browser).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+        {            
             m_browser.timerAfterDocCompleted();
         }
     }
