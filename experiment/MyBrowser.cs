@@ -98,16 +98,25 @@ namespace experiment
 
         public bool Login(string uName,string password)
         {
-            HtmlElement ele = m_browser.Document.GetElementById("username");            
-            if (ele == null) return false;
+            HtmlElement ele = m_browser.Document.GetElementById("username");
+            if (ele == null)
+            {
+                Log.WriteLog(LogType.Error, "did not found ele username");
+                return false;
+            }
             ele.SetAttribute("value", uName);
 
             ele = m_browser.Document.GetElementById("password");
-            if (ele == null) return false;
+            if (ele == null)
+            {
+                Log.WriteLog(LogType.Error, "did not found ele password");
+                return false;
+            }
             ele.SetAttribute("value", password);
 
             ClickEleByTagAndOuterHtml("input", "登 录");
-            return false;
+            Log.WriteLog(LogType.Trace, "logged in with username " + uName + " password " + password);
+            return true;
         }
     }
 }
