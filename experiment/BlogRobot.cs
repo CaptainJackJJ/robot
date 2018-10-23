@@ -61,7 +61,7 @@ namespace experiment
             catch (Exception e)
             {
                 Log.WriteLog(LogType.Error, "Exception happened in step " + m_step.ToString() 
-                    + "Exception info: " + e.ToString());
+                    + ", Exception info: " + e.ToString());
                 return; // exception happened, return directly, do not close timer, let timer keep try again.
             }
 
