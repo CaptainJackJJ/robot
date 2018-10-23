@@ -14,18 +14,12 @@ namespace experiment
 
         public CsdnBrowser()
         {
-            // This flag make script error dlg disappear.
             this.ScriptErrorsSuppressed = false;
-
-            this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
 
         #region Overrides
 
-        /// <summary>
-        /// Override to allow custom script error handling.
-        /// </summary>
-        /// <returns></returns>
+        // Override to allow custom script error handling.
         protected override WebBrowserSiteBase CreateWebBrowserSiteBase()
         {
             return new WebBrowserSiteEx(this);
@@ -35,9 +29,7 @@ namespace experiment
 
         #region Inner Class [WebBrowserSiteEx]
 
-        /// <summary>
-        /// Sub-class to allow custom script error handling.
-        /// </summary>
+        //Sub-class to allow custom script error handling.
         protected class WebBrowserSiteEx : WebBrowserSite, NativeMethods.IOleCommandTarget
         {
             /// <summary>
@@ -95,17 +87,18 @@ namespace experiment
 
         #endregion
 
-        public void SetTimer(Timer timerAfterDocCompleted)
+        public void Init(Timer timerAfterDocCompleted)
         {
             m_timerAfterDocCompleted = timerAfterDocCompleted;
 
             m_timerAfterDocCompleted.Enabled = false;
             m_timerAfterDocCompleted.Interval = 3000;
+
+            this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
 
         public void NavigateToLoginPage()
         {
-            Tools.CloseSecurityAlert();
             this.Navigate("https://passport.csdn.net/account/login");  
         }
 
@@ -124,7 +117,7 @@ namespace experiment
 
         private void ClickEleByTagAndOuterHtml(string tag,string html)
         {
-            Tools.SafeClick(GetEleByTagAndOuterHtml(tag, html));
+            GetEleByTagAndOuterHtml(tag, html).InvokeMember("click"); 
         }
 
         private void ClickAccountLogin()
@@ -145,7 +138,6 @@ namespace experiment
 
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Tools.CloseSecurityAlert();
             m_timerAfterDocCompleted.Enabled = true;
 
             ((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
@@ -153,7 +145,6 @@ namespace experiment
 
         public void timerAfterDocCompleted()
         {            
-            Tools.CloseSecurityAlert();
             m_timerAfterDocCompleted.Enabled = false;
         }
 

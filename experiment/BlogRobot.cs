@@ -26,7 +26,7 @@ namespace experiment
             m_dataManager = new DataManager();
 
             m_browser = w;
-            m_browser.SetTimer(timerAfterDocCompleted);
+            m_browser.Init(timerAfterDocCompleted);
 
             m_needClickAccountLogin = true;
             m_browser.NavigateToLoginPage();
@@ -40,8 +40,6 @@ namespace experiment
 
         public void timerAfterDocCompleted()
         {
-            Tools.CloseSecurityAlert();
-
             if (m_isNewWorkingObject)
             {
                 if (m_browser.IsLogedin())
