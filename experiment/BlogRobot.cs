@@ -40,6 +40,7 @@ namespace experiment
 
         public void timerAfterDocCompleted()
         {
+            m_browser.timerAfterDocCompleted();
             if (m_isNewWorkingObject)
             {
                 if (m_browser.IsLogedin())
@@ -48,13 +49,11 @@ namespace experiment
                 }
                 else
                 {
-                    m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
+                    m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();                    
                     m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
                     m_isNewWorkingObject = false;
                 }
             }
-
-            m_browser.timerAfterDocCompleted();
         }
     }
 }

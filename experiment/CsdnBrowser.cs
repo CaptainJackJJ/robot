@@ -17,15 +17,11 @@ namespace experiment
             this.ScriptErrorsSuppressed = false;
         }
 
-        #region Overrides
-
         // Override to allow custom script error handling.
         protected override WebBrowserSiteBase CreateWebBrowserSiteBase()
         {
             return new WebBrowserSiteEx(this);
         }
-
-        #endregion
 
         #region Inner Class [WebBrowserSiteEx]
 
@@ -85,21 +81,21 @@ namespace experiment
             }
         }
 
-        #endregion
+        #endregion Inner Class [WebBrowserSiteEx]
 
         public void Init(Timer timerAfterDocCompleted)
         {
             m_timerAfterDocCompleted = timerAfterDocCompleted;
 
             m_timerAfterDocCompleted.Enabled = false;
-            m_timerAfterDocCompleted.Interval = 3000;
+            m_timerAfterDocCompleted.Interval = 1000;
 
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
 
         public void NavigateToLoginPage()
         {
-            this.Navigate("https://passport.csdn.net/account/login");  
+            SafeNavigate("https://passport.csdn.net/account/login");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -117,7 +113,19 @@ namespace experiment
 
         private void ClickEleByTagAndOuterHtml(string tag,string html)
         {
-            GetEleByTagAndOuterHtml(tag, html).InvokeMember("click"); 
+            SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
+        }
+
+        private void SafeClick(HtmlElement ele)
+        {
+            Tools.CloseSecurityAlert();
+            ele.InvokeMember("click"); 
+        }
+
+        private void SafeNavigate(string url)
+        {
+            Tools.CloseSecurityAlert();
+            this.Navigate(url); 
         }
 
         private void ClickAccountLogin()
@@ -130,21 +138,15 @@ namespace experiment
             ClickEleByTagAndOuterHtml("a", "https://passport.csdn.net/account/login");
         }
 
-        // do not show scriptError dlg. But seems does not work
-        private void Window_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            e.Handled = true;
-        }
-
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Tools.CloseSecurityAlert();
             m_timerAfterDocCompleted.Enabled = true;
-
-            ((WebBrowser)sender).Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
         }
 
         public void timerAfterDocCompleted()
-        {            
+        {
+            Tools.CloseSecurityAlert();
             m_timerAfterDocCompleted.Enabled = false;
         }
 

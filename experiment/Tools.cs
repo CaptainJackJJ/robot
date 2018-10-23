@@ -111,5 +111,37 @@ namespace experiment
 
         #endregion set browser version
 
+        #region 模拟操作关闭定时警告
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("User32.dll", EntryPoint = "FindWindowEx")]
+        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+
+        static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private static int WM_CLICK = 0x00F5;
+        private static int WM_CLOSE = 0x10;
+
+        public static void CloseSecurityAlert()
+        {
+            IntPtr hwnd = FindWindow(null, "安全警告");
+            if (hwnd != IntPtr.Zero)
+            {
+                IntPtr btnhwnd = FindWindowEx(hwnd, IntPtr.Zero, "Button", "是(&Y)");
+                if (btnhwnd != IntPtr.Zero)
+                {
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//先移上去  
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//再点击  
+                }
+            }
+        }
+        #endregion
+
+        public static void SafeClick(HtmlElement ele)
+        {
+            CloseSecurityAlert();
+            ele.InvokeMember("click");
+        }
+
     }
 }
