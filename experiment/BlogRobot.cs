@@ -60,9 +60,13 @@ namespace experiment
             }
             catch (Exception e)
             {
-                Log.WriteLog(LogType.Error, "Exception happened in step " + m_step.ToString() 
+                Log.WriteLog(LogType.Warning, "Exception happened in step " + m_step.ToString() 
                     + ", Exception info: " + e.ToString());
-                return; // exception happened, return directly, do not close timer, let timer keep try again.
+                return;
+                // Exception happened, return directly.
+                // Do not close timer, let timer keep try again.
+                // Because this exception maybe just cause by doc which is not loaded complete.
+                // Webbroswer's DocCompleted event is not trustful.
             }
 
             m_browser.timerAfterDocCompleted();
