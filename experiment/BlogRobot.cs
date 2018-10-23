@@ -10,12 +10,14 @@ namespace experiment
 {
     class BlogRobot
     {
-        bool m_isNewWorkingObject = true;
-        bool m_needClickAccountLogin = false;
-        bool m_needGoToListPage = false;
-        bool m_needGetWorkingObjectInfo = false;
+        enum EnumStep
+        {
+            Login,
+            GoToListPage,
+            Finished
+        }
 
-        string m_lastListPageUrl;
+        EnumStep m_step = EnumStep.Login;
 
         CsdnBrowser m_browser = null;
         DataManager m_dataManager = null;
@@ -28,32 +30,42 @@ namespace experiment
             m_browser = w;
             m_browser.Init(timerAfterDocCompleted);
 
-            m_needClickAccountLogin = true;
             m_browser.NavigateToLoginPage();
         }
 
-        private void Logout()
-        {
-            m_browser.Logout();
-        }
-
-
         public void timerAfterDocCompleted()
         {
-            m_browser.timerAfterDocCompleted();
-            if (m_isNewWorkingObject)
+            m_browser.CloseSecurityAlert();
+
+            try
             {
-                if (m_browser.IsLogedin())
+                if (m_step == EnumStep.Login)
                 {
-                    Logout();
+                    if (m_browser.IsLogedin())
+                    {
+                        m_browser.Logout();
+                    }
+                    else
+                    {
+                        m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
+                        m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
+                        m_step = EnumStep.GoToListPage;
+                    }
                 }
-                else
+                else if (m_step == EnumStep.GoToListPage)
                 {
-                    m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();                    
-                    m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                    m_isNewWorkingObject = false;
+                    m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
+                    m_step = EnumStep.Finished;
                 }
             }
+            catch (Exception e)
+            {
+                Log.WriteLog(LogType.Error, "Exception happened in step " + m_step.ToString() 
+                    + "Exception info: " + e.ToString());
+                return; // exception happened, return directly, do not close timer, let timer keep try again.
+            }
+
+            m_browser.timerAfterDocCompleted();
         }
     }
 }

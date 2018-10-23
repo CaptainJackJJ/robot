@@ -122,7 +122,7 @@ namespace experiment
             ele.InvokeMember("click"); 
         }
 
-        private void SafeNavigate(string url)
+        public void SafeNavigate(string url)
         {
             Tools.CloseSecurityAlert();
             this.Navigate(url); 
@@ -144,9 +144,13 @@ namespace experiment
             m_timerAfterDocCompleted.Enabled = true;
         }
 
-        public void timerAfterDocCompleted()
+        public void CloseSecurityAlert()
         {
             Tools.CloseSecurityAlert();
+        }
+
+        public void timerAfterDocCompleted()
+        {
             m_timerAfterDocCompleted.Enabled = false;
         }
 
