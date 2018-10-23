@@ -19,7 +19,7 @@ namespace experiment
             m_timerAfterDocCompleted = timerAfterDocCompleted;
             
             m_timerAfterDocCompleted.Enabled = false;
-            m_timerAfterDocCompleted.Interval = 1000;
+            m_timerAfterDocCompleted.Interval = 3000;
 
             // This flag make script error dlg disappear.
             m_browser.ScriptErrorsSuppressed = true;
@@ -50,7 +50,7 @@ namespace experiment
             Tools.SafeClick(GetEleByTagAndOuterHtml(tag, html));
         }
 
-        public void ClickAccountLogin()
+        private void ClickAccountLogin()
         {
             ClickEleByTagAndOuterHtml("a", "账号登录");
         }
@@ -81,13 +81,15 @@ namespace experiment
 
         public bool IsLogedin()
         {
-            if (GetEleByTagAndOuterHtml("a", "账号登录") == null)
+            if (GetEleByTagAndOuterHtml("img", "login_img") != null)
                 return true;
             return false;
         }
 
         public bool Login(string uName,string password)
         {
+            ClickAccountLogin();
+
             HtmlElement ele = m_browser.Document.GetElementById("username");
             if (ele == null)
             {
@@ -107,6 +109,12 @@ namespace experiment
             ClickEleByTagAndOuterHtml("input", "登 录");
             Log.WriteLog(LogType.Trace, "logged in with username " + uName + " password " + password);
             return true;
+        }
+
+        public void Logout()
+        {
+            ClickEleByTagAndOuterHtml("a", "退出");
+            NavigateToLoginPage();
         }
     }
 }

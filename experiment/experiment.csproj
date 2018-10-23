@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogRobot.cs" />
+    <Compile Include="DataManager.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Form1.cs">

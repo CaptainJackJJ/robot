@@ -10,27 +10,48 @@ namespace experiment
 {
     class BlogRobot
     {
-        bool m_bNeedClickAccountLogin = false;
+        bool m_isNewWorkingObject = true;
+        bool m_needClickAccountLogin = false;
+        bool m_needGoToListPage = false;
+        bool m_needGetWorkingObjectInfo = false;
+
+        string m_lastListPageUrl;
 
         CsdnBrowser m_browser = null;
+        DataManager m_dataManager = null;
+        DataManager.WorkingObjectInfo m_workingObjectInfo;
 
         public BlogRobot(WebBrowser w, Timer timerAfterDocCompleted)
         {
+            m_dataManager = new DataManager();
+
             m_browser = new CsdnBrowser(w, timerAfterDocCompleted);
 
-            m_bNeedClickAccountLogin = true;
+            m_needClickAccountLogin = true;
             m_browser.NavigateToLoginPage();
+        }
+
+        private void Logout()
+        {
+            m_browser.Logout();
         }
 
         public void timerAfterDocCompleted()
         {
             m_browser.timerAfterDocCompleted();
 
-            if (m_bNeedClickAccountLogin && !m_browser.IsLogedin())
+            if (m_isNewWorkingObject)
             {
-                m_browser.ClickAccountLogin();
-                m_bNeedClickAccountLogin = false;
-                m_browser.Login("sdhiiwfssf", "Cq&86tjUKHEG");
+                if (m_browser.IsLogedin())
+                {
+                    Logout();
+                }
+                else
+                {
+                    m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
+                    m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
+                    m_isNewWorkingObject = false;
+                }
             }
         }
     }
