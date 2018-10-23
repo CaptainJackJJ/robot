@@ -141,7 +141,8 @@ namespace experiment
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             Tools.CloseSecurityAlert();
-            m_timerAfterDocCompleted.Enabled = true;
+            if (!m_timerAfterDocCompleted.Enabled)
+                m_timerAfterDocCompleted.Enabled = true;
         }
 
         public void CloseSecurityAlert()
@@ -151,7 +152,8 @@ namespace experiment
 
         public void timerAfterDocCompleted()
         {
-            m_timerAfterDocCompleted.Enabled = false;
+            if (m_timerAfterDocCompleted.Enabled)
+                m_timerAfterDocCompleted.Enabled = false;
         }
 
         public bool IsLogedin()
