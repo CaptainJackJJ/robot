@@ -140,6 +140,12 @@ namespace experiment
                     SendMessage(btnhwnd, WM_CLICK, 0, 0);//再点击  
                 }
             }
+
+            hwnd = FindWindow(null, "脚本错误");
+            if (hwnd != IntPtr.Zero)
+            {
+                SendMessage(hwnd, WM_CLOSE, 0, 0);
+            }
         }
         #endregion
 

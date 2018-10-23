@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser1 = new CsdnBrowser();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.navigateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.submitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +105,7 @@
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private CsdnBrowser webBrowser1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem navigateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem submitToolStripMenuItem;

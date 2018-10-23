@@ -21,11 +21,12 @@ namespace experiment
         DataManager m_dataManager = null;
         DataManager.WorkingObjectInfo m_workingObjectInfo;
 
-        public BlogRobot(WebBrowser w, Timer timerAfterDocCompleted)
+        public BlogRobot(CsdnBrowser w, Timer timerAfterDocCompleted)
         {
             m_dataManager = new DataManager();
 
-            m_browser = new CsdnBrowser(w, timerAfterDocCompleted);
+            m_browser = w;
+            m_browser.SetTimer(timerAfterDocCompleted);
 
             m_needClickAccountLogin = true;
             m_browser.NavigateToLoginPage();
@@ -36,9 +37,10 @@ namespace experiment
             m_browser.Logout();
         }
 
+
         public void timerAfterDocCompleted()
         {
-            m_browser.timerAfterDocCompleted();
+            Tools.CloseSecurityAlert();
 
             if (m_isNewWorkingObject)
             {
@@ -53,6 +55,8 @@ namespace experiment
                     m_isNewWorkingObject = false;
                 }
             }
+
+            m_browser.timerAfterDocCompleted();
         }
     }
 }
