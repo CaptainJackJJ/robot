@@ -45,24 +45,13 @@ namespace experiment
                 switch(m_step)
                 {
                     case EnumStep.GoToLoginPage:
-                        m_browser.NavigateToLoginPage();
-                        m_step = EnumStep.Login;
+                        GoToLoginPage();
                         break;
                     case EnumStep.Login:
-                        if (m_browser.IsLogedin())
-                        {
-                            m_browser.Logout();
-                        }
-                        else
-                        {
-                            m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
-                            m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                            m_step = EnumStep.GoToListPage;
-                        }
+                        Login();
                         break;
                     case EnumStep.GoToListPage:
-                        m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
-                        m_step = EnumStep.Finished;
+                        GoToListPage();
                         break;
                     case EnumStep.Finished:
                         break;
@@ -73,6 +62,32 @@ namespace experiment
                 Log.WriteLog(LogType.Warning, "Exception happened in step " + m_step.ToString() 
                     + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
+            }
+        }
+
+        private void GoToListPage()
+        {
+            m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
+            m_step = EnumStep.Finished;
+        }
+
+        private void GoToLoginPage()
+        {
+            m_browser.NavigateToLoginPage();
+            m_step = EnumStep.Login;
+        }
+
+        private void Login()
+        {
+            if (m_browser.IsLogedin())
+            {
+                m_browser.Logout();
+            }
+            else
+            {
+                m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
+                m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
+                m_step = EnumStep.GoToListPage;
             }
         }
     }

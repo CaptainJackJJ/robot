@@ -13,7 +13,7 @@ namespace experiment
             public string userName;
             public string password;
             public string lastListPageUrl;
-            public string lastFinishedArticleName;
+            public string lastFinishedArticleUrl;
             public short needFinishNum;
         }
 
@@ -28,7 +28,7 @@ namespace experiment
             info.userName = "sdhiiwfssf";
             info.password = "Cq&86tjUKHEG";
             info.lastListPageUrl = "https://blog.csdn.net/laoyang360?orderby=ViewCount";
-            info.lastFinishedArticleName = "";
+            info.lastFinishedArticleUrl = "";
             info.needFinishNum = 2;
 
             return info;
