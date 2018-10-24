@@ -24,7 +24,7 @@ namespace experiment
             Tools.SetWebBrowserFeatures(11);
             this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            m_blogRobot = new BlogRobot(webBrowser1, timerAfterDocCompleted);                    
+            m_blogRobot = new BlogRobot(webBrowser1, timerRobotBrain);                    
         }
 
 
@@ -42,9 +42,9 @@ namespace experiment
         {
         }
 
-        private void timerAfterDocCompleted_Tick(object sender, EventArgs e)
+        private void timerRobotBrain_Tick(object sender, EventArgs e)
         {
-            m_blogRobot.timerAfterDocCompleted();
+            m_blogRobot.timerBrain();
         }
     }
 }

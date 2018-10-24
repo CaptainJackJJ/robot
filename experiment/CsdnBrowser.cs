@@ -10,11 +10,10 @@ namespace experiment
 {
     class CsdnBrowser : WebBrowser
     {
-        Timer m_timerAfterDocCompleted = null;
-
         public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
+            this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
 
         // Override to allow custom script error handling.
@@ -83,15 +82,6 @@ namespace experiment
 
         #endregion Inner Class [WebBrowserSiteEx]
 
-        public void Init(Timer timerAfterDocCompleted)
-        {
-            m_timerAfterDocCompleted = timerAfterDocCompleted;
-
-            m_timerAfterDocCompleted.Enabled = false;
-            m_timerAfterDocCompleted.Interval = 1000;
-
-            this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
-        }
 
         public void NavigateToLoginPage()
         {
@@ -141,19 +131,11 @@ namespace experiment
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             Tools.CloseSecurityAlert();
-            if (!m_timerAfterDocCompleted.Enabled)
-                m_timerAfterDocCompleted.Enabled = true;
         }
 
         public void CloseSecurityAlert()
         {
             Tools.CloseSecurityAlert();
-        }
-
-        public void timerAfterDocCompleted()
-        {
-            if (m_timerAfterDocCompleted.Enabled)
-                m_timerAfterDocCompleted.Enabled = false;
         }
 
         public bool IsLogedin()

@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new CsdnBrowser();
+            this.webBrowser1 = new experiment.CsdnBrowser();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.navigateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.submitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.timerAfterDocCompleted = new System.Windows.Forms.Timer(this.components);
+            this.timerRobotBrain = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,11 +80,11 @@
             this.accountToolStripMenuItem.Text = "account";
             this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
             // 
-            // timerAfterDocCompleted
+            // timerRobotBrain
             // 
-            this.timerAfterDocCompleted.Enabled = true;
-            this.timerAfterDocCompleted.Interval = 1000;
-            this.timerAfterDocCompleted.Tick += new System.EventHandler(this.timerAfterDocCompleted_Tick);
+            this.timerRobotBrain.Enabled = true;
+            this.timerRobotBrain.Interval = 1000;
+            this.timerRobotBrain.Tick += new System.EventHandler(this.timerRobotBrain_Tick);
             // 
             // Form1
             // 
@@ -109,7 +109,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem navigateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem submitToolStripMenuItem;
-        private System.Windows.Forms.Timer timerAfterDocCompleted;
+        private System.Windows.Forms.Timer timerRobotBrain;
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
     }
 }
