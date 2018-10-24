@@ -34,7 +34,7 @@ namespace experiment
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
-            m_timerBrain.Interval = 2000;
+            m_timerBrain.Interval = 1000;
         }
 
         public void timerBrain()

@@ -109,9 +109,14 @@ namespace experiment
         // return false means no next article anymore.
         public bool NavToNextArticle(string lastArticleUrl)
         {
-            bool isFoundLastUrl = false;
-            if(String.IsNullOrEmpty(lastArticleUrl)) // Use first article
-                isFoundLastUrl = true;
+            short timesOfFindLastArticle = 0;
+            string lastArticleId = "";
+            if (!String.IsNullOrEmpty(lastArticleUrl))
+            {
+                lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
+                // This link of article is not same as the link of artcile which is in list, but the ID is same
+                /* https://blog.csdn.net/laoyang360/article/details/52244917 */
+            }
 
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
             foreach (HtmlElement ele in collection)
@@ -122,24 +127,29 @@ namespace experiment
                     if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
                         continue; // this ele is hidden                    
 
-                    if(isFoundLastUrl)
+                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
                     {
-                        int startIndex = outerHtml.IndexOf("http");
-                        int endIndex = outerHtml.IndexOf("target") - 2;
-                        string nextArticleUrl = outerHtml.Substring(startIndex,endIndex - startIndex);
-                        /* outerhtml
-                        <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
-                         */
-
-                        SafeNavigate(nextArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
+                        ClickArticleInList(outerHtml);
                         return true;
                     }
-                    if (outerHtml.Contains(lastArticleUrl))
-                        isFoundLastUrl = true;
+                    if (outerHtml.Contains(lastArticleId))
+                        timesOfFindLastArticle++;
                 }
             }
 
             return false;
+        }
+
+        private void ClickArticleInList(string ArticleOuterHtml)
+        {
+            int startIndex = ArticleOuterHtml.IndexOf("http");
+            int endIndex = ArticleOuterHtml.IndexOf("target") - 2;
+            string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
+            /* outerhtml
+            <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
+             */
+
+            SafeNavigate(ArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
         }
 
         private void SafeClick(HtmlElement ele)

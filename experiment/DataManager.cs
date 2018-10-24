@@ -28,7 +28,7 @@ namespace experiment
             info.userName = "sdhiiwfssf";
             info.password = "Cq&86tjUKHEG";
             info.lastListPageUrl = "https://blog.csdn.net/laoyang360?orderby=ViewCount";
-            info.lastFinishedArticleUrl = "";
+            info.lastFinishedArticleUrl = "https://blog.csdn.net/laoyang360/article/details/51931981";
             info.needFinishNum = 2;
 
             return info;
