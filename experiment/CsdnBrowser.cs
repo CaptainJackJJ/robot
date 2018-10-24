@@ -107,7 +107,7 @@ namespace experiment
         }
 
         // return false means no next article anymore.
-        public bool NavToNextArticle(string lastArticleUrl)
+        public bool NavToArticlePage(string lastArticleUrl)
         {
             short timesOfFindLastArticle = 0;
             string lastArticleId = "";
