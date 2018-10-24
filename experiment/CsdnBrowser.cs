@@ -106,6 +106,34 @@ namespace experiment
             SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
         }
 
+        // return false means no next article anymore.
+        public bool NavToNextArticle(string lastArticleUrl)
+        {
+            bool isFoundLastUrl = false;
+            if(String.IsNullOrEmpty(lastArticleUrl)) // Use first article
+                isFoundLastUrl = true;
+
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("article/details"))
+                {
+                    if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
+                        continue; // this ele is hidden                    
+
+                    if(isFoundLastUrl)
+                    {
+                        SafeClick(ele);
+                        return true;
+                    }
+                    if (ele.OuterHtml.Contains(lastArticleUrl))
+                        isFoundLastUrl = true;
+                }
+            }
+
+            return false;
+        }
+
         private void SafeClick(HtmlElement ele)
         {
             Tools.CloseSecurityAlert();

@@ -15,6 +15,7 @@ namespace experiment
             GoToLoginPage,
             Login,
             GoToListPage,
+            GoToNextArticle,
             Finished
         }
 
@@ -53,8 +54,12 @@ namespace experiment
                     case EnumStep.GoToListPage:
                         GoToListPage();
                         break;
-                    case EnumStep.Finished:
+                    case EnumStep.GoToNextArticle:
+                        GoToNextArticle();
                         break;
+                    case EnumStep.Finished:
+                        m_timerBrain.Stop();
+                        return;
                 }
             }
             catch (Exception e)
@@ -64,11 +69,15 @@ namespace experiment
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
             }
         }
-
+        private void GoToNextArticle()
+        {
+            if (m_browser.NavToNextArticle(m_workingObjectInfo.lastFinishedArticleUrl))
+                m_step = EnumStep.Finished;
+        }
         private void GoToListPage()
         {
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.GoToNextArticle;
         }
 
         private void GoToLoginPage()
