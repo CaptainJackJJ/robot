@@ -215,6 +215,13 @@ namespace experiment
             Tools.CloseSecurityAlert();
         }
 
+        public bool IsInEditPage()
+        {
+            if (GetEleByTagAndOuterHtml("pre", "editor__inner") != null)
+                return true;
+            return false;
+        }
+
         public bool IsLogedin()
         {
             if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)

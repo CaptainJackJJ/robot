@@ -72,7 +72,7 @@ namespace experiment
                         GoToEditPage();
                         break;
                     case EnumStep.LoginToEdit:
-                        Login();
+                        LoginToEdit();
                         break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
@@ -114,6 +114,21 @@ namespace experiment
             m_step = EnumStep.Login;
         }
 
+        private void LoginToEdit()
+        {
+            if (!m_browser.IsLogedin())
+            {
+                m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
+            }
+            else
+            {
+                if(m_browser.IsInEditPage())
+                {
+                    m_step = EnumStep.Publish;
+                }
+            }            
+        }
+
         private void Login()
         {
             if (m_browser.IsLogedin())
@@ -124,10 +139,7 @@ namespace experiment
             {
                 m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
                 m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                if (m_step == EnumStep.Login)
-                    m_step = EnumStep.GoToListPage;
-                else if (m_step == EnumStep.LoginToEdit)
-                    m_step = EnumStep.Publish;
+                m_step = EnumStep.GoToListPage;                    
             }
         }
     }
