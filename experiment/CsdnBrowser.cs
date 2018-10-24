@@ -132,6 +132,8 @@ namespace experiment
                 }
             }
 
+            SafeNavigate("https://mp.csdn.net/mdeditor");
+
             return info;
         }
 

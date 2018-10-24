@@ -85,7 +85,7 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
-            //m_step = EnumStep.Finished;
+            m_step = EnumStep.Finished;
         }
 
         private void GoToArticlePage()
