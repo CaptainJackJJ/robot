@@ -73,6 +73,10 @@ namespace experiment
         {
             if (m_browser.NavToNextArticle(m_workingObjectInfo.lastFinishedArticleUrl))
                 m_step = EnumStep.Finished;
+            else
+            {
+                // go next list page, or this working object is done.
+            }
         }
         private void GoToListPage()
         {
