@@ -116,17 +116,25 @@ namespace experiment
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
             foreach (HtmlElement ele in collection)
             {
-                if (ele.OuterHtml.Contains("article/details"))
+                string outerHtml = ele.OuterHtml;
+                if (outerHtml.Contains("article/details"))
                 {
                     if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
                         continue; // this ele is hidden                    
 
                     if(isFoundLastUrl)
                     {
-                        SafeClick(ele);
+                        int startIndex = outerHtml.IndexOf("http");
+                        int endIndex = outerHtml.IndexOf("target") - 2;
+                        string nextArticleUrl = outerHtml.Substring(startIndex,endIndex - startIndex);
+                        /* outerhtml
+                        <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
+                         */
+
+                        SafeNavigate(nextArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
                         return true;
                     }
-                    if (ele.OuterHtml.Contains(lastArticleUrl))
+                    if (outerHtml.Contains(lastArticleUrl))
                         isFoundLastUrl = true;
                 }
             }
