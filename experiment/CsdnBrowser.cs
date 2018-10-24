@@ -217,7 +217,7 @@ namespace experiment
 
         public bool IsLogedin()
         {
-            if (GetEleByTagAndOuterHtml("img", "login_img") != null)
+            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
                 return true;
             return false;
         }

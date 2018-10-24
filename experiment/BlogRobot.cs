@@ -17,6 +17,8 @@ namespace experiment
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
+            LoginToEdit,
+            Publish,
             Finished
         }
 
@@ -69,6 +71,9 @@ namespace experiment
                     case EnumStep.GoToEditPage:
                         GoToEditPage();
                         break;
+                    case EnumStep.LoginToEdit:
+                        Login();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         return;
@@ -85,7 +90,7 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.LoginToEdit;
         }
 
         private void GoToArticlePage()
@@ -119,7 +124,10 @@ namespace experiment
             {
                 m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
                 m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                m_step = EnumStep.GoToListPage;
+                if (m_step == EnumStep.Login)
+                    m_step = EnumStep.GoToListPage;
+                else if (m_step == EnumStep.LoginToEdit)
+                    m_step = EnumStep.Publish;
             }
         }
     }
