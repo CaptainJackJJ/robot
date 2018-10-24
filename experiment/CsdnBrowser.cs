@@ -106,6 +106,35 @@ namespace experiment
             SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
         }
 
+        public BlogRobot.ArticleInfo GoToEditPage()
+        {
+            BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();
+
+            info.url = this.Document.Url.ToString();
+
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("h1");
+            foreach (HtmlElement ele in collection)
+            {
+                string outerHtml = ele.OuterHtml;
+                if (outerHtml.Contains("title-article"))
+                {
+                    info.title = ele.InnerText;
+                }
+            }
+
+            collection = this.Document.GetElementsByTagName("div");
+            foreach (HtmlElement ele in collection)
+            {
+                string outerHtml = ele.OuterHtml;
+                if (outerHtml.Contains("markdown_views") || outerHtml.Contains("htmledit_views"))
+                {
+                    info.content = ele.OuterHtml;
+                }
+            }
+
+            return info;
+        }
+
         // return false means no next article anymore.
         public bool NavToArticlePage(string lastArticleUrl)
         {

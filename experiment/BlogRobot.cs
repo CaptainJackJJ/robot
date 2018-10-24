@@ -20,6 +20,14 @@ namespace experiment
             Finished
         }
 
+        public struct ArticleInfo
+        {
+            public string url;
+            public string title;
+            public string content;
+        }
+
+        ArticleInfo m_articleInfo;
         EnumStep m_step = EnumStep.GoToLoginPage;
 
         Timer m_timerBrain;
@@ -58,6 +66,9 @@ namespace experiment
                     case EnumStep.GoToArticlePage:
                         GoToArticlePage();
                         break;
+                    case EnumStep.GoToEditPage:
+                        GoToEditPage();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         return;
@@ -70,10 +81,17 @@ namespace experiment
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
             }
         }
+
+        private void GoToEditPage()
+        {
+            m_articleInfo = m_browser.GoToEditPage();
+            //m_step = EnumStep.Finished;
+        }
+
         private void GoToArticlePage()
         {
             if (m_browser.NavToArticlePage(m_workingObjectInfo.lastFinishedArticleUrl))
-                m_step = EnumStep.Finished;
+                m_step = EnumStep.GoToEditPage;
             else
             {
                 // go next list page, or this working object is done.
