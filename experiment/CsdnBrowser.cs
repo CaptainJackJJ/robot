@@ -106,6 +106,15 @@ namespace experiment
             SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
         }
 
+        public void Publish(BlogRobot.ArticleInfo articleInfo)
+        {
+            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar");
+            ele.InnerText = articleInfo.title;
+
+            ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
+            ele.FirstChild.InnerText = articleInfo.content;
+        }
+
         public BlogRobot.ArticleInfo GoToEditPage()
         {
             BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();

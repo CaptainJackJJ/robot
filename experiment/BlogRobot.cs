@@ -74,6 +74,9 @@ namespace experiment
                     case EnumStep.LoginToEdit:
                         LoginToEdit();
                         break;
+                    case EnumStep.Publish:
+                        Publish();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         return;
@@ -85,6 +88,12 @@ namespace experiment
                     + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
             }
+        }
+
+        private void Publish()
+        {
+            m_browser.Publish(m_articleInfo);
+            m_step = EnumStep.Finished;
         }
 
         private void GoToEditPage()
