@@ -124,6 +124,10 @@ namespace experiment
 
             ele = GetEleByTagAndOuterHtml("select", "编程语言");
             ele.SetAttribute("value", "16");
+
+            ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            SafeClick(ele);
+
         }
 
         public BlogRobot.ArticleInfo GoToEditPage()
