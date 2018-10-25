@@ -116,6 +116,8 @@ namespace experiment
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
             ele.FirstChild.InnerText = articleInfo.content;
+
+            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
         }
 
         public BlogRobot.ArticleInfo GoToEditPage()
