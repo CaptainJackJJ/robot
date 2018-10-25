@@ -108,8 +108,11 @@ namespace experiment
 
         public void Publish(BlogRobot.ArticleInfo articleInfo)
         {
-            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar");
-            ele.InnerText = articleInfo.title;
+            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
+            // This line makes title input success. 
+            // Maybe bacuase this simulated human key press
+            ele.Focus(); SendKeys.Send(" "); 
+            ele.SetAttribute("value", articleInfo.title);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
             ele.FirstChild.InnerText = articleInfo.content;
