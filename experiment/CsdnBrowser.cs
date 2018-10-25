@@ -121,6 +121,9 @@ namespace experiment
 
             ele = GetEleByTagAndOuterHtml("select", "原创");
             ele.SetAttribute("value", "original");
+
+            ele = GetEleByTagAndOuterHtml("select", "编程语言");
+            ele.SetAttribute("value", "16");
         }
 
         public BlogRobot.ArticleInfo GoToEditPage()
