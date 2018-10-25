@@ -111,7 +111,7 @@ namespace experiment
             SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
         }
 
-        public void Publish(BlogRobot.ArticleInfo articleInfo)
+        public void Edit(BlogRobot.ArticleInfo articleInfo)
         {
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
@@ -133,10 +133,12 @@ namespace experiment
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
             Tools.Click(p.X, p.Y + 200);
+        }
 
-            //ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
-            //SafeClick(ele);
-
+        public void Publish()
+        {
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            SafeClick(ele);
         }
 
         private Point GetOffset(HtmlElement el)

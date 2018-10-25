@@ -18,6 +18,7 @@ namespace experiment
             GoToArticlePage,
             GoToEditPage,
             LoginToEdit,
+            Edit,
             Publish,
             Finished
         }
@@ -74,6 +75,9 @@ namespace experiment
                     case EnumStep.LoginToEdit:
                         LoginToEdit();
                         break;
+                    case EnumStep.Edit:
+                        Edit();
+                        break;
                     case EnumStep.Publish:
                         Publish();
                         break;
@@ -90,9 +94,15 @@ namespace experiment
             }
         }
 
+        private void Edit()
+        {
+            m_browser.Edit(m_articleInfo);
+            m_step = EnumStep.Publish;
+        }
+
         private void Publish()
         {
-            m_browser.Publish(m_articleInfo);
+            m_browser.Publish();
             m_step = EnumStep.Finished;
         }
 
@@ -133,7 +143,7 @@ namespace experiment
             {
                 if(m_browser.IsInEditPage())
                 {
-                    m_step = EnumStep.Publish;
+                    m_step = EnumStep.Edit;
                 }
             }            
         }
