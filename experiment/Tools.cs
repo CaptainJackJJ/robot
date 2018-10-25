@@ -14,6 +14,8 @@ namespace experiment
 {
     public static class Tools
     {
+
+
         #region set browser version
         /// <summary>  
         /// 修改注册表信息来兼容当前程序  
@@ -136,6 +138,37 @@ namespace experiment
             }
         }
         #endregion
+
+        #region mouse control
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        private static extern int mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+        [DllImport("user32.dll")]
+        public static extern void SetCursorPos(int x, int y);//设置鼠标焦点
+
+        const int MOUSEEVENTF_MOVE = 0x0001;      //移动鼠标 
+        const int MOUSEEVENTF_LEFTDOWN = 0x0002; //模拟鼠标左键按下 
+        const int MOUSEEVENTF_LEFTUP = 0x0004; //模拟鼠标左键抬起 
+        const int MOUSEEVENTF_RIGHTDOWN = 0x0008; //模拟鼠标右键按下 
+        const int MOUSEEVENTF_RIGHTUP = 0x0010; //模拟鼠标右键抬起 
+        const int MOUSEEVENTF_MIDDLEDOWN = 0x0020; //模拟鼠标中键按下 
+        const int MOUSEEVENTF_MIDDLEUP = 0x0040; //模拟鼠标中键抬起 
+        const int MOUSEEVENTF_ABSOLUTE = 0x8000; //标示是否采用绝对坐标
+        const int MOUSEEVENTF_WHEEL = 0x800;
+
+        public static void Click(int x, int y)
+        {
+            SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+        }
+        public static void DoubleClick(int x, int y)
+        {
+            SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+        }
+
+        #endregion mouse control
 
         public static void SafeClick(HtmlElement ele)
         {

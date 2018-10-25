@@ -5,11 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace experiment
 {
+
+
     class CsdnBrowser : WebBrowser
     {
+      
+
         public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
@@ -120,14 +125,39 @@ namespace experiment
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
             ele = GetEleByTagAndOuterHtml("select", "原创");
-            ele.SetAttribute("value", "original");
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + 20);
 
             ele = GetEleByTagAndOuterHtml("select", "编程语言");
-            ele.SetAttribute("value", "16");
+            p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + 200);
 
-            ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
-            SafeClick(ele);
+            //ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            //SafeClick(ele);
 
+        }
+
+        private Point GetOffset(HtmlElement el)
+        {
+            //get element pos
+            Point pos = new Point(el.OffsetRectangle.Left, el.OffsetRectangle.Top);
+
+            //get the parents pos
+            HtmlElement tempEl = el.OffsetParent;
+            while (tempEl != null)
+            {
+                pos.X += tempEl.OffsetRectangle.Left;
+                pos.Y += tempEl.OffsetRectangle.Top;
+                tempEl = tempEl.OffsetParent;
+            }
+
+            pos.X += (el.OffsetRectangle.Width / 2);
+            pos.Y += (el.OffsetRectangle.Height / 2);
+
+            pos = this.PointToScreen(pos);
+            return pos;
         }
 
         public BlogRobot.ArticleInfo GoToEditPage()

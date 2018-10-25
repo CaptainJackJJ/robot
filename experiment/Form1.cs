@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Net.Security;
 
-
 namespace experiment
 {
     public partial class Form1 : Form
@@ -24,10 +23,8 @@ namespace experiment
             Tools.SetWebBrowserFeatures(11);
             this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            m_blogRobot = new BlogRobot(webBrowser1, timerRobotBrain);                    
+            m_blogRobot = new BlogRobot(webBrowser1, timerRobotBrain);
         }
-
-
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
         {
