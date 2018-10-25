@@ -248,19 +248,9 @@ namespace experiment
             ClickAccountLogin();
 
             HtmlElement ele = this.Document.GetElementById("username");
-            if (ele == null)
-            {
-                Log.WriteLog(LogType.Error, "did not found ele username");
-                return false;
-            }
             ele.SetAttribute("value", uName);
 
             ele = this.Document.GetElementById("password");
-            if (ele == null)
-            {
-                Log.WriteLog(LogType.Error, "did not found ele password");
-                return false;
-            }
             ele.SetAttribute("value", password);
 
             ClickEleByTagAndOuterHtml("input", "登 录");
