@@ -103,6 +103,11 @@ namespace experiment
         private void Publish()
         {
             m_browser.Publish();
+
+            m_workingObjectInfo.needFinishNum--;
+            m_workingObjectInfo.lastFinishedArticleUrl = m_articleInfo.url;
+            m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+
             m_step = EnumStep.Finished;
         }
 

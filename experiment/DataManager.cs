@@ -34,6 +34,11 @@ namespace experiment
             return info;
         }
 
+        public void SetWorkingObjectInfo(WorkingObjectInfo info)
+        {
+            // save to database
+        }
+
         public void UpdateLastFinishedArticleName(string lastFinishedArticleName)
         {
 
