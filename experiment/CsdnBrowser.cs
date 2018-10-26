@@ -149,7 +149,8 @@ namespace experiment
 
         public void Publish()
         {
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
+            //HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
             SafeClick(ele);
         }
 
