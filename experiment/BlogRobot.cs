@@ -120,7 +120,7 @@ namespace experiment
 
         private void GoToArticlePage()
         {
-            if (m_browser.NavToArticlePage(m_workingObjectInfo.lastFinishedArticleUrl))
+            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrl))
                 m_step = EnumStep.GoToEditPage;
             else
             {
