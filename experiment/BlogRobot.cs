@@ -105,7 +105,7 @@ namespace experiment
             m_browser.Publish();
 
             m_workingObjectInfo.needFinishNum--;
-            m_workingObjectInfo.lastFinishedArticleUrl = m_articleInfo.url;
+            m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
             m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
 
             m_step = EnumStep.GoToListPage; 
@@ -120,10 +120,18 @@ namespace experiment
 
         private void GoToArticlePage()
         {
-            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrl))
+            if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
+                m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
+
+            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList))
                 m_step = EnumStep.GoToEditPage;
             else
             {
+                if(!m_browser.GoToNextPage())
+                {
+                    // this working object is done.
+                }
+                m_workingObjectInfo.lastFinishedArticleUrlInList = "";
                 // go next list page, or this working object is done.
             }
         }

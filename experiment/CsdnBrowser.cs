@@ -206,8 +206,18 @@ namespace experiment
             return info;
         }
 
+        public bool GoToNextPage()
+        {
+            //<li class="js-page-next js-page-action ui-pager">下一页</li>
+            HtmlElement ele = GetEleByTagAndOuterHtml("li", "下一页");
+            if(ele == null)
+                return false;
+            SafeClick(ele);
+            return true;
+        }
+
         // return false means no next article anymore.
-        public bool NavToArticlePage(string lastArticleUrl)
+        public bool GoToArticlePage(string lastArticleUrl)
         {
             short timesOfFindLastArticle = 0;
             string lastArticleId = "";
@@ -222,6 +232,12 @@ namespace experiment
             foreach (HtmlElement ele in collection)
             {
                 string outerHtml = ele.OuterHtml;
+
+                // reach the list end.
+                if (timesOfFindLastArticle == 2 && !outerHtml.Contains("article/details")) 
+                {
+                    return false;
+                }
                 if (outerHtml.Contains("article/details"))
                 {
                     if (ele.Parent.Parent.OuterHtml.Contains("display: none"))

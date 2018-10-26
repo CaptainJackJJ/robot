@@ -13,7 +13,7 @@ namespace experiment
             public string userName;
             public string password;
             public string lastListPageUrl;
-            public string lastFinishedArticleUrl;
+            public string lastFinishedArticleUrlInList;
             public short needFinishNum;
         }
 
@@ -28,7 +28,9 @@ namespace experiment
             info.userName = "werfhksdhf";
             info.password = "Ct@z7h3LFt4q";
             info.lastListPageUrl = "https://blog.csdn.net/laoyang360?orderby=ViewCount";
-            info.lastFinishedArticleUrl = "https://blog.csdn.net/laoyang360/article/details/51931981";
+            // The last finished article url in the list page. 
+            // if it is empty means either this is a new working object or new list page.
+            info.lastFinishedArticleUrlInList = "https://blog.csdn.net/laoyang360/article/details/51824617";
             info.needFinishNum = 2;
 
             return info;
