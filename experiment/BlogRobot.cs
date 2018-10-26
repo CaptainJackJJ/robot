@@ -108,7 +108,8 @@ namespace experiment
             m_workingObjectInfo.lastFinishedArticleUrl = m_articleInfo.url;
             m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.GoToListPage; 
+            //m_step = EnumStep.Finished;
         }
 
         private void GoToEditPage()

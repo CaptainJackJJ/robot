@@ -25,8 +25,8 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             WorkingObjectInfo info;
-            info.userName = "weixin_43418664";
-            info.password = "sdfhu34@sdfh";
+            info.userName = "werfhksdhf";
+            info.password = "Ct@z7h3LFt4q";
             info.lastListPageUrl = "https://blog.csdn.net/laoyang360?orderby=ViewCount";
             info.lastFinishedArticleUrl = "https://blog.csdn.net/laoyang360/article/details/51931981";
             info.needFinishNum = 2;
