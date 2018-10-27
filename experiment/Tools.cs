@@ -136,6 +136,13 @@ namespace experiment
                     SendMessage(btnhwnd, WM_CLICK, 0, 0);//再点击  
                 }
             }
+
+            hwnd = FindWindow(null, "Windows Internet Explorer");
+            if (hwnd != IntPtr.Zero)
+            {
+                SendKeys.SendWait("{Enter}");
+                SendKeys.Flush();
+            }
         }
         #endregion
 
