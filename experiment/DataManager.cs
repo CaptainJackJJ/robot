@@ -15,11 +15,15 @@ namespace experiment
     {
         public class WorkingObjectInfo
         {
+            public long id;
             public string userName;
             public string password;
             public string lastListPageUrl;
             public string lastFinishedArticleUrlInList;
             public short needFinishNum;
+            public string lastWorkingDay;
+            public bool isObjectFinished;
+            public bool isReadyForWork;
         }
 
         private bool m_bSwitch = false;
@@ -99,29 +103,44 @@ namespace experiment
             data.Read();
             if (!data.HasRows)
                 return null;
-            
+
+            info.id = data.GetInt32(0);
             info.userName = data.GetString(2);
             info.password = data.GetString(3);
             info.lastListPageUrl = data.GetString(4);
             info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
             info.needFinishNum = data.GetInt16(6);
-            string lastWorkingDay = data.GetValue(7).ToString();
+            info.lastWorkingDay = data.GetValue(7).ToString();
+            info.isObjectFinished = data.GetBoolean(8);
+            info.isReadyForWork = data.GetBoolean(9);
 
             DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
             dtFormat.LongDatePattern = "yyyy/MM/dd";
-            if (lastWorkingDay == "" || Convert.ToDateTime(lastWorkingDay.Substring(0,10), dtFormat) < Convert.ToDateTime(today, dtFormat))
+            if (info.lastWorkingDay == "" || Convert.ToDateTime(info.lastWorkingDay.Substring(0,10), dtFormat) < Convert.ToDateTime(today, dtFormat))
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
 
             data.Close();
-
 
             return info;       
         }
 
         public void SetWorkingObjectInfo(WorkingObjectInfo info)
         {
-           // ExecuteNonQuery();
-            // save to database
+            string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
+
+            string sql = "UPDATE objectInfo SET"
+            + " lastListPageUrl = '" + info.lastListPageUrl + "',"
+            + " lastFinishedArticleUrlInList = '" + info.lastFinishedArticleUrlInList + "',"
+            + " needFinishNum = " + info.needFinishNum + ","
+            + " lastWorkingDay = '" + today + "',"
+            + " isObjectFinished = " + info.isObjectFinished + ","
+            + " isReadyForWork = " + info.isReadyForWork
+            + " WHERE id = " + info.id;
+
+            if(ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetWorkingObjectInfo error. sql is " + sql);
+            }
 
             // if needFinishNum is 0, so we need to change the flag that indicate the daily work with this object is done.
         }
