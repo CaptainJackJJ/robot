@@ -108,8 +108,14 @@ namespace experiment
             m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
             m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            m_step = EnumStep.GoToListPage; 
-            //m_step = EnumStep.Finished;
+            if (m_workingObjectInfo.needFinishNum <= 0)
+            {
+                m_step = EnumStep.Login;
+            }
+            else
+            {
+                m_step = EnumStep.GoToListPage; 
+            }
         }
 
         private void GoToEditPage()
@@ -129,10 +135,9 @@ namespace experiment
             {
                 if(!m_browser.GoToNextPage())
                 {
-                    // this working object is done.
+                    // TODO: this working object is done.
                 }
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
-                // go next list page, or this working object is done.
             }
         }
         private void GoToListPage()
