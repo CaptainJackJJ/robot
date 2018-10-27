@@ -96,6 +96,16 @@ namespace experiment
             OleDbDataReader data = ExecuteReader(sql);
 
             WorkingObjectInfo info = new WorkingObjectInfo();
+            data.Read();
+            info.userName = data.GetString(2);
+            info.password = data.GetString(3);
+            info.lastListPageUrl = data.GetString(4);
+            info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
+            info.needFinishNum = data.GetInt16(6);
+
+            data.Close();
+
+
             return info;
 
             //if(m_bSwitch)
