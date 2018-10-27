@@ -13,7 +13,7 @@ namespace experiment
 {
     class DataManager
     {
-        public struct WorkingObjectInfo
+        public class WorkingObjectInfo
         {
             public string userName;
             public string password;
@@ -24,7 +24,7 @@ namespace experiment
 
         private bool m_bSwitch = false;
         private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = workingObject.accdb";
-        private const short m_MaxFinishedNum = 10;
+        private const short m_MaxFinishedNum = 3;
 
         public DataManager()
         {
@@ -97,11 +97,20 @@ namespace experiment
 
             WorkingObjectInfo info = new WorkingObjectInfo();
             data.Read();
+            if (!data.HasRows)
+                return null;
+            
             info.userName = data.GetString(2);
             info.password = data.GetString(3);
             info.lastListPageUrl = data.GetString(4);
             info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
             info.needFinishNum = data.GetInt16(6);
+            string lastWorkingDay = data.GetValue(7).ToString();
+
+            DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+            dtFormat.LongDatePattern = "yyyy/MM/dd HH:mm:ss";
+            if (lastWorkingDay == "" || Convert.ToDateTime(lastWorkingDay, dtFormat) < Convert.ToDateTime(today, dtFormat))
+                info.needFinishNum = m_MaxFinishedNum; // This is new day.
 
             data.Close();
 
