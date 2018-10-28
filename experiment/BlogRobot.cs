@@ -83,6 +83,7 @@ namespace experiment
                         break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
+                        MessageBox.Show("今天的工作已完成");
                         return;
                 }
             }
@@ -176,8 +177,13 @@ namespace experiment
             else
             {
                 m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
-                m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                m_step = EnumStep.GoToListPage;                    
+                if (m_workingObjectInfo == null)
+                    m_step = EnumStep.Finished;
+                else
+                {
+                    m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
+                    m_step = EnumStep.GoToListPage;  
+                }        
             }
         }
     }

@@ -141,8 +141,6 @@ namespace experiment
             {
                 Log.WriteLog(LogType.SQL, "SetWorkingObjectInfo error. sql is " + sql);
             }
-
-            // if needFinishNum is 0, so we need to change the flag that indicate the daily work with this object is done.
         }
 
         public void UpdateLastFinishedArticleName(string lastFinishedArticleName)
