@@ -140,6 +140,7 @@ namespace experiment
             hwnd = FindWindow(null, "Windows Internet Explorer");
             if (hwnd != IntPtr.Zero)
             {
+                Log.WriteLog(LogType.Debug, "webpage mes");
                 SendKeys.SendWait("{Enter}");
                 SendKeys.Flush();
             }

@@ -106,6 +106,7 @@ namespace experiment
             m_browser.Publish();
 
             m_workingObjectInfo.needFinishNum--;
+            Log.WriteLog(LogType.Debug, "Publish-m_articleInfo.url:" + m_articleInfo.url);
             m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
             m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
 
@@ -130,7 +131,7 @@ namespace experiment
                 return;
             }
             m_step = EnumStep.LoginToEdit;
-            Log.WriteLog(LogType.Test, m_articleInfo.title);
+            Log.WriteLog(LogType.Debug, m_articleInfo.title);
         }
 
         private void GoToArticlePage()
@@ -138,14 +139,18 @@ namespace experiment
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
                 m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
 
-            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList))
+            bool isNoNetDealy = false;
+            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList,ref isNoNetDealy))
                 m_step = EnumStep.GoToEditPage;
             else
             {
+                if (isNoNetDealy)
+                    return; // try goToArticlePage again
                 if(!m_browser.GoToNextPage())
                 {
                     // TODO: this working object is done.
                 }
+                Log.WriteLog(LogType.Debug, "GoToNextPage");
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
             }
         }

@@ -28,7 +28,7 @@ namespace experiment
 
         private bool m_bSwitch = false;
         private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = workingObject.accdb";
-        private const short m_MaxFinishedNum = 3;
+        private const short m_MaxFinishedNum = 5;
 
         public DataManager()
         {
