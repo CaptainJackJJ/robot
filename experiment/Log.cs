@@ -69,8 +69,8 @@ namespace experiment
 //            isDebug = true;
 //#endif
 
-            if (logType == LogType.Debug && !isDebug)
-                return;
+            //if (logType == LogType.Debug && !isDebug)
+            //    return;
             WriteLog(logType.ToString(), msg);
         }
     }

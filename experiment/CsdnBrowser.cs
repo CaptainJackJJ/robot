@@ -143,7 +143,7 @@ namespace experiment
             ele = GetEleByTagAndOuterHtml("select", "原创");
             Point p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 20);
+            Tools.Click(p.X, p.Y + 17);
 
             ele = GetEleByTagAndOuterHtml("select", "编程语言");
             p = GetOffset(ele);
