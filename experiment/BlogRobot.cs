@@ -124,9 +124,10 @@ namespace experiment
             m_browser.Publish();
 
             m_workingObjectInfo.needFinishNum--;
-            Log.WriteLog(LogType.Debug, "Publish-m_articleInfo.url:" + m_articleInfo.url);
             m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
             m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+
+            Log.WriteLog(LogType.Trace, "publish:" + m_articleInfo.title);
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
@@ -164,14 +165,12 @@ namespace experiment
             {
                 if (isNetDealy)
                 {
-                    Log.WriteLog(LogType.Debug, "isNetDealy");
                     return; // try goToArticlePage again
                 }
                 if(!m_browser.GoToNextPage())
                 {
                     // TODO: this working object is done.
                 }
-                Log.WriteLog(LogType.Debug, "GoToNextPage");
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
             }
         }

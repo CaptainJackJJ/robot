@@ -223,8 +223,6 @@ namespace experiment
         // return false means no next article anymore.
         public bool GoToArticlePage(string lastArticleUrl, ref bool isNetDealy)
         {
-            Log.WriteLog(LogType.Debug, "GoToArticlePage-lastArticleUrl:" + lastArticleUrl);
-
             isNetDealy = false;
 
             short timesOfFindLastArticle = 0;
@@ -244,7 +242,6 @@ namespace experiment
                 // reach the list end.
                 if (timesOfFindLastArticle == 2 && !outerHtml.Contains("article/details"))
                 {
-                    Log.WriteLog(LogType.Debug, "GoToArticlePage-reach the list end");
                     return false;
                 }
                 if (outerHtml.Contains("article/details"))
@@ -263,7 +260,6 @@ namespace experiment
             }
 
             isNetDealy = true;
-            Log.WriteLog(LogType.Debug, "GoToArticlePage-no ele");
             return false;
         }
 
@@ -275,7 +271,6 @@ namespace experiment
             /* outerhtml
             <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
              */
-            Log.WriteLog(LogType.Debug, "ClickArticleInList-ArticleUrl:" + ArticleUrl);
             SafeNavigate(ArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
         }
 
