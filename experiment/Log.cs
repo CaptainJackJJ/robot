@@ -64,6 +64,13 @@ namespace experiment
         /// </summary>
         public static void WriteLog(LogType logType, string msg)
         {
+            bool isDebug = false;
+#if DEBUG
+            isDebug = true;
+#endif
+
+            if (logType == LogType.Debug && !isDebug)
+                return;
             WriteLog(logType.ToString(), msg);
         }
     }
