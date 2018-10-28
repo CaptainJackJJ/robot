@@ -50,7 +50,7 @@ namespace experiment
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
-            m_timerBrain.Interval = 2000;
+            m_timerBrain.Interval = 3000;
         }
 
         public void timerBrain()
@@ -63,7 +63,7 @@ namespace experiment
                 m_timesOfSomeStep = 0;
             m_lastStep = m_step;
 
-            if (m_timesOfSomeStep > 25)
+            if (m_timesOfSomeStep > 10)
             {
                 Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
                 // reset
@@ -169,7 +169,10 @@ namespace experiment
                 }
                 if(!m_browser.GoToNextPage())
                 {
-                    // TODO: this working object is done.
+                    m_workingObjectInfo.isObjectFinished = true;
+                    m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+                    m_step = EnumStep.Login;
+                    //this working object is done.
                 }
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
             }

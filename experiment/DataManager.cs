@@ -92,7 +92,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0,10);
-            string sql = "SELECT TOP 1 * FROM objectInfo WHERE isReadyForWork = YES AND"
+            string sql = "SELECT TOP 1 * FROM objectInfo WHERE isReadyForWork = YES AND isObjectFinished = NO AND"
                 + " (lastWorkingDay < #" + today + "# OR lastWorkingDay IS NULL OR"
                 + " (lastWorkingDay = #" + today + "# AND needFinishNum > 0))";
 
@@ -126,6 +126,8 @@ namespace experiment
         public void SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
+            if (info.isObjectFinished)
+                info.isReadyForWork = false;
 
             string sql = "UPDATE objectInfo SET"
             + " lastListPageUrl = '" + info.lastListPageUrl + "',"

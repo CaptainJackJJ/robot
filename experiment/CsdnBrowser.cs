@@ -213,8 +213,9 @@ namespace experiment
         public bool GoToNextPage()
         {
             //<li class="js-page-next js-page-action ui-pager">下一页</li>
+            //<li class="js-page-next js-page-action ui-pager ui-pager-disabled">下一页</li>
             HtmlElement ele = GetEleByTagAndOuterHtml("li", "下一页");
-            if(ele == null)
+            if (ele == null || ele.OuterHtml.Contains("disabled"))
                 return false;
             SafeClick(ele);
             return true;
