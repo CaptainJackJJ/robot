@@ -122,6 +122,11 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
+            if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined")
+            {
+                Log.WriteLog(LogType.Warning, "title is empty");
+                return;
+            }
             m_step = EnumStep.LoginToEdit;
         }
 
