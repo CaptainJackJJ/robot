@@ -16,6 +16,7 @@ namespace experiment
         public class WorkingObjectInfo
         {
             public long id;
+            public string url;
             public string userName;
             public string password;
             public string lastListPageUrl;
@@ -104,6 +105,7 @@ namespace experiment
                 return null;
 
             info.id = data.GetInt32(0);
+            info.url = data.GetString(1);
             info.userName = data.GetString(2);
             info.password = data.GetString(3);
             info.lastListPageUrl = data.GetString(4);
@@ -127,7 +129,10 @@ namespace experiment
         {
             string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
             if (info.isObjectFinished)
+            {
                 info.isReadyForWork = false;
+                Log.WriteLog(LogType.Trace, "workingObj is done. obj url is " + info.url);
+            }
 
             string sql = "UPDATE objectInfo SET"
             + " lastListPageUrl = '" + info.lastListPageUrl + "',"

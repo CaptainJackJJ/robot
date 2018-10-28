@@ -29,6 +29,7 @@ namespace experiment
             public string url;
             public string title;
             public string content;
+            public UInt64 readCount;
         }
 
         ArticleInfo m_articleInfo;
@@ -41,6 +42,8 @@ namespace experiment
         DataManager.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
+
+        public static UInt64 m_MinReadCount = 10000;
 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
@@ -142,6 +145,15 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
+            if (m_articleInfo.readCount < m_MinReadCount)
+            {
+                //this working object is done.
+                m_workingObjectInfo.isObjectFinished = true;
+                m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+                m_step = EnumStep.Login;
+                return;
+            }
+
             if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.content) || m_articleInfo.content == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")

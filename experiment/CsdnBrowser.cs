@@ -183,9 +183,25 @@ namespace experiment
         {
             BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();
 
+            // <span class="read-count">阅读数：884</span>
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
+            foreach (HtmlElement ele in collection)
+            {
+                string outerHtml = ele.OuterHtml;
+                if (outerHtml.Contains("阅读数"))
+                {
+                    int indexStart = outerHtml.IndexOf("：") + 1;
+                    int indexEnd = outerHtml.LastIndexOf("</span>");
+                    string count = outerHtml.Substring(indexStart, indexEnd - indexStart);
+                    info.readCount = Convert.ToUInt64(count);
+                    if (info.readCount < BlogRobot.m_MinReadCount)
+                        return info;
+                }
+            }
+
             info.url = this.Document.Url.ToString();
 
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("h1");
+            collection = this.Document.GetElementsByTagName("h1");
             foreach (HtmlElement ele in collection)
             {
                 string outerHtml = ele.OuterHtml;
