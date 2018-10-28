@@ -63,7 +63,7 @@ namespace experiment
                 m_timesOfSomeStep = 0;
             m_lastStep = m_step;
 
-            if (m_timesOfSomeStep > 250)
+            if (m_timesOfSomeStep > 25)
             {
                 Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
                 // reset
