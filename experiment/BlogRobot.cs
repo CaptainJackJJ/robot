@@ -189,8 +189,10 @@ namespace experiment
                     m_step = EnumStep.Finished;
                 else
                 {
-                    m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-                    m_step = EnumStep.GoToListPage;  
+                    if(m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
+                    {
+                        m_step = EnumStep.GoToListPage;  
+                    }                    
                 }        
             }
         }

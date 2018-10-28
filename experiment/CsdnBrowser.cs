@@ -106,9 +106,13 @@ namespace experiment
             return null;
         }
 
-        private void ClickEleByTagAndOuterHtml(string tag,string html)
+        private bool ClickEleByTagAndOuterHtml(string tag,string html)
         {
-            SafeClick(GetEleByTagAndOuterHtml(tag, html)); 
+            HtmlElement ele = GetEleByTagAndOuterHtml(tag, html);
+            if (ele == null)
+                return false;
+            SafeClick(ele);
+            return true;
         }
 
         public void Edit(BlogRobot.ArticleInfo articleInfo)
@@ -280,9 +284,9 @@ namespace experiment
             this.Navigate(url); 
         }
 
-        private void ClickAccountLogin()
+        private bool ClickAccountLogin()
         {
-            ClickEleByTagAndOuterHtml("a", "账号登录");
+            return ClickEleByTagAndOuterHtml("a", "账号登录");
         }
 
         public void ClickLogin()
@@ -316,7 +320,11 @@ namespace experiment
 
         public bool Login(string uName,string password)
         {
-            ClickAccountLogin();
+            if (!ClickAccountLogin())
+            {
+                Log.WriteLog(LogType.NetworkWarning, "ClickAccountLogin failed");
+                return false;
+            }
 
             HtmlElement ele = this.Document.GetElementById("username");
             ele.SetAttribute("value", uName);
