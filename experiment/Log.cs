@@ -75,6 +75,7 @@ namespace experiment
     {
         Test,
         Trace,
+        NetworkWarning,
         Warning,
         Error,
         SQL

@@ -126,7 +126,7 @@ namespace experiment
                 || String.IsNullOrEmpty(m_articleInfo.content) || m_articleInfo.content == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
             {
-                Log.WriteLog(LogType.Warning, "articleInfo is empty");
+                Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");
                 return;
             }
             m_step = EnumStep.LoginToEdit;
