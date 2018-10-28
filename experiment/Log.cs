@@ -75,8 +75,10 @@ namespace experiment
     {
         Debug,
         Trace,
+        Exception,
         NetworkWarning,
         Warning,
+        Notice,
         Error,
         SQL
     }

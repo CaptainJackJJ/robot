@@ -12,6 +12,7 @@ namespace experiment
     {
         enum EnumStep
         {
+            None,
             GoToLoginPage,
             Login,
             GoToListPage,
@@ -32,11 +33,14 @@ namespace experiment
 
         ArticleInfo m_articleInfo;
         EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
         CsdnBrowser m_browser = null;
         DataManager m_dataManager = null;
         DataManager.WorkingObjectInfo m_workingObjectInfo;
+
+        UInt16 m_timesOfSomeStep = 0;
 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
@@ -53,6 +57,20 @@ namespace experiment
         {
             m_browser.CloseSecurityAlert();
 
+            if (m_lastStep == m_step)
+                m_timesOfSomeStep++;
+            else
+                m_timesOfSomeStep = 0;
+            m_lastStep = m_step;
+
+            if (m_timesOfSomeStep > 250)
+            {
+                Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
+                // reset
+                m_step = EnumStep.GoToLoginPage;
+            }
+
+            Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
             try
             {
                 switch(m_step)
@@ -89,7 +107,7 @@ namespace experiment
             }
             catch (Exception e)
             {
-                Log.WriteLog(LogType.Warning, "Exception happened in step " + m_step.ToString() 
+                Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString() 
                     + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
             }
@@ -139,13 +157,16 @@ namespace experiment
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
                 m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
 
-            bool isNoNetDealy = false;
-            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList,ref isNoNetDealy))
+            bool isNetDealy = false;
+            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
                 m_step = EnumStep.GoToEditPage;
             else
             {
-                if (isNoNetDealy)
+                if (isNetDealy)
+                {
+                    Log.WriteLog(LogType.Debug, "isNetDealy");
                     return; // try goToArticlePage again
+                }
                 if(!m_browser.GoToNextPage())
                 {
                     // TODO: this working object is done.

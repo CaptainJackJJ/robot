@@ -221,11 +221,11 @@ namespace experiment
         }
 
         // return false means no next article anymore.
-        public bool GoToArticlePage(string lastArticleUrl, ref bool isNoNetDealy)
+        public bool GoToArticlePage(string lastArticleUrl, ref bool isNetDealy)
         {
             Log.WriteLog(LogType.Debug, "GoToArticlePage-lastArticleUrl:" + lastArticleUrl);
 
-            isNoNetDealy = false;
+            isNetDealy = false;
 
             short timesOfFindLastArticle = 0;
             string lastArticleId = "";
@@ -262,7 +262,7 @@ namespace experiment
                 }
             }
 
-            isNoNetDealy = true;
+            isNetDealy = true;
             Log.WriteLog(LogType.Debug, "GoToArticlePage-no ele");
             return false;
         }
