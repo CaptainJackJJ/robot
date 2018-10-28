@@ -73,6 +73,7 @@ namespace experiment
     /// </summary>
     public enum LogType
     {
+        Test,
         Trace,
         Warning,
         Error,

@@ -122,12 +122,15 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
-            if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined")
+            if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
+                || String.IsNullOrEmpty(m_articleInfo.content) || m_articleInfo.content == "undefined"
+                || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
             {
-                Log.WriteLog(LogType.Warning, "title is empty");
+                Log.WriteLog(LogType.Warning, "articleInfo is empty");
                 return;
             }
             m_step = EnumStep.LoginToEdit;
+            Log.WriteLog(LogType.Test, m_articleInfo.title);
         }
 
         private void GoToArticlePage()
