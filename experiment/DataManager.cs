@@ -28,7 +28,12 @@ namespace experiment
         }
 
         private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = ";
-        private const short m_MaxFinishedNum = 5;
+
+#if DEBUG
+                    private const short m_MaxFinishedNum = 5;
+#else
+        private const short m_MaxFinishedNum = 10;
+#endif
 
         public DataManager(string dbName)
         {
