@@ -27,12 +27,12 @@ namespace experiment
             public bool isReadyForWork;
         }
 
-        private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = workingObject.accdb";
+        private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = ";
         private const short m_MaxFinishedNum = 5;
 
-        public DataManager()
+        public DataManager(string dbName)
         {
-
+            connStr += dbName;
         }
 
         // 执行增加、删除、修改指令
@@ -88,6 +88,18 @@ namespace experiment
                 Log.WriteLog(LogType.SQL, e.Message);
             }
             return null;
+        }
+
+        public void GetParams(ref int articleTypeOffset, ref int articleFieldOffset)
+        {
+            string sql = "SELECT TOP 1 * FROM params";
+
+            OleDbDataReader data = ExecuteReader(sql);
+
+            data.Read();
+            articleTypeOffset = Convert.ToInt32(data.GetValue(1));
+            articleFieldOffset = Convert.ToInt32(data.GetValue(2));            
+            data.Close();
         }
 
         public WorkingObjectInfo GetWorkingObjectInfo()
@@ -147,16 +159,6 @@ namespace experiment
             {
                 Log.WriteLog(LogType.SQL, "SetWorkingObjectInfo error. sql is " + sql);
             }
-        }
-
-        public void UpdateLastFinishedArticleName(string lastFinishedArticleName)
-        {
-
-        }
-
-        public void UpdateLastListPageUrl(string lastListPageUrl)
-        {
-
         }
     }
 }

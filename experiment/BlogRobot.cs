@@ -47,7 +47,7 @@ namespace experiment
 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
-            m_dataManager = new DataManager();
+            m_dataManager = new DataManager("workingObject.accdb");
 
             m_browser = w;
 

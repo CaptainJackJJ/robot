@@ -13,12 +13,16 @@ namespace experiment
 
     class CsdnBrowser : WebBrowser
     {
-      
+        int m_articleTypeOffset;
+        int m_articleFieldOffset;
 
         public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
+
+            DataManager dm = new DataManager("parameters.accdb");
+            dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
         // Override to allow custom script error handling.
@@ -143,12 +147,12 @@ namespace experiment
             ele = GetEleByTagAndOuterHtml("select", "原创");
             Point p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 17);
+            Tools.Click(p.X, p.Y + m_articleTypeOffset);
 
             ele = GetEleByTagAndOuterHtml("select", "编程语言");
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 200);
+            Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
         public void Publish()
