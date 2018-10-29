@@ -43,7 +43,7 @@ namespace experiment
 
         UInt16 m_timesOfSomeStep = 0;
 
-        public static UInt64 m_MinReadCount = 10000;
+        public static UInt64 m_MinReadCount = 5000;
 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
