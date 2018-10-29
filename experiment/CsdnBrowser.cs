@@ -157,8 +157,11 @@ namespace experiment
 
         public void Publish()
         {
+#if DEBUG
             HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
-            //HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+#else
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+#endif
             SafeClick(ele);
         }
 
