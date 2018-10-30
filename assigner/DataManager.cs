@@ -109,7 +109,7 @@ namespace assigner
         public ObjectInfo GetUnAssignedObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
-            string sql = "SELECT TOP 1 * FROM [object] WHERE assignedAccount IS NULL";
+            string sql = "SELECT TOP 1 * FROM [object] WHERE assignedAccount IS NULL ORDER BY id ASC";
 
             OleDbDataReader data = ExecuteReader(sql);
 
@@ -130,7 +130,7 @@ namespace assigner
 
         public AccountInfo GetUnAssignedAccountInfo()
         {
-            string sql = "SELECT TOP 1 * FROM [account] WHERE assignedNum = 0";
+            string sql = "SELECT TOP 1 * FROM [account] WHERE assignedNum = 0 ORDER BY id ASC";
 
             OleDbDataReader data = ExecuteReader(sql);
 
