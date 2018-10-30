@@ -21,6 +21,15 @@ namespace assigner
             public string assignedAccount;
         }
 
+        public class accountInfo
+        {
+            public long id;
+            public string userName;
+            public string password;
+            public Int16 assignedNum;
+            public string workStation;
+        }
+
         public class WorkingObjectInfo
         {
             public long id;
@@ -117,6 +126,51 @@ namespace assigner
             data.Close();
 
             return info;
+        }
+
+        public accountInfo GetUnAssignedAccountInfo()
+        {
+            string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
+            string sql = "SELECT TOP 1 * FROM [account] WHERE assignedNum = 0";
+
+            OleDbDataReader data = ExecuteReader(sql);
+
+            accountInfo info = new accountInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = data.GetInt32(0);
+            info.userName = data.GetString(1);
+            info.password = data.GetString(2);
+            info.assignedNum = data.GetInt16(3);
+            info.workStation = data.GetValue(4).ToString();
+
+            data.Close();
+
+            return info;
+        }
+
+        public bool AddWorkingObjectInfo(WorkingObjectInfo info)
+        {
+            string sql = "INSERT INTO objectInfo ( objectUrl, userName, [password], lastListPageUrl, isReadyForWork )"
+            + " VALUES ('" + info.url + "','" + info.userName + "','" + info.password + "','" + info.lastListPageUrl + "',TRUE)";
+
+            try
+            {
+                if (ExecuteNonQuery(sql) <= 0)
+                {
+                    MessageBox.Show("add work obj is failed");
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("add work obj is failed, exception msg is " + e.Message);
+                return false;
+            }
+
+            return true;
         }
     }
 }
