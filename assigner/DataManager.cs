@@ -21,7 +21,7 @@ namespace assigner
             public string assignedAccount;
         }
 
-        public class accountInfo
+        public class AccountInfo
         {
             public long id;
             public string userName;
@@ -128,14 +128,13 @@ namespace assigner
             return info;
         }
 
-        public accountInfo GetUnAssignedAccountInfo()
+        public AccountInfo GetUnAssignedAccountInfo()
         {
-            string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
             string sql = "SELECT TOP 1 * FROM [account] WHERE assignedNum = 0";
 
             OleDbDataReader data = ExecuteReader(sql);
 
-            accountInfo info = new accountInfo();
+            AccountInfo info = new AccountInfo();
             data.Read();
             if (!data.HasRows)
                 return null;
@@ -156,17 +155,40 @@ namespace assigner
             string sql = "INSERT INTO objectInfo ( objectUrl, userName, [password], lastListPageUrl, isReadyForWork )"
             + " VALUES ('" + info.url + "','" + info.userName + "','" + info.password + "','" + info.lastListPageUrl + "',TRUE)";
 
-            try
+            if (ExecuteNonQuery(sql) <= 0)
             {
-                if (ExecuteNonQuery(sql) <= 0)
-                {
-                    MessageBox.Show("add work obj is failed");
-                    return false;
-                }
+                MessageBox.Show("add work obj is failed");
+                return false;
             }
-            catch(Exception e)
+
+            return true;
+        }
+
+        public bool UpdateAccountInfo(AccountInfo info)
+        {
+            string sql = "UPDATE account SET"
++ " assignedNum = " + info.assignedNum + ","
++ " workStation = '" + info.workStation + "'"
++ " WHERE id = " + info.id;
+
+            if (ExecuteNonQuery(sql) <= 0)
             {
-                MessageBox.Show("add work obj is failed, exception msg is " + e.Message);
+                MessageBox.Show("UpdateAccountInfo is failed");
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool UpdateObjInfo(ObjectInfo info)
+        {
+            string sql = "UPDATE [object] SET"
++ " assignedAccount = '" + info.assignedAccount + "'"
++ " WHERE id = " + info.id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                MessageBox.Show("UpdateObjInfo is failed");
                 return false;
             }
 
