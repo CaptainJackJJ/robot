@@ -56,7 +56,11 @@ namespace experiment
 
                         conn.Open();
 
-                        return (cmd.ExecuteNonQuery());
+                        int res = cmd.ExecuteNonQuery();
+                        conn.Close();
+                        conn.Dispose();
+
+                        return res;
                     }
                 }
             }
@@ -105,6 +109,7 @@ namespace experiment
             articleTypeOffset = Convert.ToInt32(data.GetValue(1));
             articleFieldOffset = Convert.ToInt32(data.GetValue(2));            
             data.Close();
+            data.Dispose();
         }
 
         public WorkingObjectInfo GetWorkingObjectInfo()
@@ -138,6 +143,7 @@ namespace experiment
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
 
             data.Close();
+            data.Dispose();
 
             return info;       
         }
