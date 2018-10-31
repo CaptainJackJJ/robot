@@ -38,8 +38,8 @@ namespace experiment
 
         Timer m_timerBrain;
         CsdnBrowser m_browser = null;
-        DataManager m_dataManager = null;
-        DataManager.WorkingObjectInfo m_workingObjectInfo;
+        DataManagerSqlLite m_DataManagerSqlLite = null;
+        DataManagerSqlLite.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
 
@@ -47,7 +47,7 @@ namespace experiment
 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
-            m_dataManager = new DataManager("workingObject.accdb");
+            m_DataManagerSqlLite = new DataManagerSqlLite("workingObject.db");
 
             m_browser = w;
 
@@ -128,7 +128,7 @@ namespace experiment
 
             m_workingObjectInfo.needFinishNum--;
             m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-            m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
 
             Log.WriteLog(LogType.Trace, "publish:" + m_articleInfo.title);
 
@@ -149,7 +149,7 @@ namespace experiment
             {
                 //this working object is done.
                 m_workingObjectInfo.isObjectFinished = true;
-                m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+                m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                 m_step = EnumStep.Login;
                 return;
             }
@@ -182,7 +182,7 @@ namespace experiment
                 if(!m_browser.GoToNextPage())
                 {
                     m_workingObjectInfo.isObjectFinished = true;
-                    m_dataManager.SetWorkingObjectInfo(m_workingObjectInfo);
+                    m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                     m_step = EnumStep.Login;
                     //this working object is done.
                 }
@@ -224,7 +224,7 @@ namespace experiment
             }
             else
             {
-                m_workingObjectInfo = m_dataManager.GetWorkingObjectInfo();
+                m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                     m_step = EnumStep.Finished;
                 else

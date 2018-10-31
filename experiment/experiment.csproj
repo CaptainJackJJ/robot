@@ -37,6 +37,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>C:\Program Files (x86)\System.Data.SQLite\2013\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BlogRobot.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="DataManagerSqlLite.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Tools.cs" />

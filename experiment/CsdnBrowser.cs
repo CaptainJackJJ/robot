@@ -21,7 +21,7 @@ namespace experiment
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
 
-            DataManager dm = new DataManager("parameters.accdb");
+            DataManagerSqlLite dm = new DataManagerSqlLite("parameters.db");
             dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
@@ -203,6 +203,8 @@ namespace experiment
                     info.readCount = Convert.ToUInt64(count);
                     if (info.readCount < BlogRobot.m_MinReadCount)
                         return info;
+                    else
+                        break;
                 }
             }
 
