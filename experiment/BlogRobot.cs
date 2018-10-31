@@ -31,8 +31,7 @@ namespace experiment
             public string content;
             public UInt64 readCount;
         }
-
-        UInt16 m_goToArticleDelayTimes = 0;
+                
         ArticleInfo m_articleInfo;
         EnumStep m_step = EnumStep.GoToLoginPage;
         EnumStep m_lastStep = EnumStep.None;
@@ -43,9 +42,12 @@ namespace experiment
         DataManagerSqlLite.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
+        UInt16 m_goToArticleDelayTimes = 0;
+        UInt16 m_maxSteps = 40;
+        UInt16 m_timesNeedRest = 5; // get quit after finish 5 articles
 
         public static UInt64 m_MinReadCount = 5000;
-
+        
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
             m_DataManagerSqlLite = new DataManagerSqlLite("workingObject.db");
@@ -67,11 +69,12 @@ namespace experiment
                 m_timesOfSomeStep = 0;
             m_lastStep = m_step;
 
-            if (m_timesOfSomeStep > 10)
+            if (m_timesOfSomeStep > m_maxSteps + 2) // +2 means give change to m_goToArticleDelayTimes;
             {
                 Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
                 // reset
-                m_step = EnumStep.GoToLoginPage;
+                Environment.Exit(0);
+                //m_step = EnumStep.GoToLoginPage;
             }
 
             Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
@@ -133,8 +136,14 @@ namespace experiment
 
             Log.WriteLog(LogType.Trace, "publish:" + m_articleInfo.title);
 
-            if (m_workingObjectInfo.needFinishNum <= 0)
+            m_timesNeedRest++;
+            if (m_timesNeedRest >= 4)
             {
+                Environment.Exit(0); // lunch again.
+            }
+
+            if (m_workingObjectInfo.needFinishNum <= 0)
+            {                
                 m_step = EnumStep.Login;
             }
             else
@@ -179,7 +188,7 @@ namespace experiment
                 if (isNetDealy)
                 {
                     m_goToArticleDelayTimes++;
-                    if (m_goToArticleDelayTimes > 40) // article maybe deleted, so start from the first article in the list.
+                    if (m_goToArticleDelayTimes > m_maxSteps) // article maybe deleted, so start from the first article in the list.
                     {
                         m_workingObjectInfo.lastFinishedArticleUrlInList = "";
                         m_goToArticleDelayTimes = 0;
