@@ -32,6 +32,7 @@ namespace experiment
             public UInt64 readCount;
         }
 
+        UInt16 m_goToArticleDelayTimes = 0;
         ArticleInfo m_articleInfo;
         EnumStep m_step = EnumStep.GoToLoginPage;
         EnumStep m_lastStep = EnumStep.None;
@@ -169,7 +170,7 @@ namespace experiment
         {
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
                 m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
-
+     
             bool isNetDealy = false;
             if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
                 m_step = EnumStep.GoToEditPage;
@@ -177,6 +178,12 @@ namespace experiment
             {
                 if (isNetDealy)
                 {
+                    m_goToArticleDelayTimes++;
+                    if (m_goToArticleDelayTimes > 40) // article maybe deleted, so start from the first article in the list.
+                    {
+                        m_workingObjectInfo.lastFinishedArticleUrlInList = "";
+                        m_goToArticleDelayTimes = 0;
+                    }
                     return; // try goToArticlePage again
                 }
                 if(!m_browser.GoToNextPage())
@@ -188,6 +195,7 @@ namespace experiment
                 }
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
             }
+            m_goToArticleDelayTimes = 0;
         }
         private void GoToListPage()
         {
