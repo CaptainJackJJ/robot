@@ -117,6 +117,8 @@ namespace experiment
             }
             catch (Exception e)
             {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
                 Tools.SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
                 // release idle memory
 #if DEBUG

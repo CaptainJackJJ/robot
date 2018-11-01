@@ -223,7 +223,8 @@ namespace experiment
             collection = this.Document.GetElementsByTagName("div");
             foreach (HtmlElement ele in collection)
             {
-                if (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views"))
+                if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
+                    (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
                 {
                     info.content = ele.OuterHtml;
                     break;
