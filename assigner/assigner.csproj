@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManager.cs" />
     <Compile Include="DataManagerSqlLiteAssigner.cs" />
     <Compile Include="FormAssigner.cs">
       <SubType>Form</SubType>
