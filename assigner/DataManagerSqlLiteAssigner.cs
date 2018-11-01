@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Data.OleDb;
-using System.Data;
+using System.Data.SQLite;
 using System.Globalization;
 using System.Windows.Forms;
 
 namespace assigner
 {
-    class DataManager
+    class DataManagerSqlLiteAssigner
     {
         public class ObjectInfo
         {
@@ -44,9 +43,9 @@ namespace assigner
             public bool isReadyForWork;
         }
 
-        private string connStr = @"Provider= Microsoft.ACE.OLEDB.12.0;Data Source = ";
+        private string connStr = @"data source=";
 
-        public DataManager(string dbName)
+        public DataManagerSqlLiteAssigner(string dbName)
         {
             connStr += dbName;
         }
@@ -56,48 +55,42 @@ namespace assigner
         {
             try
             {
-                using (OleDbConnection conn = new OleDbConnection(connStr))
+                using (SQLiteConnection conn = new SQLiteConnection(connStr))
                 {
-                    using (OleDbCommand cmd = new OleDbCommand(sql, conn))
+                    conn.Open();
+                    using (SQLiteCommand cmd = conn.CreateCommand())
                     {
-                        //if (param != null)
-                        //{
-                        //    cmd.Parameters.AddRange(param);
-                        //}
+                        cmd.CommandText = sql;
 
-                        conn.Open();
+                        int res = cmd.ExecuteNonQuery();
+                        conn.Close();
+                        conn.Dispose();
 
-                        return (cmd.ExecuteNonQuery());
+                        return res;
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
             return -1;
         }
- 
+
 
         // 执行查询指令，获取返回的datareader
-        public OleDbDataReader ExecuteReader(string sql/*, params OleDbParameter[] param*/)
+        public SQLiteDataReader ExecuteReader(string sql/*, params OleDbParameter[] param*/)
         {
             try
             {
-                OleDbConnection conn = new OleDbConnection(connStr);
-                OleDbCommand cmd = conn.CreateCommand();
-
-                cmd.CommandText = sql;
-                cmd.CommandType = CommandType.Text;
-
-                //if (param != null)
-                //{
-                //    cmd.Parameters.AddRange(param);
-                //}
-
+                SQLiteConnection conn = new SQLiteConnection(connStr);
                 conn.Open();
 
-                return (cmd.ExecuteReader(CommandBehavior.CloseConnection));
+                SQLiteCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+
+                SQLiteDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                return reader;
             }
             catch (Exception e)
             {
@@ -108,9 +101,10 @@ namespace assigner
 
         public ObjectInfo GetUnAssignedObjectInfo()
         {
-            string sql = "SELECT TOP 1 * FROM [object] WHERE assignedAccount IS NULL ORDER BY id ASC";
+            string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
+            string sql = "SELECT * FROM [object] WHERE assignedAccount IS NULL ORDER BY ID ASC LIMIT 1";
 
-            OleDbDataReader data = ExecuteReader(sql);
+            SQLiteDataReader data = ExecuteReader(sql);
 
             ObjectInfo info = new ObjectInfo();
             data.Read();
@@ -123,15 +117,16 @@ namespace assigner
             info.assignedAccount = data.GetValue(3).ToString();
 
             data.Close();
+            data.Dispose();
 
             return info;
         }
 
         public AccountInfo GetUnAssignedAccountInfo()
         {
-            string sql = "SELECT TOP 1 * FROM [account] WHERE assignedNum = 0 ORDER BY id ASC";
+            string sql = "SELECT * FROM [account] WHERE assignedNum = 0 ORDER BY ID ASC LIMIT 1";
 
-            OleDbDataReader data = ExecuteReader(sql);
+            SQLiteDataReader data = ExecuteReader(sql);
 
             AccountInfo info = new AccountInfo();
             data.Read();
@@ -145,6 +140,7 @@ namespace assigner
             info.workStation = data.GetValue(4).ToString();
 
             data.Close();
+            data.Dispose();
 
             return info;
         }
@@ -168,7 +164,7 @@ namespace assigner
             string sql = "UPDATE account SET"
 + " assignedNum = " + info.assignedNum + ","
 + " workStation = '" + info.workStation + "'"
-+ " WHERE id = " + info.id;
++ " WHERE ID = " + info.id;
 
             if (ExecuteNonQuery(sql) <= 0)
             {
@@ -183,7 +179,7 @@ namespace assigner
         {
             string sql = "UPDATE [object] SET"
 + " assignedAccount = '" + info.assignedAccount + "'"
-+ " WHERE id = " + info.id;
++ " WHERE ID = " + info.id;
 
             if (ExecuteNonQuery(sql) <= 0)
             {

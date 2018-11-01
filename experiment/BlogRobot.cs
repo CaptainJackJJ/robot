@@ -44,7 +44,7 @@ namespace experiment
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
         UInt16 m_maxSteps = 40;
-        UInt16 m_timesNeedRest = 5; // get quit after finish 5 articles
+        UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
 
         public static UInt64 m_MinReadCount = 5000;
         
@@ -61,6 +61,9 @@ namespace experiment
 
         public void timerBrain()
         {
+            if (m_publishedArticleNum > 4)
+                Environment.Exit(0);
+
             m_browser.CloseSecurityAlert();
 
             if (m_lastStep == m_step)
@@ -135,12 +138,6 @@ namespace experiment
             m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
 
             Log.WriteLog(LogType.Trace, "publish:" + m_articleInfo.title);
-
-            m_timesNeedRest++;
-            if (m_timesNeedRest >= 4)
-            {
-                Environment.Exit(0); // lunch again.
-            }
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {                

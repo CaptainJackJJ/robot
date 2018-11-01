@@ -19,12 +19,13 @@ namespace assigner
 
         private void FormAssigner_Load(object sender, EventArgs e)
         {
-            DataManager resourceDB = new DataManager("Resource.accdb");
-            DataManager workingObjDB = new DataManager("workingObject-temp.accdb");
+            DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner("Account.db");
+            DataManagerSqlLiteAssigner objectDB = new DataManagerSqlLiteAssigner("Object.db");
+            DataManagerSqlLiteAssigner workingObjDB = new DataManagerSqlLiteAssigner("workingObject-temp.db");
 
             while (true)
             {
-                DataManager.ObjectInfo objInfo = resourceDB.GetUnAssignedObjectInfo();
+                DataManagerSqlLiteAssigner.ObjectInfo objInfo = objectDB.GetUnAssignedObjectInfo();
                 if (objInfo == null)
                 {
                     MessageBox.Show("all obj is assigned");
@@ -32,14 +33,14 @@ namespace assigner
                 }
 
                 // TODO: only get same workStation as target workStation or workStation is empty
-                DataManager.AccountInfo accountInfo = resourceDB.GetUnAssignedAccountInfo();
+                DataManagerSqlLiteAssigner.AccountInfo accountInfo = accountDB.GetUnAssignedAccountInfo();
                 if (accountInfo == null)
                 {
                     MessageBox.Show("all account is assigned");
                     return;
                 }
 
-                DataManager.WorkingObjectInfo workingObjInfo = new DataManager.WorkingObjectInfo();
+                DataManagerSqlLiteAssigner.WorkingObjectInfo workingObjInfo = new DataManagerSqlLiteAssigner.WorkingObjectInfo();
                 workingObjInfo.url = objInfo.url;
                 workingObjInfo.userName = accountInfo.userName;
                 workingObjInfo.password = accountInfo.password;
@@ -50,10 +51,10 @@ namespace assigner
                 {
                     accountInfo.assignedNum++;
                     accountInfo.workStation = "1"; // TODO: set to the same station as target station
-                    if (resourceDB.UpdateAccountInfo(accountInfo))
+                    if (accountDB.UpdateAccountInfo(accountInfo))
                     {
                         objInfo.assignedAccount = accountInfo.userName;
-                        resourceDB.UpdateObjInfo(objInfo);
+                        objectDB.UpdateObjInfo(objInfo);
                     }
                 }
             }
