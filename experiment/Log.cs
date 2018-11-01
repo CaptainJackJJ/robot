@@ -54,6 +54,7 @@ namespace experiment
                     );
                 sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss: ") + msg);
                 sw.Close();
+                sw.Dispose();
             }
             catch
             { }

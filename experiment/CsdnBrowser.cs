@@ -141,6 +141,7 @@ namespace experiment
 
             articleInfo.content = head + articleInfo.content + tail;
             ele.FirstChild.InnerText = articleInfo.content;
+            articleInfo.content = "";
 
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
@@ -194,12 +195,11 @@ namespace experiment
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
             foreach (HtmlElement ele in collection)
             {
-                string outerHtml = ele.OuterHtml;
-                if (outerHtml.Contains("阅读数"))
+                if (ele.OuterHtml.Contains("阅读数"))
                 {
-                    int indexStart = outerHtml.IndexOf("：") + 1;
-                    int indexEnd = outerHtml.LastIndexOf("</span>");
-                    string count = outerHtml.Substring(indexStart, indexEnd - indexStart);
+                    int indexStart = ele.OuterHtml.IndexOf("：") + 1;
+                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
+                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);
                     if (info.readCount < BlogRobot.m_MinReadCount)
                         return info;
@@ -213,20 +213,20 @@ namespace experiment
             collection = this.Document.GetElementsByTagName("h1");
             foreach (HtmlElement ele in collection)
             {
-                string outerHtml = ele.OuterHtml;
-                if (outerHtml.Contains("title-article"))
+                if (ele.OuterHtml.Contains("title-article"))
                 {
                     info.title = ele.InnerText;
+                    break;
                 }
             }
 
             collection = this.Document.GetElementsByTagName("div");
             foreach (HtmlElement ele in collection)
             {
-                string outerHtml = ele.OuterHtml;
-                if (outerHtml.Contains("markdown_views") || outerHtml.Contains("htmledit_views"))
+                if (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views"))
                 {
                     info.content = ele.OuterHtml;
+                    break;
                 }
             }
 
@@ -263,24 +263,22 @@ namespace experiment
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
             foreach (HtmlElement ele in collection)
             {
-                string outerHtml = ele.OuterHtml;
-
                 // reach the list end.
-                if (timesOfFindLastArticle == 2 && !outerHtml.Contains("article/details"))
+                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
                 {
                     return false;
                 }
-                if (outerHtml.Contains("article/details"))
+                if (ele.OuterHtml.Contains("article/details"))
                 {
                     if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
                         continue; // this ele is hidden                    
 
                     if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
                     {
-                        ClickArticleInList(outerHtml);
+                        ClickArticleInList(ele.OuterHtml);
                         return true;
                     }
-                    if (outerHtml.Contains(lastArticleId))
+                    if (ele.OuterHtml.Contains(lastArticleId))
                         timesOfFindLastArticle++;
                 }
             }
