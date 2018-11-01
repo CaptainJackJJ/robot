@@ -21,6 +21,7 @@ namespace experiment
             LoginToEdit,
             Edit,
             Publish,
+            WaitSucess,
             Finished
         }
 
@@ -45,6 +46,7 @@ namespace experiment
         UInt16 m_goToArticleDelayTimes = 0;
         UInt16 m_maxSteps = 40;
         UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
+        UInt16 m_waitSuccessTimes = 0;
 
         public static UInt64 m_MinReadCount = 5000;
         
@@ -109,6 +111,9 @@ namespace experiment
                     case EnumStep.Publish:
                         Publish();
                         break;
+                    case EnumStep.WaitSucess:
+                        WaitSucess();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -135,24 +140,46 @@ namespace experiment
             m_step = EnumStep.Publish;
         }
 
-        private void Publish()
+        private void WaitSucess()
         {
-            m_browser.Publish();
+            m_waitSuccessTimes++;
+#if DEBUG
+            if(true)
+#else
+            if(m_browser.isSuccess())
+#endif
+            {
+                m_waitSuccessTimes = 0;
+                m_publishedArticleNum++;
 
-            m_workingObjectInfo.needFinishNum--;
-            m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
+                m_workingObjectInfo.needFinishNum--;
+                m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
+                m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            Log.WriteLog(LogType.Trace, "publish:" + m_articleInfo.title);
+                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
+            }
+            else
+            {
+                if (m_waitSuccessTimes < m_maxSteps)
+                    return; // Keep waiting
+
+                Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
+            }
 
             if (m_workingObjectInfo.needFinishNum <= 0)
-            {                
+            {
                 m_step = EnumStep.Login;
             }
             else
             {
-                m_step = EnumStep.GoToListPage; 
+                m_step = EnumStep.GoToListPage;
             }
+        }
+
+        private void Publish()
+        {
+            m_browser.Publish();
+            m_step = EnumStep.WaitSucess;
         }
 
         private void GoToEditPage()

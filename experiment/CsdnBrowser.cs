@@ -156,6 +156,12 @@ namespace experiment
             Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
+        public bool isSuccess()
+        {
+            HtmlElement ele = this.Document.GetElementById("alertSuccess");
+            return (ele != null && !ele.OuterHtml.Contains("display: none"));
+        }
+
         public void Publish()
         {
 #if DEBUG
