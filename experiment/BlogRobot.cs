@@ -117,9 +117,11 @@ namespace experiment
             }
             catch (Exception e)
             {
-                Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString() 
-                    + ", Exception info: " + e.ToString());
+#if DEBUG
+                Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString()
+                     + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
+#endif              
             }
         }
 
