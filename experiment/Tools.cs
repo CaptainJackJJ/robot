@@ -14,7 +14,12 @@ namespace experiment
 {
     public static class Tools
     {
+        #region Set working memory
 
+        [DllImport("KERNEL32.DLL", EntryPoint = "SetProcessWorkingSetSize", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
+        internal static extern bool SetProcessWorkingSetSize(IntPtr pProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize);
+
+        #endregion Set working memory
 
         #region set browser version
         /// <summary>  

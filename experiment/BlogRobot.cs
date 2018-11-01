@@ -117,6 +117,8 @@ namespace experiment
             }
             catch (Exception e)
             {
+                Tools.SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
+                // release idle memory
 #if DEBUG
                 Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString()
                      + ", Exception info: " + e.ToString());
