@@ -68,7 +68,7 @@ namespace experiment
 
             m_browser.CloseSecurityAlert();
 
-            if (m_lastStep == m_step)
+            if (m_lastStep == m_step && m_step != EnumStep.WaitSucess)
                 m_timesOfSomeStep++;
             else
                 m_timesOfSomeStep = 0;
@@ -142,14 +142,12 @@ namespace experiment
 
         private void WaitSucess()
         {
-            m_waitSuccessTimes++;
 #if DEBUG
             if(true)
 #else
             if(m_browser.isSuccess())
 #endif
-            {
-                m_waitSuccessTimes = 0;
+            {                
                 m_publishedArticleNum++;
 
                 m_workingObjectInfo.needFinishNum--;
@@ -160,6 +158,7 @@ namespace experiment
             }
             else
             {
+                m_waitSuccessTimes++;
                 if (m_waitSuccessTimes < m_maxSteps)
                     return; // Keep waiting
 
@@ -174,6 +173,8 @@ namespace experiment
             {
                 m_step = EnumStep.GoToListPage;
             }
+
+            m_waitSuccessTimes = 0;
         }
 
         private void Publish()
