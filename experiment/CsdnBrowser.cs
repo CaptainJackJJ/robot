@@ -156,6 +156,19 @@ namespace experiment
             Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
+        public bool isPublishedMax()
+        {
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("今天发表文章数量已达到限制的 10 篇"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool isSuccess()
         {
             HtmlElement ele = this.Document.GetElementById("alertSuccess");

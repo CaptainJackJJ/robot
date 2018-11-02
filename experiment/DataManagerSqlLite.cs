@@ -141,6 +141,18 @@ namespace experiment
             return info;       
         }
 
+        public void ZeroNeedFinishNum(long id)
+        {
+            string sql = "UPDATE objectInfo SET"
+            + " needFinishNum = 0"
+            + " WHERE id = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "ZeroNeedFinishNum error. sql is " + sql);
+            }
+        }
+
         public void SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";

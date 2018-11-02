@@ -142,6 +142,15 @@ namespace experiment
 
         private void WaitSucess()
         {
+            if(m_browser.isPublishedMax())
+            {
+                m_DataManagerSqlLite.ZeroNeedFinishNum(m_workingObjectInfo.id);
+
+                m_step = EnumStep.Login;
+                m_waitSuccessTimes = 0;
+                return;
+            }
+
 #if DEBUG
             if(true)
 #else
