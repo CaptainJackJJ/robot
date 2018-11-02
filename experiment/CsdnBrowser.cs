@@ -216,7 +216,7 @@ namespace experiment
             {
                 if (ele.OuterHtml.Contains("阅读数"))
                 {
-                    int indexStart = ele.OuterHtml.IndexOf("：") + 1;
+                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);

@@ -196,11 +196,12 @@ namespace experiment
         {
             m_articleInfo = m_browser.GoToEditPage();
             if (m_articleInfo.readCount < m_MinReadCount)
-            {
+            {                
                 //this working object is done.
                 m_workingObjectInfo.isObjectFinished = true;
                 m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                 m_step = EnumStep.Login;
+                Log.WriteLog(LogType.Notice, "read count is too small, so object is done");
                 return;
             }
 
@@ -240,6 +241,7 @@ namespace experiment
                     m_workingObjectInfo.isObjectFinished = true;
                     m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                     m_step = EnumStep.Login;
+                    Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     //this working object is done.
                 }
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
