@@ -121,6 +121,9 @@ namespace experiment
 
         public void Edit(BlogRobot.ArticleInfo articleInfo)
         {
+            articleInfo.title = @"Python标准库：内置函数print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)";
+            articleInfo.title = articleInfo.title.Replace(@"\", "斜杠");
+
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
