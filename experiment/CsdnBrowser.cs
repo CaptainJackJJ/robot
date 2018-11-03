@@ -141,9 +141,21 @@ namespace experiment
 <div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
 ";
 
+            if (articleInfo.content.Length > 300000)
+            {
+                Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
+                    + articleInfo.url + " , original len is " + articleInfo.content.Length);
+
+                articleInfo.content = articleInfo.content.Substring(0, 300000);
+            }
             articleInfo.content = head + articleInfo.content + tail;
             ele.FirstChild.InnerText = articleInfo.content;
             articleInfo.content = "";
+
+            // set title again, because "no title" is happen many times.
+            ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
+            ele.Focus(); SendKeys.Send(" ");
+            ele.SetAttribute("value", articleInfo.title);
 
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
@@ -278,8 +290,11 @@ namespace experiment
             if (!String.IsNullOrEmpty(lastArticleUrl))
             {
                 lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
+                // add "target" string to avoid next article's id is include in front article's content.
+
                 // This link of article is not same as the link of artcile which is in list, but the ID is same
                 /* https://blog.csdn.net/laoyang360/article/details/52244917 */
+                // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
             }
 
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
@@ -300,7 +315,14 @@ namespace experiment
                         ClickArticleInList(ele.OuterHtml);
                         return true;
                     }
-                    if (ele.OuterHtml.Contains(lastArticleId))
+
+                    /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
+                        Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
+                        1：http://blog.csdn.net/rlhua/article/details/12624275
+                        2：http://blog.csdn.net/rlhua/articl...      </a>
+                    */
+                    // use substring to avoid OuterHtml contarin's other article's link
+                    if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
                         timesOfFindLastArticle++;
                 }
             }
