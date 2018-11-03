@@ -152,11 +152,6 @@ namespace experiment
             ele.FirstChild.InnerText = articleInfo.content;
             articleInfo.content = "";
 
-            // set title again, because "no title" is happen many times.
-            ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
-            ele.Focus(); SendKeys.Send(" ");
-            ele.SetAttribute("value", articleInfo.title);
-
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
             ele = GetEleByTagAndOuterHtml("select", "原创");
