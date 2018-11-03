@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.Windows.Forms;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace experiment
 {
@@ -121,9 +122,7 @@ namespace experiment
 
         public void Edit(BlogRobot.ArticleInfo articleInfo)
         {
-            articleInfo.title = articleInfo.title.Replace(@"\", "斜杠");
-            articleInfo.title = articleInfo.title.Replace(@")", "");
-            articleInfo.title = articleInfo.title.Replace(@"）", "");
+            articleInfo.title = Regex.Replace(articleInfo.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
 
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
