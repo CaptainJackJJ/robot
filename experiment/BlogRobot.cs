@@ -142,6 +142,13 @@ namespace experiment
 
         private void WaitSucess()
         {
+            if(m_browser.isMissContent())
+            {
+                m_step = EnumStep.GoToListPage;
+                m_waitSuccessTimes = 0;
+                return;
+            }
+
             if(m_browser.isPublishedMax())
             {
                 m_DataManagerSqlLite.ZeroNeedFinishNum(m_workingObjectInfo.id);

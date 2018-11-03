@@ -165,6 +165,20 @@ namespace experiment
             Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
+        public bool isMissContent()
+        {
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
+            foreach (HtmlElement ele in collection)
+            {
+                //<span class="notice">文章标题不能为空</span>
+                if (ele.OuterHtml.Contains("文章标题不能为空"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool isPublishedMax()
         {
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
