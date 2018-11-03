@@ -149,19 +149,19 @@ namespace experiment
                 SendKeys.Flush();
             }
 
-            hwnd = FindWindow(null, "Web浏览器");
-            if (hwnd != IntPtr.Zero)
-            {
-                SendKeys.SendWait("{Enter}");
-                SendKeys.Flush();
-            }
+            //hwnd = FindWindow(null, "Web浏览器");
+            //if (hwnd != IntPtr.Zero)
+            //{
+            //    SendKeys.SendWait("{Enter}");
+            //    SendKeys.Flush();
+            //}
 
-            hwnd = FindWindow(null, "Web 浏览器");
-            if (hwnd != IntPtr.Zero)
-            {
-                SendKeys.SendWait("{Enter}");
-                SendKeys.Flush();
-            }
+            //hwnd = FindWindow(null, "Web 浏览器");
+            //if (hwnd != IntPtr.Zero)
+            //{
+            //    SendKeys.SendWait("{Enter}");
+            //    SendKeys.Flush();
+            //}
         }
         #endregion Close alert dlg
 
