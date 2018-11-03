@@ -143,12 +143,12 @@ namespace experiment
 <div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
 ";
 
-            if (articleInfo.content.Length > 200000)
+            if (articleInfo.content.Length > 100000)
             {
                 Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
                     + articleInfo.url + " , original len is " + articleInfo.content.Length);
 
-                articleInfo.content = articleInfo.content.Substring(0, 200000);
+                articleInfo.content = articleInfo.content.Substring(0, 100000);
             }
             articleInfo.content = head + articleInfo.content + tail;
             ele.FirstChild.InnerText = articleInfo.content;
