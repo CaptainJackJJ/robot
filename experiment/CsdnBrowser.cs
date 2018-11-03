@@ -122,6 +122,8 @@ namespace experiment
         public void Edit(BlogRobot.ArticleInfo articleInfo)
         {
             articleInfo.title = articleInfo.title.Replace(@"\", "斜杠");
+            articleInfo.title = articleInfo.title.Replace(@")", "");
+            articleInfo.title = articleInfo.title.Replace(@"）", "");
 
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
