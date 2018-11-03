@@ -102,7 +102,7 @@ namespace assigner
         public ObjectInfo GetUnAssignedObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("zh-CHS")).Substring(0, 10);
-            string sql = "SELECT * FROM [object] WHERE assignedAccount IS NULL ORDER BY ID ASC LIMIT 1";
+            string sql = "SELECT * FROM [object] WHERE assignedAccount IS NULL OR trim(assignedAccount)='' ORDER BY ID ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
