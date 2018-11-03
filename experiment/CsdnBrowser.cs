@@ -381,7 +381,7 @@ namespace experiment
             ele.SetAttribute("value", password);
 
             ClickEleByTagAndOuterHtml("input", "登 录");
-            Log.WriteLog(LogType.Trace, "logged in with username " + uName + " password " + password);
+            Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
 
