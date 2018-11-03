@@ -118,7 +118,7 @@ namespace experiment
 
         #endregion set browser version
 
-        #region 模拟操作关闭定时警告
+        #region Close alert dlg
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         [DllImport("User32.dll", EntryPoint = "FindWindowEx")]
@@ -148,8 +148,22 @@ namespace experiment
                 SendKeys.SendWait("{Enter}");
                 SendKeys.Flush();
             }
+
+            hwnd = FindWindow(null, "Web浏览器");
+            if (hwnd != IntPtr.Zero)
+            {
+                SendKeys.SendWait("{Enter}");
+                SendKeys.Flush();
+            }
+
+            hwnd = FindWindow(null, "Web 浏览器");
+            if (hwnd != IntPtr.Zero)
+            {
+                SendKeys.SendWait("{Enter}");
+                SendKeys.Flush();
+            }
         }
-        #endregion
+        #endregion Close alert dlg
 
         #region mouse control
 
