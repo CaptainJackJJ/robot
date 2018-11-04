@@ -121,7 +121,11 @@ namespace experiment
         }
 
         public void Edit(BlogRobot.ArticleInfo articleInfo)
-        {
+        {           
+            if (articleInfo.title.Length > 60)
+            {
+                articleInfo.title = articleInfo.title.Substring(0, 60);
+            }
             articleInfo.title = Regex.Replace(articleInfo.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
 
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
