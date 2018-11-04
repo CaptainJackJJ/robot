@@ -70,8 +70,7 @@ namespace experiment
             if (m_lastStep == m_step && m_step != EnumStep.WaitSucess)
                 m_timesOfSomeStep++;
             else
-                m_timesOfSomeStep = 0;
-            m_lastStep = m_step;
+                m_timesOfSomeStep = 0;            
 
             if (m_timesOfSomeStep > m_maxSteps + 2) // +2 means give change to m_goToArticleDelayTimes;
             {
@@ -131,12 +130,20 @@ namespace experiment
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
 #endif              
             }
+            finally
+            {
+                m_lastStep = m_step;
+            }
         }
 
         private void Edit()
         {
-            m_browser.Edit(m_articleInfo);
-            m_step = EnumStep.Publish;
+            // two step do one edit. because this maybe avoid title empty bug. to give more time to load edit page.
+            if (m_lastStep == EnumStep.Edit) 
+            {
+                m_browser.Edit(m_articleInfo);
+                m_step = EnumStep.Publish;
+            }
         }
 
         private void WaitSucess()

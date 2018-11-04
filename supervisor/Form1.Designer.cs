@@ -35,7 +35,7 @@
             // timerSupervisor
             // 
             this.timerSupervisor.Enabled = true;
-            this.timerSupervisor.Interval = 60000;
+            this.timerSupervisor.Interval = 3000;
             this.timerSupervisor.Tick += new System.EventHandler(this.timerSupervisor_Tick);
             // 
             // FormSupervisor
