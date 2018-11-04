@@ -28,6 +28,7 @@ namespace experiment
 ";
 
         string m_articleContent = "";
+        string m_articleTitle = "";
 
         public CsdnBrowser()
         {
@@ -138,8 +139,8 @@ namespace experiment
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
             ele.Focus(); SendKeys.Send(" ");
-            ele.InnerText = articleInfo.title;
-            ele.SetAttribute("value", articleInfo.title);
+            ele.InnerText = m_articleTitle;
+            ele.SetAttribute("value", m_articleTitle);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
             ele.FirstChild.InnerText = m_head + m_articleContent + m_tail;            
@@ -254,13 +255,14 @@ namespace experiment
             {
                 if (ele.OuterHtml.Contains("title-article"))
                 {
-                    info.title = ele.InnerText;
-                    if (info.title.Length > 60)
+                    if (ele.InnerText.Length > 60)
                     {
-                        info.title = info.title.Substring(0, 60);
+                        info.title = ele.InnerText.Substring(0, 60);
                     }
+                    else
+                        info.title = ele.InnerText;
                     info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
-
+                    m_articleTitle = info.title;
                     break;
                 }
             }
