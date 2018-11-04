@@ -29,7 +29,6 @@ namespace experiment
         {
             public string url;
             public string title;
-            public string content;
             public UInt64 readCount;
         }
                 
@@ -213,7 +212,6 @@ namespace experiment
             }
 
             if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
-                || String.IsNullOrEmpty(m_articleInfo.content) || m_articleInfo.content == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
             {
                 Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");

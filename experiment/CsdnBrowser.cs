@@ -27,6 +27,8 @@ namespace experiment
 <div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
 ";
 
+        string m_articleContent = "";
+
         public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
@@ -140,8 +142,7 @@ namespace experiment
             ele.SetAttribute("value", articleInfo.title);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.FirstChild.InnerText = m_head + articleInfo.content + m_tail;
-            articleInfo.content = "";
+            ele.FirstChild.InnerText = m_head + m_articleContent + m_tail;            
 
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
@@ -186,7 +187,12 @@ namespace experiment
         public bool isSuccess()
         {
             HtmlElement ele = this.Document.GetElementById("alertSuccess");
-            return (ele != null && !ele.OuterHtml.Contains("display: none"));
+            bool s = ele != null && !ele.OuterHtml.Contains("display: none");
+            if(s)
+            {
+                m_articleContent = "";
+            }
+            return s;
         }
 
         public void Publish()
@@ -270,10 +276,10 @@ namespace experiment
                         Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
                             + info.url + " , original len is " + ele.OuterHtml.Length);
 
-                        info.content = ele.OuterHtml.Substring(0, 50000);
+                        m_articleContent = ele.OuterHtml.Substring(0, 50000);
                     }
                     else
-                        info.content = ele.OuterHtml;
+                        m_articleContent = ele.OuterHtml;
                     break;
                 }
             }
@@ -297,6 +303,7 @@ namespace experiment
         // return false means no next article anymore.
         public bool GoToArticlePage(string lastArticleUrl, ref bool isNetDealy)
         {
+            m_articleContent = "";
             isNetDealy = false;
 
             short timesOfFindLastArticle = 0;
