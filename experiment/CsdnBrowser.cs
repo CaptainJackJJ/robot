@@ -131,7 +131,8 @@ namespace experiment
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send(" "); 
+            ele.Focus(); SendKeys.Send(" ");
+            ele.InnerText = articleInfo.title;
             ele.SetAttribute("value", articleInfo.title);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
