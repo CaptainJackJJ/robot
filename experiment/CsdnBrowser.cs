@@ -17,6 +17,16 @@ namespace experiment
         int m_articleTypeOffset;
         int m_articleFieldOffset;
 
+        const string m_head = @"<p><strong>分享一下我老师大神的人工智能教程！零基础，通俗易懂！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></strong></p>
+<p></p>
+<p><strong>也欢迎大家转载本篇文章。分享知识，造福人民，实现我们中华民族伟大复兴！</strong></p>
+<p></p>
+";
+        const string m_tail = @"<p></p>
+<strong><h4>给我老师的人工智能教程打call！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></h4></strong>
+<div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
+";
+
         public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
@@ -122,12 +132,6 @@ namespace experiment
 
         public void Edit(BlogRobot.ArticleInfo articleInfo)
         {           
-            if (articleInfo.title.Length > 60)
-            {
-                articleInfo.title = articleInfo.title.Substring(0, 60);
-            }
-            articleInfo.title = Regex.Replace(articleInfo.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
-
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
@@ -136,25 +140,7 @@ namespace experiment
             ele.SetAttribute("value", articleInfo.title);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-
-            string head = @"<p><strong>分享一下我老师大神的人工智能教程！零基础，通俗易懂！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></strong></p>
-<p></p>
-<p><strong>也欢迎大家转载本篇文章。分享知识，造福人民，实现我们中华民族伟大复兴！</strong></p>
-<p></p>
-";
-            string tail = @"<p></p>
-<strong><h4>给我老师的人工智能教程打call！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></h4></strong>
-<div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
-";
-
-            if (articleInfo.content.Length > 50000)
-            {
-                Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
-                    + articleInfo.url + " , original len is " + articleInfo.content.Length);
-
-                articleInfo.content = articleInfo.content.Substring(0, 50000);
-            }
-            articleInfo.content = head + articleInfo.content + tail;
+            articleInfo.content = m_head + articleInfo.content + m_tail;
             ele.FirstChild.InnerText = articleInfo.content;
             articleInfo.content = "";
 
@@ -264,6 +250,12 @@ namespace experiment
                 if (ele.OuterHtml.Contains("title-article"))
                 {
                     info.title = ele.InnerText;
+                    if (info.title.Length > 60)
+                    {
+                        info.title = info.title.Substring(0, 60);
+                    }
+                    info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
+
                     break;
                 }
             }
@@ -273,8 +265,16 @@ namespace experiment
             {
                 if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
                     (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
-                {
-                    info.content = ele.OuterHtml;
+                {                    
+                    if (ele.OuterHtml.Length > 50000)
+                    {
+                        Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
+                            + info.url + " , original len is " + ele.OuterHtml.Length);
+
+                        info.content = ele.OuterHtml.Substring(0, 50000);
+                    }
+                    else
+                        info.content = ele.OuterHtml;
                     break;
                 }
             }
