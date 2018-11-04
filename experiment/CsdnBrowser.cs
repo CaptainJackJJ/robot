@@ -140,8 +140,7 @@ namespace experiment
             ele.SetAttribute("value", articleInfo.title);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            articleInfo.content = m_head + articleInfo.content + m_tail;
-            ele.FirstChild.InnerText = articleInfo.content;
+            ele.FirstChild.InnerText = m_head + articleInfo.content + m_tail;
             articleInfo.content = "";
 
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
