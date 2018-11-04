@@ -297,13 +297,16 @@ namespace experiment
             {
                 m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
-                    m_step = EnumStep.Finished;
+                {
+                    return;
+                    //m_step = EnumStep.Finished;
+                }
                 else
                 {
-                    if(m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
+                    if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
                     {
-                        m_step = EnumStep.GoToListPage;  
-                    }                    
+                        m_step = EnumStep.GoToListPage;
+                    }
                 }        
             }
         }
