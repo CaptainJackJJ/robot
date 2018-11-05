@@ -185,7 +185,7 @@ namespace experiment
         public bool isSuccess()
         {
             HtmlElement ele = this.Document.GetElementById("alertSuccess");
-            bool s = ele != null && !ele.OuterHtml.Contains("display: none");
+            bool s = (ele != null && ele.Style == null);
             if(s)
             {
                 m_articleContent = "";
@@ -193,7 +193,7 @@ namespace experiment
             return s;
         }
 
-        public void Publish()
+        public void PrePublish()
         {
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
@@ -206,11 +206,14 @@ namespace experiment
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
             Tools.Click(p.X, p.Y + m_articleFieldOffset);
+        }
 
+        public void Publish()
+        {
 #if DEBUG
-            ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
 #else
-            ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
 #endif
             SafeClick(ele);
         }

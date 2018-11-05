@@ -149,6 +149,17 @@ namespace experiment
                 SendKeys.Flush();
             }
 
+            hwnd = FindWindow(null, "安全警报");
+            if (hwnd != IntPtr.Zero)
+            {
+                IntPtr btnhwnd = FindWindowEx(hwnd, IntPtr.Zero, "Button", "是(&Y)");
+                if (btnhwnd != IntPtr.Zero)
+                {
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//先移上去  
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//再点击  
+                }
+            }
+
             //hwnd = FindWindow(null, "Web浏览器");
             //if (hwnd != IntPtr.Zero)
             //{
