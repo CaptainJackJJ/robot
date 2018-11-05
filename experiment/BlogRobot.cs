@@ -72,12 +72,19 @@ namespace experiment
             else
                 m_timesOfSomeStep = 0;            
 
-            if (m_timesOfSomeStep > m_maxSteps + 2) // +2 means give change to m_goToArticleDelayTimes;
+            if (m_timesOfSomeStep > m_maxSteps + 2) 
             {
-                Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
-                // reset
-                Environment.Exit(0);
-                //m_step = EnumStep.GoToLoginPage;
+                if (m_goToArticleDelayTimes > 10 && m_timesOfSomeStep < m_maxSteps * 2)
+                {
+                    // give change to m_goToArticleDelayTimes;
+                }
+                else
+                {
+                    Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
+                    // reset
+                    Environment.Exit(0);
+                    //m_step = EnumStep.GoToLoginPage;
+                }
             }
 
             Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
