@@ -47,9 +47,11 @@ namespace experiment
         UInt16 m_maxSteps = 40;
         UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
         UInt16 m_waitSuccessTimes = 0;
+        UInt16 m_timesDetectLessMinReadCount = 0;
+        UInt16 m_timesCantGoToNext = 0;
 
         public static UInt64 m_MinReadCount = 5000;
-        
+                
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
             m_DataManagerSqlLite = new DataManagerSqlLite("workingObject.db");
@@ -226,14 +228,24 @@ namespace experiment
         {
             m_articleInfo = m_browser.GoToEditPage();
             if (m_articleInfo.readCount < m_MinReadCount)
-            {                
+            {
+                m_timesDetectLessMinReadCount++;
+                if (m_timesDetectLessMinReadCount < 3)
+                {
+                    m_step = EnumStep.GoToListPage;
+                    return;
+                }
+
                 //this working object is done.
+                m_timesDetectLessMinReadCount = 0;
                 m_workingObjectInfo.isObjectFinished = true;
                 m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                 m_step = EnumStep.Login;
                 Log.WriteLog(LogType.Notice, "read count is too small, so object is done");
                 return;
             }
+
+            m_timesDetectLessMinReadCount = 0;
 
             if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
@@ -268,14 +280,23 @@ namespace experiment
                 }
                 if(!m_browser.GoToNextPage())
                 {
+                    m_timesCantGoToNext++;
+                    if (m_timesCantGoToNext < 3)
+                    {
+                        m_step = EnumStep.GoToListPage;
+                        return;
+                    }
+
                     m_workingObjectInfo.isObjectFinished = true;
                     m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
                     m_step = EnumStep.Login;
                     Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     //this working object is done.
                 }
+                
                 m_workingObjectInfo.lastFinishedArticleUrlInList = "";
             }
+            m_timesCantGoToNext = 0;
             m_goToArticleDelayTimes = 0;
         }
         private void GoToListPage()
