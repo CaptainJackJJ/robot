@@ -252,6 +252,7 @@ namespace experiment
                     {
                         m_workingObjectInfo.lastFinishedArticleUrlInList = "";
                         m_goToArticleDelayTimes = 0;
+                        m_timesOfSomeStep = 0; // to avoid shut domn.
                     }
                     return; // try goToArticlePage again
                 }
