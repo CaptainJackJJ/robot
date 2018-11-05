@@ -143,19 +143,16 @@ namespace experiment
             ele.SetAttribute("value", m_articleTitle);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.FirstChild.InnerText = m_head + m_articleContent + m_tail;            
+            ele.FirstChild.InnerText = m_head + m_articleContent + m_tail;
 
-            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
-
-            ele = GetEleByTagAndOuterHtml("select", "原创");
+            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
+            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
+            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
+            ele.InnerText = m_articleTitle;
+            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
+            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
             Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleTypeOffset);
-
-            ele = GetEleByTagAndOuterHtml("select", "编程语言");
-            p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleFieldOffset);
+            Tools.DoubleClick(p.X + 3, p.Y + 1);
         }
 
         public bool isMissContent()
@@ -198,8 +195,20 @@ namespace experiment
 
         public void Publish()
         {
+            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
+
+            HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + m_articleTypeOffset);
+
+            ele = GetEleByTagAndOuterHtml("select", "编程语言");
+            p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + m_articleFieldOffset);
+
 #if DEBUG
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
+            ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
 #else
             HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
 #endif
