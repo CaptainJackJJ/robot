@@ -210,7 +210,7 @@ namespace experiment
 #if DEBUG
             ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
 #else
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
 #endif
             SafeClick(ele);
         }
