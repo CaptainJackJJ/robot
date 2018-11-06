@@ -149,6 +149,13 @@ namespace experiment
                 SendKeys.Flush();
             }
 
+            hwnd = FindWindow(null, "来自网页的消息");
+            if (hwnd != IntPtr.Zero)
+            {
+                SendKeys.SendWait("{Enter}");
+                SendKeys.Flush();
+            }
+
             hwnd = FindWindow(null, "安全警报");
             if (hwnd != IntPtr.Zero)
             {
