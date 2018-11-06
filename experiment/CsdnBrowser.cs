@@ -285,12 +285,12 @@ namespace experiment
                 if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
                     (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
                 {                    
-                    if (ele.OuterHtml.Length > 50000)
+                    if (ele.OuterHtml.Length > 100000)
                     {
                         Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
                             + info.url + " , original len is " + ele.OuterHtml.Length);
 
-                        m_articleContent = ele.OuterHtml.Substring(0, 50000);
+                        m_articleContent = ele.OuterHtml.Substring(0, 100000);
                     }
                     else
                         m_articleContent = ele.OuterHtml;
