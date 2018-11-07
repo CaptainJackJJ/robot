@@ -263,7 +263,16 @@ namespace experiment
         private void GoToArticlePage()
         {
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
+            {
+                string url = m_browser.Url.ToString();
+                if (url.Trim() == "https://www.csdn.net/")
+                {
+                    Log.WriteLog(LogType.Warning, "last url is https://www.csdn.net/. obj is " + m_workingObjectInfo.url);
+                    m_step = EnumStep.GoToListPage;
+                    return;
+                }
                 m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
+            }
      
             bool isNetDealy = false;
             if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
