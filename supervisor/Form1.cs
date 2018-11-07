@@ -78,7 +78,10 @@ namespace supervisor
         public static void CleanTempFiles()
         {
             FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
-            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 8");
+
+            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));
+
+            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
         }
     }
 }
