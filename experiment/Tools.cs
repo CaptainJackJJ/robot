@@ -167,6 +167,21 @@ namespace experiment
                 }
             }
 
+            hwnd = FindWindow(null, "证书");
+            if (hwnd != IntPtr.Zero)
+            {
+                IntPtr btnhwnd = FindWindowEx(hwnd, IntPtr.Zero, "Button", "确定");
+                if (btnhwnd != IntPtr.Zero)
+                {
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//先移上去  
+                    SendMessage(btnhwnd, WM_CLICK, 0, 0);//再点击  
+                }
+                else
+                {
+                    SendMessage(hwnd, WM_CLOSE, 0, 0);
+                }
+            }
+
             //hwnd = FindWindow(null, "Web浏览器");
             //if (hwnd != IntPtr.Zero)
             //{
