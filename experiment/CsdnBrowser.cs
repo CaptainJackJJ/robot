@@ -276,7 +276,7 @@ namespace experiment
                     }
                     else
                         info.title = ele.InnerText;
-                    info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
+                    info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ \\-_*×――(^)（^）$%~!@#$…&%￥=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]", " ");
                     m_articleTitle = info.title;
                     break;
                 }
