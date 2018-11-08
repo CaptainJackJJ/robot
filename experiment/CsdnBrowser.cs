@@ -196,6 +196,21 @@ namespace experiment
             return s;
         }
 
+        public bool isUnexpectError()
+        {
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("i");
+            foreach (HtmlElement ele in collection)
+            {
+                // <i class="mr8 notice-icon type-error"></i>
+                if (ele.OuterHtml.Contains("type-error"))
+                {
+                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.NextSibling.InnerText);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void PrePublish()
         {
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
