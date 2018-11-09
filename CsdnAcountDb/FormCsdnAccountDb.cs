@@ -20,13 +20,18 @@ namespace CsdnAcountDb
 
         private void FormCsdnAccountDb_Load(object sender, EventArgs e)
         {
+            
+        }
+
+        private void buttonCreateDB_Click(object sender, EventArgs e)
+        {
             DbCsdnAccountDb accountDb = new DbCsdnAccountDb("CsdnAccount.db");
 
             // Open the file to read from.
             using (StreamReader sr = File.OpenText("www.csdn.net.sql"))
             {
                 string s;
-                int indexFlag1,indexFlag2,indexAt;
+                int indexFlag1, indexFlag2, indexAt;
                 DbCsdnAccountDb.AccountInfo info = new DbCsdnAccountDb.AccountInfo();
                 while ((s = sr.ReadLine()) != null)
                 {
