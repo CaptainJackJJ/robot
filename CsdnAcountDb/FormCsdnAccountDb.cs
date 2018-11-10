@@ -13,6 +13,8 @@ namespace CsdnAcountDb
 {
     public partial class FormCsdnAccountDb : Form
     {
+        EmailRobot m_emailRobot;
+
         public FormCsdnAccountDb()
         {
             InitializeComponent();
@@ -20,7 +22,10 @@ namespace CsdnAcountDb
 
         private void FormCsdnAccountDb_Load(object sender, EventArgs e)
         {
-            
+            Tools.SetWebBrowserFeatures(11);
+            this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
+
+            m_emailRobot = new EmailRobot(webBrowser1, timer_CheckEmail);
         }
 
         private void buttonCreateDB_Click(object sender, EventArgs e)
@@ -48,6 +53,26 @@ namespace CsdnAcountDb
                     accountDb.AddAccountInfo(info);
                 }
             }
+        }
+
+        private void buttonCreateServerTable_Click(object sender, EventArgs e)
+        {
+            buttonCreateServerTable.Enabled = false;
+
+            DbCsdnAccountDb accountDb = new DbCsdnAccountDb("CsdnAccount.db");
+            accountDb.GetServerName();
+
+            MessageBox.Show("serverTable create done");
+        }
+
+        private void buttonCheckEmail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer_CheckEmail_Tick(object sender, EventArgs e)
+        {
+            m_emailRobot.timerBrain();
         }
     }
 }

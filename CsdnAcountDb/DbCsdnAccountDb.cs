@@ -24,6 +24,8 @@ namespace CsdnAcountDb
 
         private string connStr = @"data source=";
 
+        public List<string> m_serverName = new List<string>(); 
+
         public DbCsdnAccountDb(string dbName)
         {
             connStr += dbName;
@@ -78,6 +80,39 @@ namespace CsdnAcountDb
             return null;
         }
 
+        public void GetServerName()
+        {
+            m_serverName.Clear();
+
+            string sql = "SELECT DISTINCT emailServer FROM account";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            while (data.Read())
+            {
+                m_serverName.Add(data["emailServer"].ToString());
+            }
+
+            data.Close();
+            data.Dispose();
+
+            foreach(string name in m_serverName)
+            {
+                sql = "SELECT count(*) FROM account WHERE emailServer = '" + name + "'";
+                data = ExecuteReader(sql);
+                data.Read();
+                Int64 count = Convert.ToInt64(data.GetValue(0));
+                data.Close();
+                data.Dispose();
+
+                sql = "INSERT INTO emailServer ( serverName, count)" + " VALUES ('" + name + "'," + count + ")";
+
+                if (ExecuteNonQuery(sql) <= 0)
+                {
+                    Log.WriteLog(LogType.Error, "sql: " + sql);
+                }
+            }
+        }
 
         public bool AddAccountInfo(AccountInfo info)
         {
@@ -91,6 +126,40 @@ namespace CsdnAcountDb
             }
 
             return true;
+        }
+
+        public AccountInfo GetAccountInfo()
+        {
+            string sql = "SELECT rowid, * FROM account WHERE emailServer = 'sina.com' AND IsMailChecked = 0 LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            AccountInfo info = new AccountInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = Convert.ToInt64(data.GetValue(0));
+            info.email = data["email"].ToString();
+            info.csdnPassword = data["csdnPassword"].ToString();
+
+            data.Close();
+            data.Dispose();
+
+            return info;
+        }
+
+        public void SetAccountInfo(AccountInfo info)
+        {
+
+            string sql = "UPDATE account SET IsMailChecked = 1,"
+            + " emailPassword = '" + info.emailPassword + "'"
+            + " WHERE rowid = " + info.id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetAccountInfo error. sql is " + sql);
+            }
         }
     }
 }
