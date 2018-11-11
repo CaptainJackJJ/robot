@@ -50,7 +50,7 @@ namespace experiment
         UInt16 m_timesDetectLessMinReadCount = 0;
         UInt16 m_timesCantGoToNext = 0;
 
-        public static UInt64 m_MinReadCount = 5000;
+        public static UInt64 m_MinReadCount = 3000;
                 
         public BlogRobot(CsdnBrowser w, Timer timerBrain)
         {
