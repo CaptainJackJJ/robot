@@ -44,7 +44,8 @@ namespace CsdnAcountDb
 
         public void timerBrain()
         {
-            if (m_tryTimes > 10)
+            m_tryTimes++;
+            if (m_tryTimes > 30)
                 Environment.Exit(0);
 
             m_browser.CloseSecurityAlert();
@@ -106,7 +107,7 @@ namespace CsdnAcountDb
 
             m_DataManagerSqlLite.SetAccountInfo(m_accounttInfo);
 
-            m_tryTimes++;
+            
         }
      
 
