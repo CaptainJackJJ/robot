@@ -16,5 +16,12 @@ namespace AccountCreator
         {
             InitializeComponent();
         }
+
+        private void FormAccountCreator_Load(object sender, EventArgs e)
+        {
+            int y = 50;
+            webBrowser1.Location = new Point(0, y);
+            webBrowser1.Size = new Size(this.Size.Width, this.Size.Height - y);
+        }
     }
 }
