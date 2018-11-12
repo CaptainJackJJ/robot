@@ -23,5 +23,17 @@ namespace AccountCreator
             webBrowser1.Location = new Point(0, y);
             webBrowser1.Size = new Size(this.Size.Width, this.Size.Height - y);
         }
+
+        private void buttonCreateAccount_Click(object sender, EventArgs e)
+        {
+            if(textBoxPhone.Text.Trim() == "")
+            {
+                MessageBox.Show("请填写正确的手机号");
+                return;
+            }
+
+
+            textBoxPhone.Text = "";
+        }
     }
 }
