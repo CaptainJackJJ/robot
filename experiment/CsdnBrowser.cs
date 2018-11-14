@@ -126,6 +126,7 @@ namespace experiment
 
         private bool ClickEleByTagAndOuterHtml(string tag,string html)
         {
+            // <a href="">帐号登录</a>
             HtmlElement ele = GetEleByTagAndOuterHtml(tag, html);
             if (ele == null)
                 return false;
@@ -409,7 +410,7 @@ namespace experiment
 
         private bool ClickAccountLogin()
         {
-            return ClickEleByTagAndOuterHtml("a", "账号登录");
+            return ClickEleByTagAndOuterHtml("a", "帐号登录");
         }
 
         public void ClickLogin()
@@ -449,13 +450,17 @@ namespace experiment
                 return false;
             }
 
-            HtmlElement ele = this.Document.GetElementById("username");
+            HtmlElement ele = this.Document.GetElementById("all");
+            ele.Focus(); SendKeys.Send(" ");
             ele.SetAttribute("value", uName);
 
-            ele = this.Document.GetElementById("password");
+            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+            ele = this.Document.GetElementById("password-number");
+            ele.Focus(); SendKeys.Send(" ");
             ele.SetAttribute("value", password);
 
-            ClickEleByTagAndOuterHtml("input", "登 录");
+            //<button data-type="account" class="btn btn-primary">登录</button>
+            ClickEleByTagAndOuterHtml("button", "登录");
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
