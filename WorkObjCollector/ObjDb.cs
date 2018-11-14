@@ -8,7 +8,7 @@ using System.Data.SQLite;
 
 namespace WorkObjCollector
 {
-    class CheckedObjDb
+    class ObjDb
     {
         public class ObjectInfo
         {
@@ -20,7 +20,7 @@ namespace WorkObjCollector
 
         private string connStr = @"data source=";
 
-        public CheckedObjDb(string dbName)
+        public ObjDb(string dbName)
         {
             connStr += dbName;
         }
@@ -47,7 +47,7 @@ namespace WorkObjCollector
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                Log.WriteLog(LogType.Error, e.Message);
             }
             return -1;
         }
@@ -69,7 +69,7 @@ namespace WorkObjCollector
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                Log.WriteLog(LogType.Error, e.Message);
             }
             return null;
         }
