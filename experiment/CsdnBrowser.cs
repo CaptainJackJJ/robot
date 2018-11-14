@@ -410,7 +410,13 @@ namespace experiment
 
         private bool ClickAccountLogin()
         {
-            return ClickEleByTagAndOuterHtml("a", "帐号登录");
+            //<a href="javascript:void(0);" class="login-code__open js_login_trigger login-user__active">账号登录</a>
+            bool isOk = ClickEleByTagAndOuterHtml("a", "账号登录");
+            if (!isOk)
+            {
+                isOk = ClickEleByTagAndOuterHtml("a", "帐号登录");
+            }
+            return isOk;
         }
 
         public void ClickLogin()
@@ -450,17 +456,30 @@ namespace experiment
                 return false;
             }
 
-            HtmlElement ele = this.Document.GetElementById("all");
-            ele.Focus(); SendKeys.Send(" ");
+            HtmlElement ele = this.Document.GetElementById("username");
+            if(ele == null)
+            {
+                ele = this.Document.GetElementById("all");
+                ele.Focus(); SendKeys.Send(" ");
+            }
             ele.SetAttribute("value", uName);
 
-            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
-            ele = this.Document.GetElementById("password-number");
-            ele.Focus(); SendKeys.Send(" ");
+
+            ele = this.Document.GetElementById("password");
+            if (ele == null)
+            {
+                // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+                ele = this.Document.GetElementById("password-number");
+                ele.Focus(); SendKeys.Send(" ");
+            }            
             ele.SetAttribute("value", password);
 
-            //<button data-type="account" class="btn btn-primary">登录</button>
-            ClickEleByTagAndOuterHtml("button", "登录");
+            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            if (!ClickEleByTagAndOuterHtml("input", "登 录"))
+            {
+                //<button data-type="account" class="btn btn-primary">登录</button>
+                ClickEleByTagAndOuterHtml("button", "登录");
+            }
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
