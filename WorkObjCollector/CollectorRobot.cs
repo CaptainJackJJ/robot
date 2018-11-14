@@ -13,13 +13,14 @@ namespace WorkObjCollector
         enum EnumStep
         {
             None,
-            GoToLoginPage,
+            GoToObjArticleListPage,
+            CheckObjThenGoToFirstArticle,
             Login,
             WaitSucess,
             Finished
         }
 
-        EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_step = EnumStep.GoToObjArticleListPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -30,15 +31,18 @@ namespace WorkObjCollector
 
         UInt16 m_tryTimes = 0;
 
+        string m_lastObjArticleListPage;
+
         public CollectorRobot(CollectorBrowser w, Timer timerBrain)
         {
-            m_checkedObjDb = new ObjDb("CsdnAccount.db");
-
             m_browser = w;
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
             m_timerBrain.Interval = 2000;
+
+            m_checkedObjDb = new ObjDb("CheckedObj.db");
+            m_lastObjArticleListPage = m_checkedObjDb.GetLastCheckedObject() + "?orderby=ViewCount";
         }
 
         public void timerBrain()
@@ -55,6 +59,12 @@ namespace WorkObjCollector
             {
                 switch(m_step)
                 {
+                    case EnumStep.GoToObjArticleListPage:
+                        GoToObjArticleListPage();
+                        break;
+                    case EnumStep.CheckObjThenGoToFirstArticle:
+                        CheckObjThenGoToFirstArticle();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -73,6 +83,17 @@ namespace WorkObjCollector
             {
                 m_lastStep = m_step;
             }
+        }
+
+        private void CheckObjThenGoToFirstArticle()
+        {
+
+        }
+
+        private void GoToObjArticleListPage()
+        {
+            m_browser.SafeNavigate(m_lastObjArticleListPage);
+            m_step = EnumStep.CheckObjThenGoToFirstArticle;
         }
     }
 }

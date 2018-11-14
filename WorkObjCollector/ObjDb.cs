@@ -76,7 +76,7 @@ namespace WorkObjCollector
 
         public string GetLastCheckedObject()
         {
-            string sql = "SELECT * FROM obj WHERE ORDER BY rowid DESC LIMIT 1";
+            string sql = "SELECT * FROM obj ORDER BY rowid DESC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
