@@ -25,6 +25,14 @@ namespace experiment
             public bool isReadyForWork;
         }
 
+        public class ObjectInfo
+        {
+            public long id;
+            public string url;
+            public string lastListPageUrl;
+            public string assignedAccount;
+        }
+
         private string connStr = @"data source=";
 
 #if DEBUG
@@ -103,7 +111,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
-            string sql = "SELECT * FROM objectInfo WHERE isReadyForWork = 1 AND isObjectFinished = 0 AND"
+            string sql = "SELECT * FROM objectInfo WHERE"
                 + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
                 + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0)) LIMIT 1";
 
@@ -156,13 +164,9 @@ namespace experiment
         public void SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
-            if (info.isObjectFinished)
-            {
-                info.isReadyForWork = false;
-                Log.WriteLog(LogType.Trace, "workingObj is done. obj url is " + info.url);
-            }
 
             string sql = "UPDATE objectInfo SET"
+            + " url = '" + info.url + "',"
             + " lastListPageUrl = '" + info.lastListPageUrl + "',"
             + " lastFinishedArticleUrlInList = '" + info.lastFinishedArticleUrlInList + "',"
             + " needFinishNum = " + info.needFinishNum + ","
@@ -174,6 +178,38 @@ namespace experiment
             if(ExecuteNonQuery(sql) <= 0)
             {
                 Log.WriteLog(LogType.SQL, "SetWorkingObjectInfo error. sql is " + sql);
+            }
+        }
+
+        public ObjectInfo GetBackupObj()
+        {
+            string sql = "SELECT * FROM object LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            ObjectInfo info = new ObjectInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = data.GetInt32(0);
+            info.url = data.GetString(1);
+            info.lastListPageUrl = data.GetString(2);
+            info.assignedAccount = data.GetValue(3).ToString();
+
+            data.Close();
+            data.Dispose();
+
+            return info;
+        }
+
+        public void DeleteBackupObj(long id)
+        {
+            string sql = "DELETE FROM object WHERE id = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "DeleteObj error. sql is " + sql);
             }
         }
     }

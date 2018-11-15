@@ -253,10 +253,10 @@ namespace experiment
 
                 //this working object is done.
                 m_timesDetectLessMinReadCount = 0;
-                m_workingObjectInfo.isObjectFinished = true;
-                m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
-                m_step = EnumStep.Login;
-                Log.WriteLog(LogType.Notice, "read count is too small, so object is done");
+
+                UseBackupObj();
+
+                Log.WriteLog(LogType.Trace, "read count is too small, so object is done");
                 return;
             }
 
@@ -270,6 +270,28 @@ namespace experiment
             }
             m_step = EnumStep.LoginToEdit;
             Log.WriteLog(LogType.Debug, m_articleInfo.title);
+        }
+
+        private void UseBackupObj()
+        {
+            DataManagerSqlLite objDB = new DataManagerSqlLite("ObjectBackup.db");
+            DataManagerSqlLite.ObjectInfo backupObj = objDB.GetBackupObj();
+            if (backupObj == null)
+            {
+                Log.WriteLog(LogType.Warning, "backup db is empty");
+                m_workingObjectInfo.needFinishNum = 0;
+            }
+            else
+            {
+                m_workingObjectInfo.url = backupObj.url;
+                m_workingObjectInfo.lastListPageUrl = backupObj.lastListPageUrl;
+                m_workingObjectInfo.lastFinishedArticleUrlInList = "";
+            }
+            objDB.DeleteBackupObj(backupObj.id);
+
+            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
+
+            m_step = EnumStep.Login;
         }
 
         private void GoToArticlePage()
@@ -311,9 +333,8 @@ namespace experiment
                         return;
                     }
 
-                    m_workingObjectInfo.isObjectFinished = true;
-                    m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
-                    m_step = EnumStep.Login;
+                    UseBackupObj();
+
                     Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     //this working object is done.
                 }
