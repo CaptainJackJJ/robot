@@ -169,6 +169,8 @@ namespace experiment
                 {
                     return true;
                 }
+
+
             }
             return false;
         }
@@ -206,6 +208,10 @@ namespace experiment
                 if (ele.OuterHtml.Contains("type-error"))
                 {
                     Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.NextSibling.InnerText);
+                    if (ele.NextSibling.InnerText.Contains("没有权限执行操作"))
+                    {
+                        Environment.Exit(0);
+                    }
                     return true;
                 }
             }
