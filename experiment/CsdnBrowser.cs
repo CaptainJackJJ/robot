@@ -165,7 +165,7 @@ namespace experiment
                 // <span class="notice">文章分类为必选项</span>
                 //<span class="notice">博客分类为必选项</span>
                 if (ele.OuterHtml.Contains("文章标题不能为空") || ele.OuterHtml.Contains("文章分类为必选项")
-                    || ele.OuterHtml.Contains("博客分类为必选项"))
+                    || ele.OuterHtml.Contains("博客分类为必选项") || ele.OuterHtml.Contains("请勿使用默认标题"))
                 {
                     return true;
                 }
