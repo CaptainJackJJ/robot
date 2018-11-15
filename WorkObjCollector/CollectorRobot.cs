@@ -26,8 +26,8 @@ namespace WorkObjCollector
         CollectorBrowser m_browser = null;
         ObjDb m_checkedObjDb,m_objDb;
 
-        UInt16 m_timesOfSameStep = 0;
-        UInt16 m_maxSteps = 40;
+        UInt16 m_timesOfStep = 0;
+        readonly UInt16 m_maxSteps = 3 * 20;
 
         string m_lastObjArticleListPage;
 
@@ -51,18 +51,14 @@ namespace WorkObjCollector
 
         public void timerBrain()
         {
-            if (m_lastStep == m_step)
-                m_timesOfSameStep++;
-            else
-                m_timesOfSameStep = 0;
+            m_timesOfStep++;
 
-            if (m_timesOfSameStep > m_maxSteps)
+            if (m_timesOfStep > m_maxSteps)
             {
-               Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
+                Environment.Exit(0);
             }
 
             m_browser.CloseSecurityAlert();
-
             
             Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
             try
