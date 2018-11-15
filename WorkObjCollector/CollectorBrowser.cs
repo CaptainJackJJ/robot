@@ -154,5 +154,74 @@ namespace WorkObjCollector
         {
             Tools.CloseSecurityAlert();
         }
+
+
+        public void CheckObjThenGoToFirstArticle(bool isNeedCheck, UInt64 minReadCount, UInt16 minArticleCount,
+            ref bool isNeedCollect, ref bool isNetDealy)
+        {
+            isNetDealy = isNeedCollect = false;
+
+            short timesFoundReadCount = 0;
+            string outerHtmlFirstArticle = "";
+
+            int indexStart,indexEnd;
+            UInt64 readCount;
+
+            // <span class="read-num">阅读数：139843</span>
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
+            foreach (HtmlElement ele in collection)
+            {
+                // reach the list end.
+                //if (timesFoundReadCount > 0 && !ele.OuterHtml.Contains("article/details"))
+                //{
+                //    break;
+                //}
+
+                if (ele.OuterHtml.Contains("阅读数："))
+                {
+                    if (ele.Parent.Parent.Parent.OuterHtml.Contains("display: none"))
+                        continue; // this ele is hidden                    
+
+                    timesFoundReadCount++;
+
+                    if (timesFoundReadCount == 1) // save first article outerHtml
+                    {
+                        outerHtmlFirstArticle = ele.Parent.Parent.Parent.OuterHtml;
+                        if (!isNeedCheck)
+                            break;
+                    }
+
+                    indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+                    indexEnd = ele.OuterHtml.LastIndexOf("</span>");
+                    readCount = Convert.ToUInt64(ele.OuterHtml.Substring(indexStart, indexEnd - indexStart));
+                    if (readCount < minReadCount)
+                        break;
+
+                    if (timesFoundReadCount == minArticleCount)
+                    {
+                        isNeedCollect = true;
+                        break;
+                    }
+                }
+            }
+
+            if (timesFoundReadCount == 0)
+                isNetDealy = true;
+            else
+            {
+                ClickArticleInList(outerHtmlFirstArticle);
+            }
+        }
+
+        private void ClickArticleInList(string ArticleOuterHtml)
+        {
+            int startIndex = ArticleOuterHtml.IndexOf("https://blog.csdn.net/");
+            int endIndex = ArticleOuterHtml.IndexOf("target") - 2;
+            string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
+            /* outerhtml
+            <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
+             */
+            SafeNavigate(ArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
+        }
     }
 }

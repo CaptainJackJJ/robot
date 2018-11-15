@@ -105,9 +105,9 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool IsObjectExisted(string url)
+        public bool IsObjectCollected(string urlArticleListPage)
         {
-            string sql = "SELECT * FROM object WHERE objectUrl = '" + url + "'";
+            string sql = "SELECT * FROM object WHERE lastListPageUrl = '" + urlArticleListPage + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -122,10 +122,11 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool AddObject(ObjectInfo info)
+        public bool CollectObject(string urlArticleListPage)
         {
+            string url = urlArticleListPage.Replace(CollectorRobot.m_listPageUrlTail, "");
             string sql = "INSERT INTO object ( objectUrl, lastListPageUrl )"
-            + " VALUES ('" + info.url + "','" + info.lastListPageUrl + "')";
+            + " VALUES ('" + url + "','" + urlArticleListPage + "')";
 
             if (ExecuteNonQuery(sql) <= 0)
             {

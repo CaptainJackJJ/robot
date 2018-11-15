@@ -15,8 +15,7 @@ namespace WorkObjCollector
             None,
             GoToObjArticleListPage,
             CheckObjThenGoToFirstArticle,
-            Login,
-            WaitSucess,
+            LookForNewObj,
             Finished
         }
 
@@ -27,11 +26,14 @@ namespace WorkObjCollector
         CollectorBrowser m_browser = null;
         ObjDb m_checkedObjDb,m_objDb;
 
-        public static UInt64 m_MinReadCount = 3000;
-
-        UInt16 m_tryTimes = 0;
+        UInt16 m_timesOfSameStep = 0;
+        UInt16 m_maxSteps = 40;
 
         string m_lastObjArticleListPage;
+
+        readonly UInt64 m_minReadCount = 3000;
+        readonly UInt16 m_minArticleCount = 5;
+        public static string m_listPageUrlTail = "?orderby=ViewCount";
 
         public CollectorRobot(CollectorBrowser w, Timer timerBrain)
         {
@@ -42,14 +44,22 @@ namespace WorkObjCollector
             m_timerBrain.Interval = 2000;
 
             m_checkedObjDb = new ObjDb("CheckedObj.db");
-            m_lastObjArticleListPage = m_checkedObjDb.GetLastCheckedObject() + "?orderby=ViewCount";
+            m_lastObjArticleListPage = m_checkedObjDb.GetLastCheckedObject() + m_listPageUrlTail;
+
+            m_objDb = new ObjDb("Object.db");
         }
 
         public void timerBrain()
         {
-            m_tryTimes++;
-            if (m_tryTimes > 30)
-                Environment.Exit(0);
+            if (m_lastStep == m_step)
+                m_timesOfSameStep++;
+            else
+                m_timesOfSameStep = 0;
+
+            if (m_timesOfSameStep > m_maxSteps)
+            {
+               Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
+            }
 
             m_browser.CloseSecurityAlert();
 
@@ -64,6 +74,9 @@ namespace WorkObjCollector
                         break;
                     case EnumStep.CheckObjThenGoToFirstArticle:
                         CheckObjThenGoToFirstArticle();
+                        break;
+                    case EnumStep.LookForNewObj:
+                        LookForNewObj();
                         break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
@@ -85,9 +98,31 @@ namespace WorkObjCollector
             }
         }
 
+        private void LookForNewObj()
+        {
+        }
+
         private void CheckObjThenGoToFirstArticle()
         {
+            bool isNeedCheck = true;
+            if(m_objDb.IsObjectCollected(m_lastObjArticleListPage))
+            {
+                isNeedCheck = false;
+            }
+            
+            bool isNeedCollect = false;
+            bool isDelay = false;
+            m_browser.CheckObjThenGoToFirstArticle(isNeedCheck, m_minReadCount, m_minArticleCount, ref isNeedCollect, ref isDelay);
+            
+            if (isDelay)
+                return;
+            if(isNeedCollect)
+            {
+                if (!m_objDb.CollectObject(m_lastObjArticleListPage))
+                    return;
+            }
 
+            m_step = EnumStep.LookForNewObj;
         }
 
         private void GoToObjArticleListPage()
