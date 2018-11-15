@@ -156,6 +156,30 @@ namespace WorkObjCollector
         }
 
 
+        public string LookForNewObj(ObjDb checkedObjDb)
+        {
+            int indexStart, indexEnd;
+            string objUrl = "";
+            
+            // <a href="https://blog.csdn.net/fangqun663775/article/details/73614850" target="_blank" title="Java高级程序员（5年左右）面试的题目集 - F &amp; Q的专栏">	
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("https://blog.csdn.net/"))
+                {
+                    indexStart = ele.OuterHtml.IndexOf("https:");
+                    indexEnd = ele.OuterHtml.IndexOf("/article/details");
+                    if (indexEnd <= 0)
+                        continue;
+                    objUrl = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
+                    if (!checkedObjDb.IsObjectChecked(objUrl))
+                        return objUrl;
+                }
+            }
+
+            return "";
+        }
+
         public void CheckObjThenGoToFirstArticle(bool isNeedCheck, UInt64 minReadCount, UInt16 minArticleCount,
             ref bool isNeedCollect, ref bool isNetDealy)
         {

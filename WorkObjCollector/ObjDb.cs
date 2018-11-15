@@ -93,7 +93,7 @@ namespace WorkObjCollector
         }
         public bool AddCheckedObject(string url)
         {
-            string sql = "INSERT INTO obj ( url)"
+            string sql = "INSERT INTO obj ( url )"
             + " VALUES ('" + url + "')";
 
             if (ExecuteNonQuery(sql) <= 0)
@@ -105,13 +105,28 @@ namespace WorkObjCollector
             return true;
         }
 
+        public bool IsObjectChecked(string url)
+        {
+            string sql = "SELECT * FROM obj WHERE url = '" + url + "'";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            data.Read();
+            if (!data.HasRows)
+                return false;
+
+            data.Close();
+            data.Dispose();
+
+            return true;
+        }
+
         public bool IsObjectCollected(string urlArticleListPage)
         {
             string sql = "SELECT * FROM object WHERE lastListPageUrl = '" + urlArticleListPage + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
-            ObjectInfo info = new ObjectInfo();
             data.Read();
             if (!data.HasRows)
                 return false;

@@ -100,6 +100,16 @@ namespace WorkObjCollector
 
         private void LookForNewObj()
         {
+            string objUrl = m_browser.LookForNewObj(m_checkedObjDb);
+            if(objUrl == "")
+            {
+                Log.WriteLog(LogType.Error, "can not found new obj");
+                Environment.Exit(0);
+            }
+
+            m_checkedObjDb.AddCheckedObject(objUrl);
+            m_lastObjArticleListPage = objUrl + m_listPageUrlTail;
+            m_step = EnumStep.GoToObjArticleListPage;
         }
 
         private void CheckObjThenGoToFirstArticle()
