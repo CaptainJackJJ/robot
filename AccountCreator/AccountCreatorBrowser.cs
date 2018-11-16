@@ -87,7 +87,7 @@ namespace AccountCreator
 
         public void NavigateToLoginPage()
         {
-            SafeNavigate("http://mail.sina.com.cn/?from=mail#");  
+            SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=100270989&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3Foauth_provider%3DQQProvider&state=test");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)

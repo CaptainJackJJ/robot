@@ -13,10 +13,12 @@ namespace AccountCreator
         enum EnumStep
         {
             None,
+            GoToLoginPage,
+            Login,
             Finished
         }
 
-        EnumStep m_step = EnumStep.None;
+        EnumStep m_step = EnumStep.GoToLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -51,6 +53,9 @@ namespace AccountCreator
             {
                 switch(m_step)
                 {
+                    case EnumStep.GoToLoginPage:
+                        GoToLoginPage();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -69,6 +74,12 @@ namespace AccountCreator
             {
                 m_lastStep = m_step;
             }
+        }
+
+        private void GoToLoginPage()
+        {
+            m_browser.NavigateToLoginPage();
+            m_step = EnumStep.Login;
         }
 
     }

@@ -21,7 +21,7 @@ namespace AccountCreator
             Tools.SetWebBrowserFeatures(11);
             this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            timer1.Enabled = false;
+            timer1.Enabled = true;
             m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
         }
 
