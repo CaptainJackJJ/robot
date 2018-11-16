@@ -166,7 +166,7 @@ namespace experiment
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
 
             string sql = "UPDATE objectInfo SET"
-            + " url = '" + info.url + "',"
+            + " objectUrl = '" + info.url + "',"
             + " lastListPageUrl = '" + info.lastListPageUrl + "',"
             + " lastFinishedArticleUrlInList = '" + info.lastFinishedArticleUrlInList + "',"
             + " needFinishNum = " + info.needFinishNum + ","
