@@ -15,6 +15,8 @@ namespace AccountCreator
             None,
             GoToLoginPage,
             Login,
+            GoToMyAticle,
+            BeFans,
             Finished
         }
 
@@ -56,6 +58,12 @@ namespace AccountCreator
                     case EnumStep.GoToLoginPage:
                         GoToLoginPage();
                         break;
+                    case EnumStep.Login:
+                        Login();
+                        break;
+                    case EnumStep.GoToMyAticle:
+                        GoToMyAticle();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -76,11 +84,22 @@ namespace AccountCreator
             }
         }
 
+        private void GoToMyAticle()
+        {
+            m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
+            m_step = EnumStep.BeFans;
+        }
+
+        private void Login()
+        {
+            m_browser.Login();
+            m_step = EnumStep.GoToMyAticle;
+        }
+
         private void GoToLoginPage()
         {
             m_browser.NavigateToLoginPage();
             m_step = EnumStep.Login;
         }
-
     }
 }
