@@ -110,6 +110,12 @@ namespace WorkObjCollector
 
         private void CheckObjThenGoToFirstArticle()
         {
+            if(m_browser.Url.ToString().Contains("passport.csdn.net/account/login"))
+            {
+                m_browser.Login("sdhiiwfssf", "FiSKpJuHc12345");
+                return;
+            }
+
             bool isNeedCheck = true;
             if(m_objDb.IsObjectCollected(m_lastObjArticleListPage))
             {
