@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountCreatorRobot.cs" />
     <Compile Include="AccountCreatorDb.cs" />
     <Compile Include="AccountCreatorBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="AccountCreatorRobot.cs" />
     <Compile Include="FormAccountCreator.cs">
       <SubType>Form</SubType>
     </Compile>

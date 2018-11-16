@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.components = new System.ComponentModel.Container();
+            this.webBrowser1 = new AccountCreatorBrowser();
             this.textBoxPhone = new System.Windows.Forms.TextBox();
             this.buttonCreateAccount = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -58,6 +60,10 @@
             this.buttonCreateAccount.UseVisualStyleBackColor = true;
             this.buttonCreateAccount.Click += new System.EventHandler(this.buttonCreateAccount_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FormAccountCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -77,9 +83,10 @@
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private AccountCreatorBrowser webBrowser1;
         private System.Windows.Forms.TextBox textBoxPhone;
         private System.Windows.Forms.Button buttonCreateAccount;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

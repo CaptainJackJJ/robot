@@ -12,29 +12,10 @@ namespace AccountCreator
 {
     class AccountCreatorBrowser : WebBrowser
     {
-        int m_articleTypeOffset;
-        int m_articleFieldOffset;
-
-        const string m_head = @"<p><strong>分享一下我老师大神的人工智能教程！零基础，通俗易懂！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></strong></p>
-<p></p>
-<p><strong>也欢迎大家转载本篇文章。分享知识，造福人民，实现我们中华民族伟大复兴！</strong></p>
-<p></p>
-";
-        const string m_tail = @"<p></p>
-<strong><h4>给我老师的人工智能教程打call！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">http://blog.csdn.net/jiangjunshow</a></h4></strong>
-<div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
-";
-
-        string m_articleContent = "";
-        string m_articleTitle = "";
-
         public AccountCreatorBrowser()
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
-
-            DataManagerSqlLite dm = new DataManagerSqlLite("parameters.db");
-            dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
         // Override to allow custom script error handling.
@@ -106,7 +87,7 @@ namespace AccountCreator
 
         public void NavigateToLoginPage()
         {
-            SafeNavigate("https://passport.csdn.net/account/login");  
+            SafeNavigate("http://mail.sina.com.cn/?from=mail#");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -131,109 +112,6 @@ namespace AccountCreator
             return true;
         }
 
-        public void Edit(BlogRobot.ArticleInfo articleInfo)
-        {           
-            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
-            // This line makes title input success. 
-            // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send(" ");
-            ele.InnerText = m_articleTitle;
-            ele.SetAttribute("value", m_articleTitle);
-
-            ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.FirstChild.InnerText = m_head + m_articleContent + m_tail;
-
-            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
-            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
-            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
-            ele.InnerText = m_articleTitle;
-            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
-            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X + 3, p.Y + 1);
-        }
-
-        public bool isMissContent()
-        {
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                //<span class="notice">文章标题不能为空</span>
-                // <span class="notice">文章分类为必选项</span>
-                //<span class="notice">博客分类为必选项</span>
-                if (ele.OuterHtml.Contains("文章标题不能为空") || ele.OuterHtml.Contains("文章分类为必选项")
-                    || ele.OuterHtml.Contains("博客分类为必选项"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool isPublishedMax()
-        {
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("今天发表文章数量已达到限制的 10 篇"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool isSuccess()
-        {
-            HtmlElement ele = this.Document.GetElementById("alertSuccess");
-            bool s = (ele != null && ele.Style == null);
-            if(s)
-            {
-                m_articleContent = "";
-            }
-            return s;
-        }
-
-        public bool isUnexpectError()
-        {
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("i");
-            foreach (HtmlElement ele in collection)
-            {
-                // <i class="mr8 notice-icon type-error"></i>
-                if (ele.OuterHtml.Contains("type-error"))
-                {
-                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.NextSibling.InnerText);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void PrePublish()
-        {
-            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
-
-            HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleTypeOffset);
-
-            ele = GetEleByTagAndOuterHtml("select", "编程语言");
-            p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleFieldOffset);
-        }
-
-        public void Publish()
-        {
-#if DEBUG
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
-#else
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
-#endif
-            SafeClick(ele);
-        }
-
         private Point GetOffset(HtmlElement el)
         {
             //get element pos
@@ -255,144 +133,6 @@ namespace AccountCreator
             return pos;
         }
 
-        public BlogRobot.ArticleInfo GoToEditPage()
-        {
-            BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();
-
-            // <span class="read-count">阅读数：884</span>
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("阅读数"))
-                {
-                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
-                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
-                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
-                    info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < BlogRobot.m_MinReadCount)
-                        return info;
-                    else
-                        break;
-                }
-            }
-
-            info.url = this.Document.Url.ToString();
-
-            collection = this.Document.GetElementsByTagName("h1");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("title-article"))
-                {
-                    if (ele.InnerText.Length > 60)
-                    {
-                        info.title = ele.InnerText.Substring(0, 60);
-                    }
-                    else
-                        info.title = ele.InnerText;
-                    info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ _*×――(^)^$%~!@#$…&%￥=<>《》!！??？:：•`·、。；,.;\"‘’“”]", " ");
-                    m_articleTitle = info.title;
-                    break;
-                }
-            }
-
-            collection = this.Document.GetElementsByTagName("div");
-            foreach (HtmlElement ele in collection)
-            {
-                if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
-                    (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
-                {                    
-                    if (ele.OuterHtml.Length > 100000)
-                    {
-                        Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
-                            + info.url + " , original len is " + ele.OuterHtml.Length);
-
-                        m_articleContent = ele.OuterHtml.Substring(0, 100000);
-                    }
-                    else
-                        m_articleContent = ele.OuterHtml;
-                    break;
-                }
-            }
-
-            SafeNavigate("https://mp.csdn.net/mdeditor");
-
-            return info;
-        }
-
-        public bool GoToNextPage()
-        {
-            //<li class="js-page-next js-page-action ui-pager">下一页</li>
-            //<li class="js-page-next js-page-action ui-pager ui-pager-disabled">下一页</li>
-            HtmlElement ele = GetEleByTagAndOuterHtml("li", "下一页");
-            if (ele == null || ele.OuterHtml.Contains("disabled"))
-                return false;
-            SafeClick(ele);
-            return true;
-        }
-
-        // return false means no next article anymore.
-        public bool GoToArticlePage(string lastArticleUrl, ref bool isNetDealy)
-        {
-            m_articleContent = "";
-            isNetDealy = false;
-
-            short timesOfFindLastArticle = 0;
-            string lastArticleId = "";
-            if (!String.IsNullOrEmpty(lastArticleUrl))
-            {
-                lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
-                // add "target" string to avoid next article's id is include in front article's content.
-
-                // This link of article is not same as the link of artcile which is in list, but the ID is same
-                /* https://blog.csdn.net/laoyang360/article/details/52244917 */
-                // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-            }
-
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
-            foreach (HtmlElement ele in collection)
-            {
-                // reach the list end.
-                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
-                {
-                    return false;
-                }
-                if (ele.OuterHtml.Contains("article/details"))
-                {
-                    if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
-                        continue; // this ele is hidden                    
-
-                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
-                    {
-                        ClickArticleInList(ele.OuterHtml);
-                        return true;
-                    }
-
-                    /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-                        Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
-                        1：http://blog.csdn.net/rlhua/article/details/12624275
-                        2：http://blog.csdn.net/rlhua/articl...      </a>
-                    */
-                    // use substring to avoid OuterHtml contarin's other article's link
-                    if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
-                        timesOfFindLastArticle++;
-                }
-            }
-
-            isNetDealy = true;
-            return false;
-        }
-
-        private void ClickArticleInList(string ArticleOuterHtml)
-        {
-            int startIndex = ArticleOuterHtml.IndexOf("http");
-            int endIndex = ArticleOuterHtml.IndexOf("target") - 2;
-            string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
-            /* outerhtml
-            <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
-             */
-            SafeNavigate(ArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
-        }
-
         private void SafeClick(HtmlElement ele)
         {
             Tools.CloseSecurityAlert();
@@ -405,16 +145,6 @@ namespace AccountCreator
             this.Navigate(url); 
         }
 
-        private bool ClickAccountLogin()
-        {
-            return ClickEleByTagAndOuterHtml("a", "账号登录");
-        }
-
-        public void ClickLogin()
-        {
-            ClickEleByTagAndOuterHtml("a", "https://passport.csdn.net/account/login");
-        }
-
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             Tools.CloseSecurityAlert();
@@ -425,21 +155,18 @@ namespace AccountCreator
             Tools.CloseSecurityAlert();
         }
 
-        public bool IsInEditPage()
+        private bool ClickAccountLogin()
         {
-            if (GetEleByTagAndOuterHtml("pre", "editor__inner") != null)
-                return true;
-            return false;
+            //<a href="javascript:void(0);" class="login-code__open js_login_trigger login-user__active">账号登录</a>
+            bool isOk = ClickEleByTagAndOuterHtml("a", "账号登录");
+            if (!isOk)
+            {
+                isOk = ClickEleByTagAndOuterHtml("a", "帐号登录");
+            }
+            return isOk;
         }
 
-        public bool IsLogedin()
-        {
-            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
-                return true;
-            return false;
-        }
-
-        public bool Login(string uName,string password)
+        public bool Login(string uName, string password)
         {
             if (!ClickAccountLogin())
             {
@@ -448,20 +175,31 @@ namespace AccountCreator
             }
 
             HtmlElement ele = this.Document.GetElementById("username");
+            if (ele == null)
+            {
+                ele = this.Document.GetElementById("all");
+                ele.Focus(); SendKeys.Send(" ");
+            }
             ele.SetAttribute("value", uName);
 
+
             ele = this.Document.GetElementById("password");
+            if (ele == null)
+            {
+                // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+                ele = this.Document.GetElementById("password-number");
+                ele.Focus(); SendKeys.Send(" ");
+            }
             ele.SetAttribute("value", password);
 
-            ClickEleByTagAndOuterHtml("input", "登 录");
+            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            if (!ClickEleByTagAndOuterHtml("input", "登 录"))
+            {
+                //<button data-type="account" class="btn btn-primary">登录</button>
+                ClickEleByTagAndOuterHtml("button", "登录");
+            }
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
-        }
-
-        public void Logout()
-        {
-            ClickEleByTagAndOuterHtml("a", "退出");
-            NavigateToLoginPage();
         }
     }
 }
