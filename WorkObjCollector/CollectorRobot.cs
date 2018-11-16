@@ -100,7 +100,9 @@ namespace WorkObjCollector
             if(objUrl == "")
             {
                 Log.WriteLog(LogType.Error, "can not found new obj");
-                Environment.Exit(0);
+                m_step = EnumStep.GoToObjArticleListPage;
+                return;
+                //Environment.Exit(0);
             }
 
             m_checkedObjDb.AddCheckedObject(objUrl);
