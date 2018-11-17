@@ -149,6 +149,38 @@ namespace AccountCreator
             Tools.CloseSecurityAlert();
         }
 
+        public bool LoginWithAccount(string uName, string password)
+        {
+            if (!ClickAccountLogin())
+            {
+                Log.WriteLog(LogType.NetworkWarning, "ClickAccountLogin failed");
+                return false;
+            }
+
+            HtmlElement ele = this.Document.GetElementById("username");
+            if (ele == null)
+            {
+                ele = this.Document.GetElementById("all");
+                ele.Focus(); SendKeys.Send(" ");
+            }
+            ele.SetAttribute("value", uName);
+
+
+            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+            ele = this.Document.GetElementById("password-number");
+            if (ele != null)
+            {
+                ele.Focus(); SendKeys.Send(" ");
+            }
+            else
+            {
+                ele = this.Document.GetElementById("password");
+            }
+            ele.SetAttribute("value", password);
+
+            Log.WriteLog(LogType.Trace, "logged in with username " + uName);
+            return true;
+        }
 
         public void ChangePassword()
         {
@@ -163,12 +195,14 @@ namespace AccountCreator
             ele.SetAttribute("value", AccountCreatorRobot.m_password);
         }
 
-        public void ConfirmChangePassword()
+        public bool MouseClickEle(string tag,string outerhtml)
         {
-            //<button data-v-08c18f7a="" class="confirm_btn confirm_primary">确认</button>
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "确认");
+            HtmlElement ele = GetEleByTagAndOuterHtml(tag, outerhtml);
+            if (ele == null)
+                return false;
             Point p = GetOffset(ele);
             Tools.DoubleClick(p.X + 3, p.Y + 1);
+            return true;
         }
 
         public string BeFans()

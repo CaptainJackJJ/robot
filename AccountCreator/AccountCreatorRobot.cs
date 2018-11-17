@@ -21,17 +21,21 @@ namespace AccountCreator
             GoToChangePasswordPage,
             ConfirmChangePassword,
             ChangePassword,
+            GoToAccountLoginPage,
+            LoginWithAccount,
+            ConfirmLoginWithAccount,
             Finished
         }
 
         public static string m_password = "FiSKpJuHc12345";
 
-        EnumStep m_step = EnumStep.GoToLogoutPage;
+        EnumStep m_step = EnumStep.GoToAccountLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
         AccountCreatorBrowser m_browser = null;
         AccountCreatorDb m_checkedObjDb, m_objDb;
+        public AccountCreatorDb.AccountInfo m_accountInfo = new AccountCreatorDb.AccountInfo();
 
         UInt16 m_timesOfStep = 0;
         readonly UInt16 m_maxSteps = 3 * 20;
@@ -43,6 +47,9 @@ namespace AccountCreator
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
             m_timerBrain.Interval = 2000;
+
+            m_accountInfo.userName = "qq_43718131";
+            m_accountInfo.password = m_password;
         }
 
         public void timerBrain()
@@ -85,6 +92,15 @@ namespace AccountCreator
                     case EnumStep.ConfirmChangePassword:
                         ConfirmChangePassword();
                         break;
+                    case EnumStep.GoToAccountLoginPage:
+                        GoToAccountLoginPage();
+                        break;
+                    case EnumStep.LoginWithAccount:
+                        LoginWithAccount();
+                        break;
+                    case EnumStep.ConfirmLoginWithAccount:
+                        ConfirmLoginWithAccount();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -103,10 +119,32 @@ namespace AccountCreator
                 m_lastStep = m_step;
             }
         }
+        private void ConfirmLoginWithAccount()
+        {
+            if(!m_browser.MouseClickEle("button", "登录"))
+            {
+                m_browser.MouseClickEle("input", "登 录");
+            }
+            m_step = EnumStep.Finished;
+        }
+
+        private void LoginWithAccount()
+        {
+            m_browser.LoginWithAccount(m_accountInfo.userName, m_accountInfo.password);
+            m_step = EnumStep.ConfirmLoginWithAccount;
+        }
+
+        private void GoToAccountLoginPage()
+        {
+            m_browser.SafeNavigate("https://passport.csdn.net/account/login");
+            m_step = EnumStep.LoginWithAccount;
+        }
+
         private void ConfirmChangePassword()
         {
-            m_browser.ConfirmChangePassword();
-            m_step = EnumStep.None;
+            m_browser.MouseClickEle("button", "确认");
+            m_step = EnumStep.LoginWithAccount;
+            // TODO: save dB
         }
 
         private void ChangePassword()
@@ -123,7 +161,7 @@ namespace AccountCreator
 
         private void BeFans()
         {
-            string account = m_browser.BeFans();
+            m_accountInfo.userName = m_browser.BeFans();
             m_step = EnumStep.GoToChangePasswordPage;
         }
 

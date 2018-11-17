@@ -40,6 +40,7 @@ namespace AccountCreator
                 return;
             }
 
+            m_Robot.m_accountInfo.phone = textBoxPhone.Text;
 
             textBoxPhone.Text = "";
         }
