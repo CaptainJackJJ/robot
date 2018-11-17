@@ -48,7 +48,7 @@ namespace supervisor
 
                         TimeSpan ts = tsNow.Subtract(ts1).Duration();
 
-                        if (ts.Minutes > 5)
+                        if (ts.Minutes > 3)
                         {
                              foreach (Process item in pro)
                             {
