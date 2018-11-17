@@ -207,7 +207,7 @@ namespace AccountCreator
             if (ele == null)
             {
                 ele = this.Document.GetElementById("all");
-                ele.Focus(); SendKeys.Send(" ");
+                ele.Focus(); //SendKeys.Send(" ");
             }
             ele.SetAttribute("value", uName);
 
@@ -216,7 +216,7 @@ namespace AccountCreator
             ele = this.Document.GetElementById("password-number");
             if (ele != null)
             {
-                ele.Focus(); SendKeys.Send(" ");
+                ele.Focus(); //SendKeys.Send(" ");
             }
             else
             {
@@ -228,17 +228,26 @@ namespace AccountCreator
             return true;
         }
 
-        public void ChangePassword()
+        public bool ChangePassword()
         {
+            //<a data-v-3a20a40c="" href="#/account/password" class="zl">修改密码</a>
+            ClickEleByTagAndOuterHtml("a", "修改密码");
+
             // <input data-v-08c18f7a="" type="password" name="password" id="password" placeholder="11-20位数字和字母组合" autocomplete="off" validate="true" data-rule="['password']" oncopy="return false" class="inpt">
             HtmlElement ele = this.Document.GetElementById("password");
+            if (ele == null)
+                return false;
             ele.Focus(); //SendKeys.Send(" ");
             ele.SetAttribute("value", AccountCreatorRobot.m_password);
 
             //<input data-v-08c18f7a="" id="confirmPwd" type="password" placeholder="确认新密码" autocomplete="off" oncopy="return false" class="inpt">
             ele = this.Document.GetElementById("confirmPwd");
+            if (ele == null)
+                return false;
             ele.Focus(); //SendKeys.Send(" ");
             ele.SetAttribute("value", AccountCreatorRobot.m_password);
+
+            return true;
         }
 
         public bool MouseClickEle(string tag,string outerhtml)

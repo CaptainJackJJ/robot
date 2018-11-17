@@ -29,30 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new AccountCreatorBrowser();
             this.textBoxPhone = new System.Windows.Forms.TextBox();
             this.buttonCreateAccount = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.webBrowser1 = new AccountCreator.AccountCreatorBrowser();
             this.SuspendLayout();
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(-3, 48);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(929, 201);
-            this.webBrowser1.TabIndex = 0;
             // 
             // textBoxPhone
             // 
-            this.textBoxPhone.Location = new System.Drawing.Point(12, 12);
+            this.textBoxPhone.Location = new System.Drawing.Point(567, 13);
             this.textBoxPhone.Name = "textBoxPhone";
             this.textBoxPhone.Size = new System.Drawing.Size(100, 21);
             this.textBoxPhone.TabIndex = 1;
             // 
             // buttonCreateAccount
             // 
-            this.buttonCreateAccount.Location = new System.Drawing.Point(146, 3);
+            this.buttonCreateAccount.Location = new System.Drawing.Point(697, 3);
             this.buttonCreateAccount.Name = "buttonCreateAccount";
             this.buttonCreateAccount.Size = new System.Drawing.Size(88, 39);
             this.buttonCreateAccount.TabIndex = 2;
@@ -63,6 +55,14 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(-3, 48);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(929, 201);
+            this.webBrowser1.TabIndex = 0;
             // 
             // FormAccountCreator
             // 

@@ -21,7 +21,7 @@ namespace AccountCreator
             GoToChangePasswordPage,
             ConfirmChangePassword,
             ChangePassword,
-            GoToAccountLoginPage,
+            //GoToAccountLoginPage,
             LoginWithAccount,
             ConfirmLoginWithAccount,
             GoToBindPage,
@@ -35,41 +35,30 @@ namespace AccountCreator
 
         public static string m_password = "FiSKpJuHc12345";
 
-        EnumStep m_step = EnumStep.GoToAccountLoginPage;
+        EnumStep m_step = EnumStep.GoToLogoutPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
         AccountCreatorBrowser m_browser = null;
-        AccountCreatorDb m_checkedObjDb, m_objDb;
+        AccountCreatorDb m_accountDb;
+
         public AccountCreatorDb.AccountInfo m_accountInfo = new AccountCreatorDb.AccountInfo();
 
-        UInt16 m_timesOfStep = 0;
-        readonly UInt16 m_maxSteps = 3 * 20;
 
         public AccountCreatorRobot(AccountCreatorBrowser w, Timer timerBrain)
         {
             m_browser = w;
 
             m_timerBrain = timerBrain;
-            m_timerBrain.Enabled = true;
             m_timerBrain.Interval = 2000;
 
-            m_accountInfo.userName = "qq_43718131";
-            m_accountInfo.password = m_password;
+            m_accountDb = new AccountCreatorDb("Account.db");
         }
 
         public void timerBrain()
         {
-            m_timesOfStep++;
-
-            if (m_timesOfStep > m_maxSteps)
-            {
-                Environment.Exit(0);
-            }
-
             m_browser.CloseSecurityAlert();
             
-            Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
             try
             {
                 switch(m_step)
@@ -98,9 +87,9 @@ namespace AccountCreator
                     case EnumStep.ConfirmChangePassword:
                         ConfirmChangePassword();
                         break;
-                    case EnumStep.GoToAccountLoginPage:
-                        GoToAccountLoginPage();
-                        break;
+                    //case EnumStep.GoToAccountLoginPage:
+                    //    GoToAccountLoginPage();
+                    //    break;
                     case EnumStep.LoginWithAccount:
                         LoginWithAccount();
                         break;
@@ -127,7 +116,7 @@ namespace AccountCreator
                         break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
-                        MessageBox.Show("今天的工作已完成");
+                        MessageBox.Show("已完成");
                         return;
                 }
             }
@@ -138,16 +127,12 @@ namespace AccountCreator
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
 #endif              
             }
-            finally
-            {
-                m_lastStep = m_step;
-            }
         }
         
         private void ConfirmChangeCodeStyle()
         {
             m_browser.ConfirmChangeCodeStyle();
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.GoToBindPage;
         }
 
         private void ChangeCodeStyle()
@@ -164,14 +149,23 @@ namespace AccountCreator
 
         private void GoToConfigurePage()
         {
+            if (m_browser.Url.ToString().Contains("https://passport.csdn.net"))
+            {
+                m_step = EnumStep.LoginWithAccount;
+                return;
+            }
+
             m_browser.SafeNavigate("https://mp.csdn.net/configure");
             m_step = EnumStep.MoveToCodeStyle;
         }
 
         private void Unbind()
         {
-            if(m_browser.Unbind())
-                m_step = EnumStep.GoToConfigurePage;
+            if (m_browser.Unbind())
+            {
+                m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+                m_step = EnumStep.GoToChangePasswordPage;
+            }
         }
 
         private void GoToBindPage()
@@ -204,13 +198,17 @@ namespace AccountCreator
         private void ConfirmChangePassword()
         {
             m_browser.MouseClickEle("button", "确认");
-            m_step = EnumStep.LoginWithAccount;
-            // TODO: save dB
+            m_step = EnumStep.Finished;
+
+            m_accountDb.AddAccountInfo(m_accountInfo);
         }
 
         private void ChangePassword()
         {
-            m_browser.ChangePassword();
+            if (!m_browser.Url.ToString().Contains("account/password"))
+                m_step = EnumStep.GoToChangePasswordPage;
+            if (!m_browser.ChangePassword())
+                return;
             m_step = EnumStep.ConfirmChangePassword;
         }
 
@@ -223,7 +221,7 @@ namespace AccountCreator
         private void BeFans()
         {
             m_accountInfo.userName = m_browser.BeFans();
-            m_step = EnumStep.GoToChangePasswordPage;
+            m_step = EnumStep.GoToConfigurePage;
         }
 
         private void GoToMyAticle()
