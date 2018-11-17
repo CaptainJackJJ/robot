@@ -23,18 +23,24 @@ namespace supervisor
         {
             try
             {
+                string Heartbeat = "Heartbeat.txt";
+
                 System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("experiment");
                 if (pro.ToList().Count <= 0)
                 {
+                    System.IO.FileStream stream = System.IO.File.Open(Heartbeat, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+                    stream.Seek(0, System.IO.SeekOrigin.Begin);
+                    stream.SetLength(0);
+                    stream.Close();
+                    stream.Dispose();
+
                     CleanTempFiles();
 
                     System.Diagnostics.Process.Start("experiment.exe");
                 }
                 else
                 {
-                    string fileName = "Heartbeat.txt";
-
-                    using (System.IO.StreamReader sr = System.IO.File.OpenText(fileName))
+                    using (System.IO.StreamReader sr = System.IO.File.OpenText(Heartbeat))
                     {
                         string s = sr.ReadLine();
                         if(s == null)
@@ -54,12 +60,6 @@ namespace supervisor
                             {
                                 item.Kill();
                             }
-
-                            System.IO.FileStream stream = System.IO.File.Open(fileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
-                            stream.Seek(0, System.IO.SeekOrigin.Begin);
-                            stream.SetLength(0);
-                            stream.Close();
-                            stream.Dispose();
                         }
                     }
                 }
