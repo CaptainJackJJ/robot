@@ -149,6 +149,39 @@ namespace AccountCreator
             Tools.CloseSecurityAlert();
         }
 
+        public void ConfirmChangeCodeStyle()
+        {
+            ClickEleByTagAndOuterHtml("button", "保存");
+        }
+
+        public bool ChangeCodeStyle()
+        {
+            HtmlElement ele = this.Document.GetElementById("codeStyle");
+
+            Point p = GetOffset(ele);
+
+            Tools.Click(p.X + 3, 300);
+
+            return false;
+        }
+
+        public bool MoveToCodeStyle()
+        {
+            //<select class="selectStyle" id="codeStyle" name="codeStyle">
+            HtmlElement ele = this.Document.GetElementById("codeStyle");
+            if (ele != null)
+            {
+                ele.ScrollIntoView(true);
+
+                Point p = GetOffset(ele);
+                Tools.Click(p.X + 3, 190);
+
+                return true;
+            }
+
+            return false;
+        }
+
         public bool Unbind()
         {
             //<a data-v-7f7d303e="" href="javascript:void(0)" class="handle_text remove_text">解绑</a>

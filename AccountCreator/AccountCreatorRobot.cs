@@ -26,6 +26,10 @@ namespace AccountCreator
             ConfirmLoginWithAccount,
             GoToBindPage,
             Unbind,
+            GoToConfigurePage,
+            MoveToCodeStyle,
+            ChangeCodeStyle,
+            ConfirmChangeCodeStyle,
             Finished
         }
 
@@ -109,6 +113,18 @@ namespace AccountCreator
                     case EnumStep.Unbind:
                         Unbind();
                         break;
+                    case EnumStep.GoToConfigurePage:
+                        GoToConfigurePage();
+                        break;
+                    case EnumStep.MoveToCodeStyle:
+                        MoveToCodeStyle();
+                        break;
+                    case EnumStep.ChangeCodeStyle:
+                        ChangeCodeStyle();
+                        break;
+                    case EnumStep.ConfirmChangeCodeStyle:
+                        ConfirmChangeCodeStyle();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -127,11 +143,35 @@ namespace AccountCreator
                 m_lastStep = m_step;
             }
         }
+        
+        private void ConfirmChangeCodeStyle()
+        {
+            m_browser.ConfirmChangeCodeStyle();
+            m_step = EnumStep.Finished;
+        }
+
+        private void ChangeCodeStyle()
+        {
+            m_browser.ChangeCodeStyle();
+            m_step = EnumStep.ConfirmChangeCodeStyle;
+        }
+
+        private void MoveToCodeStyle()
+        {
+            if (m_browser.MoveToCodeStyle())
+                m_step = EnumStep.ChangeCodeStyle;
+        }
+
+        private void GoToConfigurePage()
+        {
+            m_browser.SafeNavigate("https://mp.csdn.net/configure");
+            m_step = EnumStep.MoveToCodeStyle;
+        }
 
         private void Unbind()
         {
             if(m_browser.Unbind())
-                m_step = EnumStep.Finished;
+                m_step = EnumStep.GoToConfigurePage;
         }
 
         private void GoToBindPage()
@@ -146,7 +186,7 @@ namespace AccountCreator
             {
                 m_browser.MouseClickEle("input", "登 录");
             }
-            m_step = EnumStep.GoToBindPage;
+            m_step = EnumStep.GoToConfigurePage;
         }
 
         private void LoginWithAccount()
