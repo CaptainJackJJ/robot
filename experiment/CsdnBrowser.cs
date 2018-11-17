@@ -471,13 +471,16 @@ namespace experiment
             ele.SetAttribute("value", uName);
 
 
-            ele = this.Document.GetElementById("password");
-            if (ele == null)
+            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+            ele = this.Document.GetElementById("password-number");
+            if (ele != null)
             {
-                // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
-                ele = this.Document.GetElementById("password-number");
                 ele.Focus(); SendKeys.Send(" ");
-            }            
+            }
+            else
+            {
+                ele = this.Document.GetElementById("password");
+            }
             ele.SetAttribute("value", password);
 
             // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
