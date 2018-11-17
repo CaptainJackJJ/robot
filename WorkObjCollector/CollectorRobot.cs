@@ -99,8 +99,8 @@ namespace WorkObjCollector
             string objUrl = m_browser.LookForNewObj(m_checkedObjDb);
             if(objUrl == "")
             {
-                Log.WriteLog(LogType.Error, "can not found new obj");
-                m_step = EnumStep.GoToObjArticleListPage;
+                Log.WriteLog(LogType.Error, "can not found new obj, so go to newarticles");
+                m_browser.SafeNavigate("https://www.csdn.net/nav/newarticles");
                 return;
                 //Environment.Exit(0);
             }
