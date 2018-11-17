@@ -186,6 +186,7 @@ namespace WorkObjCollector
             bool isOk = ClickEleByTagAndOuterHtml("a", "账号登录");
             if (!isOk)
             {
+                // <a href="">帐号登录</a>
                 isOk = ClickEleByTagAndOuterHtml("a", "帐号登录");
             }
             return isOk;
@@ -208,12 +209,15 @@ namespace WorkObjCollector
             ele.SetAttribute("value", uName);
 
 
-            ele = this.Document.GetElementById("password");
-            if (ele == null)
+            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+            ele = this.Document.GetElementById("password-number");
+            if (ele != null)
             {
-                // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
-                ele = this.Document.GetElementById("password-number");
                 ele.Focus(); SendKeys.Send(" ");
+            }
+            else
+            {
+                ele = this.Document.GetElementById("password");
             }
             ele.SetAttribute("value", password);
 

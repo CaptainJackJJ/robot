@@ -112,7 +112,8 @@ namespace WorkObjCollector
 
         private void CheckObjThenGoToFirstArticle()
         {
-            if(m_browser.Url.ToString().Contains("passport.csdn.net/account/login"))
+            // https://passport.csdn.net/passport_fe/login.html
+            if(m_browser.Url.ToString().Contains("passport.csdn.net"))
             {
                 m_browser.Login("sdhiiwfssf", "FiSKpJuHc12345");
                 return;
