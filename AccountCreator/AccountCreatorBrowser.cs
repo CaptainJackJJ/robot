@@ -84,12 +84,6 @@ namespace AccountCreator
 
         #endregion Inner Class [WebBrowserSiteEx]
 
-
-        public void NavigateToLoginPage()
-        {
-            SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=100270989&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3Foauth_provider%3DQQProvider&state=test");  
-        }
-
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
         {
             HtmlElementCollection collection = this.Document.GetElementsByTagName(tag);
@@ -155,6 +149,28 @@ namespace AccountCreator
             Tools.CloseSecurityAlert();
         }
 
+
+        public void ChangePassword()
+        {
+            // <input data-v-08c18f7a="" type="password" name="password" id="password" placeholder="11-20位数字和字母组合" autocomplete="off" validate="true" data-rule="['password']" oncopy="return false" class="inpt">
+            HtmlElement ele = this.Document.GetElementById("password");
+            ele.Focus(); //SendKeys.Send(" ");
+            ele.SetAttribute("value", AccountCreatorRobot.m_password);
+
+            //<input data-v-08c18f7a="" id="confirmPwd" type="password" placeholder="确认新密码" autocomplete="off" oncopy="return false" class="inpt">
+            ele = this.Document.GetElementById("confirmPwd");
+            ele.Focus(); //SendKeys.Send(" ");
+            ele.SetAttribute("value", AccountCreatorRobot.m_password);
+        }
+
+        public void ConfirmChangePassword()
+        {
+            //<button data-v-08c18f7a="" class="confirm_btn confirm_primary">确认</button>
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "确认");
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X + 3, p.Y + 1);
+        }
+
         public string BeFans()
         {
             // <a class="btn btn-sm btn-red-hollow attention" id="btnAttent" target="_blank">关注</a>
@@ -191,6 +207,11 @@ namespace AccountCreator
             Tools.Click(666, 300);
 
             return true;
+        }
+
+        public void NavigateToLoginPage()
+        {
+            SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest");
         }
 
         public void Logout()

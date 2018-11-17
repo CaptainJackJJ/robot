@@ -18,8 +18,13 @@ namespace AccountCreator
             Login,
             GoToMyAticle,
             BeFans,
+            GoToChangePasswordPage,
+            ConfirmChangePassword,
+            ChangePassword,
             Finished
         }
+
+        public static string m_password = "FiSKpJuHc12345";
 
         EnumStep m_step = EnumStep.GoToLogoutPage;
         EnumStep m_lastStep = EnumStep.None;
@@ -71,6 +76,15 @@ namespace AccountCreator
                     case EnumStep.BeFans:
                         BeFans();
                         break;
+                    case EnumStep.GoToChangePasswordPage:
+                        GoToChangePasswordPage();
+                        break;
+                    case EnumStep.ChangePassword:
+                        ChangePassword();
+                        break;
+                    case EnumStep.ConfirmChangePassword:
+                        ConfirmChangePassword();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -80,8 +94,7 @@ namespace AccountCreator
             catch (Exception e)
             {
 #if DEBUG
-                Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString()
-                     + ", Exception info: " + e.ToString());
+                Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString() + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
 #endif              
             }
@@ -90,10 +103,28 @@ namespace AccountCreator
                 m_lastStep = m_step;
             }
         }
+        private void ConfirmChangePassword()
+        {
+            m_browser.ConfirmChangePassword();
+            m_step = EnumStep.None;
+        }
+
+        private void ChangePassword()
+        {
+            m_browser.ChangePassword();
+            m_step = EnumStep.ConfirmChangePassword;
+        }
+
+        private void GoToChangePasswordPage()
+        {
+            m_browser.SafeNavigate("https://i.csdn.net/#/account/password");
+            m_step = EnumStep.ChangePassword;
+        }
+
         private void BeFans()
         {
             string account = m_browser.BeFans();
-            m_step = EnumStep.None;
+            m_step = EnumStep.GoToChangePasswordPage;
         }
 
         private void GoToMyAticle()
