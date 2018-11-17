@@ -155,6 +155,26 @@ namespace AccountCreator
             Tools.CloseSecurityAlert();
         }
 
+        public string BeFans()
+        {
+            // <a class="btn btn-sm btn-red-hollow attention" id="btnAttent" target="_blank">关注</a>
+            HtmlElement ele = this.Document.GetElementById("btnAttent");
+            if (ele.OuterHtml.Contains(">关注<"))
+                SafeClick(ele);
+
+            // <button class=" long-height hover-box btn-like " title="点赞">
+            ClickEleByTagAndOuterHtml("button", "\"点赞\"");
+
+            // <button class="btn-bookmark low-height hover-box" title="收藏">
+            ClickEleByTagAndOuterHtml("button", "\"收藏\"");
+
+            // <img class="login_img" src="//avatar.csdn.net/A/7/B/2_qq_43717814.jpg">
+            ele = GetEleByTagAndOuterHtml("img", "login_img");
+            int indexS = ele.OuterHtml.IndexOf("qq");
+            int indexE = ele.OuterHtml.IndexOf(".jpg");
+            return ele.OuterHtml.Substring(indexS, indexE - indexS);
+        }
+
         private bool ClickAccountLogin()
         {
             //<a href="javascript:void(0);" class="login-code__open js_login_trigger login-user__active">账号登录</a>

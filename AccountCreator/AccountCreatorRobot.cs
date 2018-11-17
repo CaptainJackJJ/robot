@@ -68,6 +68,9 @@ namespace AccountCreator
                     case EnumStep.GoToMyAticle:
                         GoToMyAticle();
                         break;
+                    case EnumStep.BeFans:
+                        BeFans();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -86,6 +89,11 @@ namespace AccountCreator
             {
                 m_lastStep = m_step;
             }
+        }
+        private void BeFans()
+        {
+            string account = m_browser.BeFans();
+            m_step = EnumStep.None;
         }
 
         private void GoToMyAticle()
