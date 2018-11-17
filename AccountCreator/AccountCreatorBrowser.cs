@@ -170,22 +170,13 @@ namespace AccountCreator
         {
             Tools.Click(666, 300);
 
-            // <span id="img_out_1942767375" uin="1942767375" type="4" class="img_out_focus"></span>
-            //if(!ClickEleByTagAndOuterHtml("span", "img_out_1942767375"))
-            //{
-            //    MessageBox.Show("img_out_1942767375 ele null");
-            //    return false;
-            //}
-
-
-            //HtmlElement ele = this.Document.GetElementById("img_out_1942767375");
-            //if (ele == null)
-            //{
-            //    MessageBox.Show("img_out_1942767375 ele null");
-            //    return false;
-            //}
-            //SafeClick(ele);
             return true;
+        }
+
+        public void Logout()
+        {
+            ClickEleByTagAndOuterHtml("a", "退出");
+            NavigateToLoginPage();
         }
     }
 }

@@ -13,14 +13,15 @@ namespace AccountCreator
         enum EnumStep
         {
             None,
-            GoToLoginPage,
+            GoToLogoutPage,
+            Logout,
             Login,
             GoToMyAticle,
             BeFans,
             Finished
         }
 
-        EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_step = EnumStep.GoToLogoutPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -55,8 +56,11 @@ namespace AccountCreator
             {
                 switch(m_step)
                 {
-                    case EnumStep.GoToLoginPage:
-                        GoToLoginPage();
+                    case EnumStep.GoToLogoutPage:
+                        GoToLogoutPage();
+                        break;
+                    case EnumStep.Logout:
+                        Logout();
                         break;
                     case EnumStep.Login:
                         Login();
@@ -96,10 +100,16 @@ namespace AccountCreator
             m_step = EnumStep.GoToMyAticle;
         }
 
-        private void GoToLoginPage()
+        private void Logout()
         {
-            m_browser.NavigateToLoginPage();
+            m_browser.Logout();
             m_step = EnumStep.Login;
+        }
+
+        private void GoToLogoutPage()
+        {
+            m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
+            m_step = EnumStep.Logout;
         }
     }
 }
