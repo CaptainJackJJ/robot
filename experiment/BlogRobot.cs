@@ -90,6 +90,7 @@ namespace experiment
                 }
             }
 
+            Heartbeat();
             Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
             try
             {
@@ -147,6 +148,27 @@ namespace experiment
             {
                 m_lastStep = m_step;
             }
+        }
+
+        private void Heartbeat()
+        {
+            try
+            {
+                string fileName = "Heartbeat.txt";
+
+                System.IO.FileStream stream = System.IO.File.Open(fileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
+                stream.SetLength(0);
+                stream.Close();
+                stream.Dispose();
+
+                System.IO.StreamWriter sw = System.IO.File.AppendText(fileName);
+                sw.WriteLine(DateTime.Now.ToString("HH:mm"));
+                sw.Close();
+                sw.Dispose();
+            }
+            catch
+            { }
         }
 
         private void Edit()

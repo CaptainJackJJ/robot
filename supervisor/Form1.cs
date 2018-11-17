@@ -29,6 +29,29 @@ namespace supervisor
 
                     System.Diagnostics.Process.Start("experiment.exe");
                 }
+                else
+                {
+                    //using (System.IO.StreamReader sr = System.IO.File.OpenText(filePath))
+                    //{
+                    //    string s;
+                    //    int indexFlag1, indexFlag2, indexAt;
+                    //    DbCsdnAccountDb.AccountInfo info = new DbCsdnAccountDb.AccountInfo();
+                    //    while ((s = sr.ReadLine()) != null)
+                    //    {
+                    //        indexFlag1 = s.IndexOf("#");
+                    //        indexFlag2 = s.LastIndexOf("#");
+
+                    //        info.csdnUsername = s.Substring(0, indexFlag1 - 1);
+                    //        info.csdnPassword = s.Substring(indexFlag1 + 2, indexFlag2 - indexFlag1 - 3);
+                    //        info.email = s.Substring(indexFlag2 + 2, s.Length - indexFlag2 - 2);
+
+                    //        indexAt = info.email.IndexOf("@");
+                    //        info.emailServer = info.email.Substring(indexAt + 1, info.email.Length - indexAt - 1);
+
+                    //        accountDb.AddAccountInfo(info);
+                    //    }
+                    //}
+                }
             }
             catch
             {
