@@ -25,6 +25,7 @@ namespace AccountCreator
             LoginWithAccount,
             ConfirmLoginWithAccount,
             GoToBindPage,
+            Unbind,
             Finished
         }
 
@@ -105,6 +106,9 @@ namespace AccountCreator
                     case EnumStep.GoToBindPage:
                         GoToBindPage();
                         break;
+                    case EnumStep.Unbind:
+                        Unbind();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -124,12 +128,18 @@ namespace AccountCreator
             }
         }
 
+        private void Unbind()
+        {
+            if(m_browser.Unbind())
+                m_step = EnumStep.Finished;
+        }
 
         private void GoToBindPage()
         {
             m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.Unbind;
         }
+
         private void ConfirmLoginWithAccount()
         {
             if(!m_browser.MouseClickEle("button", "登录"))
