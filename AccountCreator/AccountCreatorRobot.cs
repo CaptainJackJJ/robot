@@ -10,6 +10,12 @@ namespace AccountCreator
 {
     class AccountCreatorRobot
     {
+        public enum EnumTaskType
+        {
+            Create,
+            Set
+        }
+
         enum EnumStep
         {
             None,
@@ -21,9 +27,10 @@ namespace AccountCreator
             GoToChangePasswordPage,
             ConfirmChangePassword,
             ChangePassword,
-            //GoToAccountLoginPage,
+            GoToAccountLoginPage,
             LoginWithAccount,
             ConfirmLoginWithAccount,
+            GoToProfile,
             GoToBindPage,
             Unbind,
             GoToConfigurePage,
@@ -35,7 +42,8 @@ namespace AccountCreator
 
         public static string m_password = "FiSKpJuHc12345";
 
-        EnumStep m_step = EnumStep.GoToLogoutPage;
+        EnumTaskType m_taskType = EnumTaskType.Create;
+        EnumStep m_step = EnumStep.GoToAccountLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -43,7 +51,7 @@ namespace AccountCreator
         AccountCreatorDb m_accountDb;
 
         public AccountCreatorDb.AccountInfo m_accountInfo = new AccountCreatorDb.AccountInfo();
-
+        
 
         public AccountCreatorRobot(AccountCreatorBrowser w, Timer timerBrain)
         {
@@ -53,6 +61,19 @@ namespace AccountCreator
             m_timerBrain.Interval = 2000;
 
             m_accountDb = new AccountCreatorDb("Account.db");
+        }
+
+        public void SetTaskType(EnumTaskType type)
+        {
+            m_taskType = type;
+            if(m_taskType == EnumTaskType.Create)
+            {
+                m_step = EnumStep.GoToLogoutPage;
+            }
+            else
+            {
+                m_step = EnumStep.GoToAccountLoginPage;
+            }
         }
 
         public void timerBrain()
@@ -87,14 +108,17 @@ namespace AccountCreator
                     case EnumStep.ConfirmChangePassword:
                         ConfirmChangePassword();
                         break;
-                    //case EnumStep.GoToAccountLoginPage:
-                    //    GoToAccountLoginPage();
-                    //    break;
+                    case EnumStep.GoToAccountLoginPage:
+                        GoToAccountLoginPage();
+                        break;
                     case EnumStep.LoginWithAccount:
                         LoginWithAccount();
                         break;
                     case EnumStep.ConfirmLoginWithAccount:
                         ConfirmLoginWithAccount();
+                        break;
+                    case EnumStep.GoToProfile:
+                        GoToProfile();
                         break;
                     case EnumStep.GoToBindPage:
                         GoToBindPage();
@@ -173,20 +197,58 @@ namespace AccountCreator
             m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
             m_step = EnumStep.Unbind;
         }
+        private void GoToProfile()
+        {
+            m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+            m_timerBrain.Enabled = false;
+        }
 
         private void ConfirmLoginWithAccount()
         {
-            if(!m_browser.MouseClickEle("button", "登录"))
+            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            if (!m_browser.ClickEleByTagAndOuterHtml("input", "登 录"))
             {
-                m_browser.MouseClickEle("input", "登 录");
+                //<button data-type="account" class="btn btn-primary">登录</button>
+                m_browser.ClickEleByTagAndOuterHtml("button", "登录");
             }
-            m_step = EnumStep.GoToConfigurePage;
+
+            m_step = EnumStep.GoToProfile;
         }
 
         private void LoginWithAccount()
         {
             m_browser.LoginWithAccount(m_accountInfo.userName, m_accountInfo.password);
             m_step = EnumStep.ConfirmLoginWithAccount;
+
+            if (m_browser.IsLogedin())
+            {
+                m_browser.Logout(false);
+            }
+            else
+            {
+                m_accountInfo = m_accountDb.GetUnsetAccount();
+                if (m_accountInfo == null)
+                {
+                    MessageBox.Show("all account is set");
+                    m_timerBrain.Enabled = false;
+                    return;
+                }
+                else
+                {
+                    if (m_browser.LoginWithAccount(m_accountInfo.userName, m_accountInfo.password))
+                    {
+                        m_step = EnumStep.ConfirmLoginWithAccount;
+                    }
+                }
+            }
+        }
+
+        public void SetDoneUnsetAccount()
+        {
+            if(m_accountInfo != null)
+            {
+                m_accountDb.SetUnsetAccount(m_accountInfo);
+            }
         }
 
         private void GoToAccountLoginPage()

@@ -40,6 +40,7 @@ namespace AccountCreator
                 return;
             }
 
+            m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.Create);
             m_Robot.m_accountInfo.phone = textBoxPhone.Text;
             timer1.Enabled = true;
 
@@ -49,6 +50,26 @@ namespace AccountCreator
         private void timer1_Tick(object sender, EventArgs e)
         {
             m_Robot.timerBrain();
+        }
+
+        private void buttonSetAccount_Click(object sender, EventArgs e)
+        {
+            m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.Set);
+            timer1.Enabled = true;
+
+            buttonSetAccount.Enabled = false;
+            buttonSetDone.Enabled = true;
+        }
+
+        private void buttonSetDone_Click(object sender, EventArgs e)
+        {
+            if (timer1.Enabled)
+                return;
+
+            m_Robot.SetDoneUnsetAccount();
+
+            buttonSetAccount.Enabled = true;
+            buttonSetDone.Enabled = false;
         }
     }
 }

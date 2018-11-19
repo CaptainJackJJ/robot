@@ -97,7 +97,7 @@ namespace AccountCreator
             return null;
         }
 
-        private bool ClickEleByTagAndOuterHtml(string tag,string html)
+        public bool ClickEleByTagAndOuterHtml(string tag,string html)
         {
             HtmlElement ele = GetEleByTagAndOuterHtml(tag, html);
             if (ele == null)
@@ -228,6 +228,7 @@ namespace AccountCreator
             return true;
         }
 
+
         public bool ChangePassword()
         {
             //<a data-v-3a20a40c="" href="#/account/password" class="zl">修改密码</a>
@@ -303,10 +304,18 @@ namespace AccountCreator
             SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest");
         }
 
-        public void Logout()
+        public void Logout(bool isGoToQQLoginPage = true)
         {
             ClickEleByTagAndOuterHtml("a", "退出");
-            NavigateToLoginPage();
+            if(isGoToQQLoginPage)
+                NavigateToLoginPage();
+        }
+
+        public bool IsLogedin()
+        {
+            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
+                return true;
+            return false;
         }
     }
 }

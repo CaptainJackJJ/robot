@@ -33,6 +33,8 @@
             this.buttonCreateAccount = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.webBrowser1 = new AccountCreator.AccountCreatorBrowser();
+            this.buttonSetAccount = new System.Windows.Forms.Button();
+            this.buttonSetDone = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxPhone
@@ -64,11 +66,34 @@
             this.webBrowser1.Size = new System.Drawing.Size(929, 201);
             this.webBrowser1.TabIndex = 0;
             // 
+            // buttonSetAccount
+            // 
+            this.buttonSetAccount.Location = new System.Drawing.Point(108, 3);
+            this.buttonSetAccount.Name = "buttonSetAccount";
+            this.buttonSetAccount.Size = new System.Drawing.Size(95, 39);
+            this.buttonSetAccount.TabIndex = 3;
+            this.buttonSetAccount.Text = "Set Account";
+            this.buttonSetAccount.UseVisualStyleBackColor = true;
+            this.buttonSetAccount.Click += new System.EventHandler(this.buttonSetAccount_Click);
+            // 
+            // buttonSetDone
+            // 
+            this.buttonSetDone.Enabled = false;
+            this.buttonSetDone.Location = new System.Drawing.Point(229, 3);
+            this.buttonSetDone.Name = "buttonSetDone";
+            this.buttonSetDone.Size = new System.Drawing.Size(95, 39);
+            this.buttonSetDone.TabIndex = 3;
+            this.buttonSetDone.Text = "Set Done";
+            this.buttonSetDone.UseVisualStyleBackColor = true;
+            this.buttonSetDone.Click += new System.EventHandler(this.buttonSetDone_Click);
+            // 
             // FormAccountCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 261);
+            this.Controls.Add(this.buttonSetDone);
+            this.Controls.Add(this.buttonSetAccount);
             this.Controls.Add(this.buttonCreateAccount);
             this.Controls.Add(this.textBoxPhone);
             this.Controls.Add(this.webBrowser1);
@@ -87,6 +112,8 @@
         private System.Windows.Forms.TextBox textBoxPhone;
         private System.Windows.Forms.Button buttonCreateAccount;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button buttonSetAccount;
+        private System.Windows.Forms.Button buttonSetDone;
     }
 }
 

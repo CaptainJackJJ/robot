@@ -78,6 +78,47 @@ namespace AccountCreator
             return null;
         }
 
+        public AccountInfo GetUnsetAccount()
+        {
+            string sql = "SELECT * FROM [account] WHERE assignedNum < 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            AccountInfo info = new AccountInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = data.GetInt32(0);
+            info.userName = data.GetString(1);
+            info.password = data.GetString(2);
+            info.assignedNum = data.GetInt16(3);
+            info.workStation = data.GetValue(4).ToString();
+            info.phone = data["phone"].ToString();
+
+            data.Close();
+            data.Dispose();
+
+            return info;
+        }
+
+        public bool SetUnsetAccount(AccountInfo info)
+        {
+            info.assignedNum++;
+
+            string sql = "UPDATE account SET"
++ " assignedNum = " + info.assignedNum + ","
++ " WHERE ID = " + info.id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                MessageBox.Show("SetUnsetAccount is failed");
+                return false;
+            }
+
+            return true;
+        }
+
         public AccountInfo GetAccountInfoByName(string username)
         {
             string sql = "SELECT * FROM [account] WHERE username = '" + username + "'";
