@@ -294,7 +294,7 @@ namespace AccountCreator
 
         public bool Login()
         {
-            Tools.Click(666, 300);
+            Tools.DoubleClick(666, 300);
 
             return true;
         }
