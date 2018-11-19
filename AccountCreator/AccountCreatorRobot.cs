@@ -51,6 +51,8 @@ namespace AccountCreator
         AccountCreatorDb m_accountDb;
 
         public AccountCreatorDb.AccountInfo m_accountInfo = new AccountCreatorDb.AccountInfo();
+
+        bool m_isFirstTimeTryLogin = true;
         
 
         public AccountCreatorRobot(AccountCreatorBrowser w, Timer timerBrain)
@@ -296,8 +298,16 @@ namespace AccountCreator
 
         private void Login()
         {
+            if (m_isFirstTimeTryLogin)
+            {
+                m_isFirstTimeTryLogin = false;
+                return;
+            }
+
             m_browser.Login();
             m_step = EnumStep.GoToMyAticle;
+
+            m_isFirstTimeTryLogin = true;
         }
 
         private void Logout()
