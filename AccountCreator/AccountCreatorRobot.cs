@@ -248,6 +248,7 @@ namespace AccountCreator
             if(m_accountInfo != null)
             {
                 m_accountDb.SetUnsetAccount(m_accountInfo);
+                m_browser.Logout(false);
             }
         }
 
