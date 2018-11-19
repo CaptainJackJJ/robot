@@ -264,6 +264,7 @@ namespace AccountCreator
             m_step = EnumStep.Finished;
 
             m_accountDb.AddAccountInfo(m_accountInfo);
+            EmptyPhone();
         }
 
         private void ChangePassword()
@@ -305,8 +306,47 @@ namespace AccountCreator
             m_step = EnumStep.Login;
         }
 
+        private void EmptyPhone()
+        {
+            System.IO.FileStream stream = System.IO.File.Open(GetPhoneFileName(), System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
+            stream.SetLength(0);
+            stream.Close();
+            stream.Dispose();
+        }
+
+        private string GetPhoneFileName()
+        {
+            // 蚂蚁短信记录2018112018年11月19日
+            return "蚂蚁短信记录" + DateTime.Now.ToString("yyyyMM") + DateTime.Now.ToString("yyyy年MM月dd日") + ".txt";
+        }
+
+        private string GetPhone()
+        {
+            using (System.IO.StreamReader sr = System.IO.File.OpenText(GetPhoneFileName()))
+            {
+                string s = sr.ReadLine();
+                if (s == null)
+                {
+                    return "";
+                }
+                //2018年11月19日20时37分,17045676221,
+                int indexS = s.IndexOf(",") + 1;
+                int indexE = s.IndexOf(",", indexS);
+                return s.Substring(indexS, indexE - indexS);                
+            }
+        }
+
         private void GoToLogoutPage()
         {
+            m_accountInfo.phone = GetPhone();
+            if (m_accountInfo.phone == "")
+            {
+                m_timerBrain.Enabled = false;
+                MessageBox.Show("phone is empty");
+                return;
+            }
+
             m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
             m_step = EnumStep.Logout;
         }

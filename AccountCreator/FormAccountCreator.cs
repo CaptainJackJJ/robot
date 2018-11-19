@@ -34,17 +34,8 @@ namespace AccountCreator
 
         private void buttonCreateAccount_Click(object sender, EventArgs e)
         {
-            if(textBoxPhone.Text.Trim() == "")
-            {
-                MessageBox.Show("请填写正确的手机号");
-                return;
-            }
-
             m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.Create);
-            m_Robot.m_accountInfo.phone = textBoxPhone.Text;
             timer1.Enabled = true;
-
-            textBoxPhone.Text = "";
         }
 
         private void timer1_Tick(object sender, EventArgs e)
