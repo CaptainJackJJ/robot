@@ -107,7 +107,7 @@ namespace AccountCreator
             info.assignedNum++;
 
             string sql = "UPDATE account SET"
-+ " assignedNum = " + info.assignedNum + ","
++ " assignedNum = " + info.assignedNum
 + " WHERE ID = " + info.id;
 
             if (ExecuteNonQuery(sql) <= 0)
