@@ -19,7 +19,11 @@ namespace assigner
 
         private void FormAssigner_Load(object sender, EventArgs e)
         {
+#if DEBUG
             DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner("Account.db");
+#else
+            DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner("D:\programming\BlogRobot\experiment\AccountCreator\bin\Debug");
+#endif
             DataManagerSqlLiteAssigner objectDB = new DataManagerSqlLiteAssigner("Object.db");
             DataManagerSqlLiteAssigner workingObjDB = new DataManagerSqlLiteAssigner("workingObject-temp.db");
 
@@ -42,18 +46,18 @@ namespace assigner
 
                 DataManagerSqlLiteAssigner.WorkingObjectInfo workingObjInfo = new DataManagerSqlLiteAssigner.WorkingObjectInfo();
                 workingObjInfo.url = objInfo.url;
-                workingObjInfo.userName = accountInfo.userName;
+                workingObjInfo.userName = accountInfo.phone;
                 workingObjInfo.password = accountInfo.password;
                 workingObjInfo.lastListPageUrl = objInfo.lastListPageUrl;
                 workingObjInfo.isReadyForWork = true; // TODO: set true if this account has no workingObj, else false.
 
                 if (workingObjDB.AddWorkingObjectInfo(workingObjInfo))
                 {
-                    accountInfo.assignedNum++;
-                    accountInfo.workStation = "1"; // TODO: set to the same station as target station
+                    //accountInfo.assignedNum++;
+                    accountInfo.workStation = "any"; // TODO: set to the same station as target station
                     if (accountDB.UpdateAccountInfo(accountInfo))
                     {
-                        objInfo.assignedAccount = accountInfo.userName;
+                        objInfo.assignedAccount = accountInfo.phone;
                         objectDB.UpdateObjInfo(objInfo);
                     }
                 }

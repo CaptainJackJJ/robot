@@ -27,6 +27,7 @@ namespace assigner
             public string password;
             public Int16 assignedNum;
             public string workStation;
+            public string phone;
         }
 
         public class WorkingObjectInfo
@@ -124,7 +125,7 @@ namespace assigner
 
         public AccountInfo GetUnAssignedAccountInfo()
         {
-            string sql = "SELECT * FROM [account] WHERE assignedNum = 0 ORDER BY ID ASC LIMIT 1";
+            string sql = "SELECT * FROM [account] WHERE workStation IS NULL ORDER BY ID ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -138,6 +139,7 @@ namespace assigner
             info.password = data.GetString(2);
             info.assignedNum = data.GetInt16(3);
             info.workStation = data.GetValue(4).ToString();
+            info.phone = data.GetValue(5).ToString();
 
             data.Close();
             data.Dispose();
