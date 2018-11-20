@@ -113,7 +113,7 @@ namespace experiment
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
             string sql = "SELECT * FROM objectInfo WHERE"
                 + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
-                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0)) LIMIT 1";
+                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -152,6 +152,18 @@ namespace experiment
             return info;       
         }
 
+        public void SetObjDailyJobDone(long id)
+        {
+            string sql = "UPDATE objectInfo SET"
+            + " isObjectFinished = 1"
+            + " WHERE id = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetObjDailyJobDone error. sql is " + sql);
+            }
+        }
+
         public void ZeroNeedFinishNum(long id)
         {
             string sql = "UPDATE objectInfo SET"
@@ -177,6 +189,8 @@ namespace experiment
         public void SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
+            if (String.IsNullOrEmpty(info.lastWorkingDay) || info.lastWorkingDay.Substring(0, 10) != today.Substring(0, 10))
+                info.isObjectFinished = false; // new day. so reset daily finish flag
 
             string sql = "UPDATE objectInfo SET"
             + " objectUrl = '" + info.url + "',"
