@@ -15,6 +15,7 @@ namespace experiment
             None,
             GoToLoginPage,
             Login,
+            ConfirmLogin,
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
@@ -101,6 +102,9 @@ namespace experiment
                         break;
                     case EnumStep.Login:
                         Login();
+                        break;
+                    case EnumStep.ConfirmLogin:
+                        ConfirmLogin();
                         break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
@@ -393,6 +397,18 @@ namespace experiment
             }            
         }
 
+        private void ConfirmLogin()
+        {
+            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            if (!m_browser.ClickEleByTagAndOuterHtml("input", "登 录"))
+            {
+                //<button data-type="account" class="btn btn-primary">登录</button>
+                m_browser.ClickEleByTagAndOuterHtml("button", "登录");
+            }
+
+            m_step = EnumStep.GoToListPage;
+        }
+
         private void Login()
         {
             if (m_browser.IsLogedin())
@@ -411,7 +427,7 @@ namespace experiment
                 {
                     if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
                     {
-                        m_step = EnumStep.GoToListPage;
+                        m_step = EnumStep.ConfirmLogin;
                     }
                 }        
             }

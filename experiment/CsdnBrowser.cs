@@ -124,7 +124,7 @@ namespace experiment
             return null;
         }
 
-        private bool ClickEleByTagAndOuterHtml(string tag,string html)
+        public bool ClickEleByTagAndOuterHtml(string tag,string html)
         {
             // <a href="">帐号登录</a>
             HtmlElement ele = GetEleByTagAndOuterHtml(tag, html);
@@ -483,12 +483,6 @@ namespace experiment
             }
             ele.SetAttribute("value", password);
 
-            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
-            if (!ClickEleByTagAndOuterHtml("input", "登 录"))
-            {
-                //<button data-type="account" class="btn btn-primary">登录</button>
-                ClickEleByTagAndOuterHtml("button", "登录");
-            }
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
