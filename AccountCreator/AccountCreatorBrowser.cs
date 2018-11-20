@@ -272,7 +272,7 @@ namespace AccountCreator
             ClickEleByTagAndOuterHtml("button", "\"点赞\"");
 
             // <button class="btn-bookmark low-height hover-box" title="收藏">
-            ClickEleByTagAndOuterHtml("button", "\"收藏\"");
+            //ClickEleByTagAndOuterHtml("button", "\"收藏\"");
 
             // <img class="login_img" src="//avatar.csdn.net/A/7/B/2_qq_43717814.jpg">
             ele = GetEleByTagAndOuterHtml("img", "login_img");
