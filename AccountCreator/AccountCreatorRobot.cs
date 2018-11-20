@@ -189,7 +189,7 @@ namespace AccountCreator
         {
             if (m_browser.Unbind())
             {
-                m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+                //m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 m_step = EnumStep.GoToChangePasswordPage;
             }
         }
@@ -202,6 +202,7 @@ namespace AccountCreator
         private void GoToProfile()
         {
             m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+            
             m_timerBrain.Enabled = false;
         }
 
