@@ -61,7 +61,11 @@ namespace experiment
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
+#if DEBUG
             m_timerBrain.Interval = 3000;
+#else
+            m_timerBrain.Interval = 10000;
+#endif
         }
 
         public void timerBrain()
