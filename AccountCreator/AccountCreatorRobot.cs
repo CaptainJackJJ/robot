@@ -219,9 +219,6 @@ namespace AccountCreator
 
         private void LoginWithAccount()
         {
-            m_browser.LoginWithAccount(m_accountInfo.userName, m_accountInfo.password);
-            m_step = EnumStep.ConfirmLoginWithAccount;
-
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout(false);
@@ -231,8 +228,9 @@ namespace AccountCreator
                 m_accountInfo = m_accountDb.GetUnsetAccount();
                 if (m_accountInfo == null)
                 {
+                    m_timerBrain.Stop();
                     MessageBox.Show("all account is set");
-                    m_timerBrain.Enabled = false;
+                    
                     return;
                 }
                 else
