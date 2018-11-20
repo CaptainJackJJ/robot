@@ -36,9 +36,9 @@ namespace experiment
         private string connStr = @"data source=";
 
 #if DEBUG
-                    private const short m_MaxFinishedNum = 10;
+                    private const short m_MaxFinishedNum = 1;
 #else
-        private const short m_MaxFinishedNum = 10;
+        private const short m_MaxFinishedNum = 1;
 #endif
 
         public DataManagerSqlLite(string dbName)
@@ -143,6 +143,9 @@ namespace experiment
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
             }
 
+            if (info.needFinishNum > 1)
+                info.needFinishNum = 1;
+
             data.Close();
             data.Dispose();
 
@@ -158,6 +161,16 @@ namespace experiment
             if (ExecuteNonQuery(sql) <= 0)
             {
                 Log.WriteLog(LogType.SQL, "ZeroNeedFinishNum error. sql is " + sql);
+            }
+        }
+
+        public void ResetNeedFinishNum()
+        {
+            string sql = "UPDATE objectInfo SET needFinishNum = 1";
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "ResetNeedFinishNum error. sql is " + sql);
             }
         }
 
