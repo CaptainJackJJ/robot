@@ -22,7 +22,7 @@ namespace assigner
 #if DEBUG
             DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner("Account.db");
 #else
-            DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner("D:\programming\BlogRobot\experiment\AccountCreator\bin\Debug");
+            DataManagerSqlLiteAssigner accountDB = new DataManagerSqlLiteAssigner(@"D:\programming\BlogRobot\experiment\AccountCreator\bin\Release\Account.db");
 #endif
             DataManagerSqlLiteAssigner objectDB = new DataManagerSqlLiteAssigner("Object.db");
             DataManagerSqlLiteAssigner workingObjDB = new DataManagerSqlLiteAssigner("workingObject-temp.db");
