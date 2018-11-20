@@ -265,6 +265,7 @@ namespace AccountCreator
 
             m_accountDb.AddAccountInfo(m_accountInfo);
             EmptyPhone();
+            System.Media.SystemSounds.Beep.Play();
         }
 
         private void ChangePassword()
