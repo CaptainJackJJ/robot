@@ -492,5 +492,15 @@ namespace experiment
             ClickEleByTagAndOuterHtml("a", "退出");
             NavigateToLoginPage();
         }
+
+        public bool MouseClickEle(string tag, string outerhtml)
+        {
+            HtmlElement ele = GetEleByTagAndOuterHtml(tag, outerhtml);
+            if (ele == null)
+                return false;
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X + 3, p.Y + 1);
+            return true;
+        }
     }
 }

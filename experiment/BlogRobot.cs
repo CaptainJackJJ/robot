@@ -400,10 +400,10 @@ namespace experiment
         private void ConfirmLogin()
         {
             // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
-            if (!m_browser.ClickEleByTagAndOuterHtml("input", "登 录"))
+            if (!m_browser.MouseClickEle("input", "登 录"))
             {
                 //<button data-type="account" class="btn btn-primary">登录</button>
-                m_browser.ClickEleByTagAndOuterHtml("button", "登录");
+                m_browser.MouseClickEle("button", "登录");
             }
 
             m_step = EnumStep.GoToListPage;
