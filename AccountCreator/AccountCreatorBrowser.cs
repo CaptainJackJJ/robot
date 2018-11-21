@@ -185,7 +185,7 @@ namespace AccountCreator
         public bool ConfirmUnbind()
         {
             //<button data-v-7f7d303e="" class="confirm_btn">确定</button>
-            if (ClickEleByTagAndOuterHtml("button", "确定"))
+            if (MouseClickEle("button", "确定"))
                 return true;
             return false;
         }
