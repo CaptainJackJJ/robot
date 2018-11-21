@@ -420,6 +420,10 @@ namespace experiment
             {
                 m_browser.Logout();
             }
+            else if(!m_browser.Url.ToString().Contains("/login"))
+            {
+                m_browser.NavigateToLoginPage();
+            }
             else
             {
                 m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();

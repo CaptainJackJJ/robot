@@ -19,7 +19,7 @@ namespace experiment
 
         const string m_head = @"";
         const string m_tail = @"<p></p>
-<p><strong>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net/"">http://www.captainbed.net/</a></strong></p>
+<p><strong>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net/"">http://www.captainbed.net</a></strong></p>
 <p></p>
 <div align=""center""><img src=""https://img-blog.csdn.net/20161220210733446?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VuaHVhcWlhbmcx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"" alt=""这里写图片描述"" title=""""></div>
 ";
@@ -486,8 +486,11 @@ namespace experiment
 
         public void Logout()
         {
+            //<a href="//passport.csdn.net/account/logout">退出</a>
             ClickEleByTagAndOuterHtml("a", "退出");
-            NavigateToLoginPage();
+            //SafeNavigate("//passport.csdn.net/account/logout");
+            //if(ClickEleByTagAndOuterHtml("a", "退出"))
+            //    NavigateToLoginPage();
         }
 
         public bool MouseClickEle(string tag, string outerhtml)
