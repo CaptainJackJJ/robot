@@ -182,14 +182,20 @@ namespace AccountCreator
             return false;
         }
 
+        public bool ConfirmUnbind()
+        {
+            //<button data-v-7f7d303e="" class="confirm_btn">确定</button>
+            if (ClickEleByTagAndOuterHtml("button", "确定"))
+                return true;
+            return false;
+        }
+
         public bool Unbind()
         {
             //<a data-v-7f7d303e="" href="javascript:void(0)" class="handle_text remove_text">解绑</a>
             if(ClickEleByTagAndOuterHtml("a", "解绑"))
             {
-                //<button data-v-7f7d303e="" class="confirm_btn">确定</button>
-                if (ClickEleByTagAndOuterHtml("button", "确定"))
-                    return true;
+                return true;
             }
 
             return false;            

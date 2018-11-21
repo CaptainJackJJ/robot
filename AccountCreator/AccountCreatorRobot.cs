@@ -33,6 +33,7 @@ namespace AccountCreator
             GoToProfile,
             GoToBindPage,
             Unbind,
+            ConfirmUnbind,
             GoToConfigurePage,
             MoveToCodeStyle,
             ChangeCodeStyle,
@@ -129,6 +130,9 @@ namespace AccountCreator
                     case EnumStep.Unbind:
                         Unbind();
                         break;
+                    case EnumStep.ConfirmUnbind:
+                        ConfirmUnbind();
+                        break;
                     case EnumStep.GoToConfigurePage:
                         GoToConfigurePage();
                         break;
@@ -186,6 +190,12 @@ namespace AccountCreator
             m_step = EnumStep.MoveToCodeStyle;
         }
 
+        private void ConfirmUnbind()
+        {
+            if(m_browser.ConfirmUnbind())
+                m_step = EnumStep.GoToChangePasswordPage;
+        }
+
         private void Unbind()
         {
             if (!m_browser.Url.ToString().Contains("account/bind"))
@@ -195,14 +205,15 @@ namespace AccountCreator
 
             if (m_browser.Unbind())
             {
-                m_TimesTryUnbind++;
-                if (m_TimesTryUnbind < 5)
-                {
-                    return;
-                }
+                //m_TimesTryUnbind++;
+                //if (m_TimesTryUnbind < 5)
+                //{
+                //    return;
+                //}
+
                 //m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
-                m_step = EnumStep.GoToChangePasswordPage;
-                m_TimesTryUnbind = 0;
+                m_step = EnumStep.ConfirmUnbind;
+                //m_TimesTryUnbind = 0;
             }
         }
 
