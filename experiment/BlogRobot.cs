@@ -46,7 +46,7 @@ namespace experiment
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
         UInt16 m_maxSteps = 40;
-        UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
+        //UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
         UInt16 m_waitSuccessTimes = 0;
         UInt16 m_timesDetectLessMinReadCount = 0;
         UInt16 m_timesCantGoToNext = 0;
@@ -70,8 +70,8 @@ namespace experiment
 
         public void timerBrain()
         {
-            if (m_publishedArticleNum > 4)
-                Environment.Exit(0);
+            //if (m_publishedArticleNum > 4)
+            //    Environment.Exit(0);
 
             m_browser.CloseSecurityAlert();
 
@@ -202,11 +202,11 @@ namespace experiment
             {
                 m_DataManagerSqlLite.SetObjDailyJobDone(m_workingObjectInfo.id);
 
-                //Environment.Exit(0);
+                Environment.Exit(0);
 
-                m_step = EnumStep.Login;
-                m_waitSuccessTimes = 0;
-                return;
+                //m_step = EnumStep.Login;
+                //m_waitSuccessTimes = 0;
+                //return;
             }
 
 #if DEBUG
@@ -215,7 +215,7 @@ namespace experiment
             if(m_browser.isSuccess())
 #endif
             {                
-                m_publishedArticleNum++;
+                //m_publishedArticleNum++;
 
                 m_workingObjectInfo.needFinishNum--;
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
@@ -245,10 +245,11 @@ namespace experiment
                 Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
             }
 
+            m_step = EnumStep.GoToListPage;
+
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
-                //Environment.Exit(0);
-                m_step = EnumStep.Login;
+                Environment.Exit(0);
             }
             else
             {
