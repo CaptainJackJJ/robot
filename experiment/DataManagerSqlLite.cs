@@ -186,7 +186,7 @@ namespace experiment
             }
         }
 
-        public void SetWorkingObjectInfo(WorkingObjectInfo info)
+        public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
             if (String.IsNullOrEmpty(info.lastWorkingDay) || info.lastWorkingDay.Substring(0, 10) != today.Substring(0, 10))
@@ -205,7 +205,9 @@ namespace experiment
             if(ExecuteNonQuery(sql) <= 0)
             {
                 Log.WriteLog(LogType.SQL, "SetWorkingObjectInfo error. sql is " + sql);
+                return false;
             }
+            return true;
         }
 
         public ObjectInfo GetBackupObj()

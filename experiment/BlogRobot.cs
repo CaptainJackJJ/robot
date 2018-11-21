@@ -219,7 +219,10 @@ namespace experiment
 
                 m_workingObjectInfo.needFinishNum--;
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
+                if(!m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo))
+                {
+                    UseBackupObj();
+                }
 
                 Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
 
@@ -244,8 +247,6 @@ namespace experiment
 
                 Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
             }
-
-            m_step = EnumStep.GoToListPage;
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
