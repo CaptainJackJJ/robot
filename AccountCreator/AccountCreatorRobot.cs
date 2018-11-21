@@ -192,8 +192,17 @@ namespace AccountCreator
 
         private void ConfirmUnbind()
         {
-            if(m_browser.ConfirmUnbind())
+            if (m_browser.ConfirmUnbind())
+            {
+                m_TimesTryUnbind++;
+                if (m_TimesTryUnbind < 2)
+                {
+                    m_step = EnumStep.Unbind;
+                    return;
+                }
+                m_TimesTryUnbind = 0;
                 m_step = EnumStep.GoToChangePasswordPage;
+            }
         }
 
         private void Unbind()
@@ -205,15 +214,8 @@ namespace AccountCreator
 
             if (m_browser.Unbind())
             {
-                //m_TimesTryUnbind++;
-                //if (m_TimesTryUnbind < 5)
-                //{
-                //    return;
-                //}
-
                 //m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 m_step = EnumStep.ConfirmUnbind;
-                //m_TimesTryUnbind = 0;
             }
         }
 
