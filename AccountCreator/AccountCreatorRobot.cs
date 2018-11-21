@@ -13,7 +13,8 @@ namespace AccountCreator
         public enum EnumTaskType
         {
             Create,
-            Set
+            Set,
+            Unbind,
         }
 
         enum EnumStep
@@ -70,13 +71,18 @@ namespace AccountCreator
         public void SetTaskType(EnumTaskType type)
         {
             m_taskType = type;
-            if(m_taskType == EnumTaskType.Create)
+            if (m_taskType == EnumTaskType.Create)
             {
                 m_step = EnumStep.GoToLogoutPage;
             }
-            else
+            else if (m_taskType == EnumTaskType.Set)
             {
                 m_step = EnumStep.GoToAccountLoginPage;
+            }
+            else
+            {
+                m_browser.NavigateToLoginPage();
+                m_step = EnumStep.Login;
             }
         }
 
@@ -194,14 +200,19 @@ namespace AccountCreator
         {
             if (m_browser.ConfirmUnbind())
             {
-                m_TimesTryUnbind++;
-                if (m_TimesTryUnbind < 2)
+                //m_TimesTryUnbind++;
+                //if (m_TimesTryUnbind < 2)
+                //{
+                //    m_step = EnumStep.Unbind;
+                //    return;
+                //}
+                //m_TimesTryUnbind = 0;
+                if (m_taskType == EnumTaskType.Create)
+                    m_step = EnumStep.GoToChangePasswordPage;
+                else
                 {
-                    m_step = EnumStep.Unbind;
-                    return;
+                    m_step = EnumStep.Logout;
                 }
-                m_TimesTryUnbind = 0;
-                m_step = EnumStep.GoToChangePasswordPage;
             }
         }
 
@@ -319,7 +330,10 @@ namespace AccountCreator
         private void GoToMyAticle()
         {
             m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
-            m_step = EnumStep.BeFans;
+            if (m_taskType == EnumTaskType.Create)
+                m_step = EnumStep.BeFans;
+            else
+                m_step = EnumStep.GoToBindPage;            
         }
 
         private void Login()
@@ -339,7 +353,13 @@ namespace AccountCreator
         private void Logout()
         {
             m_browser.Logout();
-            m_step = EnumStep.Login;
+            if(m_taskType == EnumTaskType.Create)
+                m_step = EnumStep.Login;
+            else if(m_taskType == EnumTaskType.Unbind)
+            {
+                m_timerBrain.Enabled = false;
+                System.Media.SystemSounds.Beep.Play();
+            }
         }
 
         private void EmptyPhone()

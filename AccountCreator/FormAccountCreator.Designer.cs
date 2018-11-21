@@ -34,6 +34,7 @@
             this.buttonSetAccount = new System.Windows.Forms.Button();
             this.buttonSetDone = new System.Windows.Forms.Button();
             this.webBrowser1 = new AccountCreator.AccountCreatorBrowser();
+            this.buttonUnbind = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonCreateAccount
@@ -79,11 +80,22 @@
             this.webBrowser1.Size = new System.Drawing.Size(929, 201);
             this.webBrowser1.TabIndex = 0;
             // 
+            // buttonUnbind
+            // 
+            this.buttonUnbind.Location = new System.Drawing.Point(812, 3);
+            this.buttonUnbind.Name = "buttonUnbind";
+            this.buttonUnbind.Size = new System.Drawing.Size(84, 39);
+            this.buttonUnbind.TabIndex = 4;
+            this.buttonUnbind.Text = "Unbind";
+            this.buttonUnbind.UseVisualStyleBackColor = true;
+            this.buttonUnbind.Click += new System.EventHandler(this.buttonUnbind_Click);
+            // 
             // FormAccountCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 261);
+            this.Controls.Add(this.buttonUnbind);
             this.Controls.Add(this.buttonSetDone);
             this.Controls.Add(this.buttonSetAccount);
             this.Controls.Add(this.buttonCreateAccount);
@@ -103,6 +115,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonSetAccount;
         private System.Windows.Forms.Button buttonSetDone;
+        private System.Windows.Forms.Button buttonUnbind;
     }
 }
 
