@@ -53,7 +53,7 @@ namespace AccountCreator
         public AccountCreatorDb.AccountInfo m_accountInfo = new AccountCreatorDb.AccountInfo();
 
         bool m_isFirstTimeTryLogin = true;
-        bool m_isFirstTimeTryUnbind = true;
+        UInt16 m_TimesTryUnbind = 0;
         
 
         public AccountCreatorRobot(AccountCreatorBrowser w, Timer timerBrain)
@@ -195,14 +195,14 @@ namespace AccountCreator
 
             if (m_browser.Unbind())
             {
-                if (m_isFirstTimeTryUnbind)
+                m_TimesTryUnbind++;
+                if (m_TimesTryUnbind < 3)
                 {
-                    m_isFirstTimeTryUnbind = false;
                     return;
                 }
                 //m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 m_step = EnumStep.GoToChangePasswordPage;
-                m_isFirstTimeTryUnbind = true;
+                m_TimesTryUnbind = 0;
             }
         }
 
