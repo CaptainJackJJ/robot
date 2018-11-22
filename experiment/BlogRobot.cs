@@ -13,6 +13,12 @@ namespace experiment
         enum EnumStep
         {
             None,
+
+            GoToLoginPageForLockCheck,
+            LoginForLockCheck,
+            ConfirmLoginForLockCheck,
+            CheckLock,
+
             GoToLoginPage,
             Login,
             ConfirmLogin,
@@ -35,7 +41,7 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_step = EnumStep.GoToLoginPageForLockCheck;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -101,6 +107,18 @@ namespace experiment
             {
                 switch(m_step)
                 {
+                    case EnumStep.GoToLoginPageForLockCheck:
+                        GoToLoginPageForLockCheck();
+                        break;
+                    case EnumStep.LoginForLockCheck:
+                        LoginForLockCheck();
+                        break;
+                    case EnumStep.ConfirmLoginForLockCheck:
+                        ConfirmLoginForLockCheck();
+                        break;
+                    case EnumStep.CheckLock:
+                        CheckLock();
+                        break;
                     case EnumStep.GoToLoginPage:
                         GoToLoginPage();
                         break;
@@ -383,6 +401,64 @@ namespace experiment
             m_step = EnumStep.GoToArticlePage;
         }
 
+        private void GoToLoginPageForLockCheck()
+        {
+            m_browser.NavigateToLoginPage();
+            m_step = EnumStep.LoginForLockCheck;
+        }
+        private void LoginForLockCheck()
+        {
+            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour > 22)
+                return;
+
+            if (m_browser.IsLogedin())
+            {
+                m_browser.Logout();
+            }
+            else if (!m_browser.Url.ToString().Contains("/login"))
+            {
+                m_browser.NavigateToLoginPage();
+            }
+            else
+            {
+                m_workingObjectInfo = m_DataManagerSqlLite.GetFirstWorkingObject();
+                if (m_workingObjectInfo == null)
+                {
+                    return;
+                    //m_step = EnumStep.Finished;
+                }
+                else
+                {
+                    if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
+                    {
+                        m_step = EnumStep.ConfirmLoginForLockCheck;
+                    }
+                }
+            }
+        }
+        private void ConfirmLoginForLockCheck()
+        {
+            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            if (!m_browser.MouseClickEle("input", "登 录"))
+            {
+                //<button data-type="account" class="btn btn-primary">登录</button>
+                if (!m_browser.MouseClickEle("button", "登录"))
+                    return;
+            }
+
+            m_step = EnumStep.CheckLock;
+        }
+
+        private void CheckLock()
+        {
+            //https://passport.csdn.net/passport_fe/sign.html
+            if (!m_browser.Url.ToString().Contains("sign"))
+            {
+                m_browser.Logout();
+                m_step = EnumStep.GoToLoginPage;
+            }
+        }
+        
         private void GoToLoginPage()
         {
             m_browser.NavigateToLoginPage();
@@ -410,7 +486,8 @@ namespace experiment
             if (!m_browser.MouseClickEle("input", "登 录"))
             {
                 //<button data-type="account" class="btn btn-primary">登录</button>
-                m_browser.MouseClickEle("button", "登录");
+                if (!m_browser.MouseClickEle("button", "登录"))
+                    return;
             }
 
             m_step = EnumStep.GoToListPage;

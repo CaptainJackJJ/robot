@@ -152,6 +152,36 @@ namespace experiment
             return info;       
         }
 
+        public WorkingObjectInfo GetFirstWorkingObject()
+        {
+            string sql = "SELECT * FROM objectInfo ORDER BY ID ASC LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            WorkingObjectInfo info = new WorkingObjectInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = data.GetInt32(0);
+            info.url = data.GetString(1);
+            info.userName = data.GetString(2);
+            info.password = data.GetString(3);
+            info.lastListPageUrl = data.GetString(4);
+            info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
+            info.needFinishNum = data.GetInt16(6);
+            info.lastWorkingDay = data.GetValue(7).ToString();
+            if (info.lastWorkingDay != "")
+                info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
+            info.isObjectFinished = data.GetBoolean(8);
+            info.isReadyForWork = data.GetBoolean(9);
+
+            data.Close();
+            data.Dispose();
+
+            return info;
+        }
+
         public void SetObjDailyJobDone(long id)
         {
             string sql = "UPDATE objectInfo SET"
