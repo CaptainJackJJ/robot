@@ -41,7 +41,7 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GoToLoginPageForLockCheck;
+        EnumStep m_step = EnumStep.GoToLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
