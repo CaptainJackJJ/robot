@@ -36,9 +36,9 @@ namespace experiment
         private string connStr = @"data source=";
 
 #if DEBUG
-                    private const short m_MaxFinishedNum = 1;
+                    private const short m_MaxFinishedNum = 10;
 #else
-        private const short m_MaxFinishedNum = 1;
+        private const short m_MaxFinishedNum = 10;
 #endif
 
         public DataManagerSqlLite(string dbName)
