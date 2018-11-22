@@ -143,8 +143,8 @@ namespace experiment
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
             }
 
-            if (info.needFinishNum > 1)
-                info.needFinishNum = 1;
+            //if (info.needFinishNum > 1)
+            //    info.needFinishNum = 1;
 
             data.Close();
             data.Dispose();
