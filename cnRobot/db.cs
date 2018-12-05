@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace experiment
 {
-    class DataManagerSqlLite
+    class db
  {
         public class WorkingObjectInfo
         {
@@ -41,7 +41,7 @@ namespace experiment
         private const short m_MaxFinishedNum = 10;
 #endif
 
-        public DataManagerSqlLite(string dbName)
+        public db(string dbName)
         {
             connStr += dbName;
         }

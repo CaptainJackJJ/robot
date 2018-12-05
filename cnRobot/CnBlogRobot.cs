@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace experiment
 {
-    class BlogRobot
+    class CnBlogRobot
     {
         enum EnumStep
         {
@@ -45,9 +45,9 @@ namespace experiment
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
-        CsdnBrowser m_browser = null;
-        DataManagerSqlLite m_DataManagerSqlLite = null;
-        DataManagerSqlLite.WorkingObjectInfo m_workingObjectInfo;
+        CnBrowser m_browser = null;
+        db m_DataManagerSqlLite = null;
+        db.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
@@ -59,9 +59,9 @@ namespace experiment
 
         public static UInt64 m_MinReadCount = 3000;
                 
-        public BlogRobot(CsdnBrowser w, Timer timerBrain)
+        public CnBlogRobot(CnBrowser w, Timer timerBrain)
         {
-            m_DataManagerSqlLite = new DataManagerSqlLite("workingObject.db");
+            m_DataManagerSqlLite = new db("workingObject.db");
 
             m_browser = w;
 
@@ -325,8 +325,8 @@ namespace experiment
 
         private void UseBackupObj()
         {
-            DataManagerSqlLite objDB = new DataManagerSqlLite("ObjectBackup.db");
-            DataManagerSqlLite.ObjectInfo backupObj = objDB.GetBackupObj();
+            db objDB = new db("ObjectBackup.db");
+            db.ObjectInfo backupObj = objDB.GetBackupObj();
             if (backupObj == null)
             {
                 Log.WriteLog(LogType.Warning, "backup db is empty");

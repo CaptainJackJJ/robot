@@ -14,7 +14,7 @@ namespace experiment
 {
     public partial class cnRobot : Form
     {
-        BlogRobot m_blogRobot = null;
+        CnBlogRobot m_blogRobot = null;
 
         public cnRobot()
         {
@@ -23,7 +23,7 @@ namespace experiment
             Tools.SetWebBrowserFeatures(11);
             this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            m_blogRobot = new BlogRobot(webBrowser1, timerRobotBrain);
+            m_blogRobot = new CnBlogRobot(webBrowser1, timerRobotBrain);
         }
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)

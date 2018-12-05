@@ -12,7 +12,7 @@ namespace experiment
 {
 
 
-    class CsdnBrowser : WebBrowser
+    class CnBrowser : WebBrowser
     {
         int m_articleTypeOffset;
         int m_articleFieldOffset;
@@ -27,12 +27,12 @@ namespace experiment
         string m_articleContent = "";
         string m_articleTitle = "";
 
-        public CsdnBrowser()
+        public CnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
 
-            DataManagerSqlLite dm = new DataManagerSqlLite("parameters.db");
+            db dm = new db("parameters.db");
             dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
@@ -50,7 +50,7 @@ namespace experiment
             /// <summary>
             /// Default constructor.
             /// </summary>
-            public WebBrowserSiteEx(CsdnBrowser webBrowser)
+            public WebBrowserSiteEx(CnBrowser webBrowser)
                 : base(webBrowser)
             {
             }
@@ -131,7 +131,7 @@ namespace experiment
             return true;
         }
 
-        public void Edit(BlogRobot.ArticleInfo articleInfo)
+        public void Edit(CnBlogRobot.ArticleInfo articleInfo)
         {           
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
@@ -262,9 +262,9 @@ namespace experiment
             return pos;
         }
 
-        public BlogRobot.ArticleInfo GoToEditPage()
+        public CnBlogRobot.ArticleInfo GoToEditPage()
         {
-            BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();
+            CnBlogRobot.ArticleInfo info = new CnBlogRobot.ArticleInfo();
 
             // <span class="read-count">阅读数：884</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
@@ -276,7 +276,7 @@ namespace experiment
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < BlogRobot.m_MinReadCount)
+                    if (info.readCount < CnBlogRobot.m_MinReadCount)
                         return info;
                     else
                         break;
