@@ -497,31 +497,7 @@ namespace experiment
             if (ele == null)
                 return false;
             Point p = GetOffset(ele);
-            Tools.SetCursorPos(p.X + 1, p.Y + 1);
-            int i = 0;
-            while(i < 100000)
-            {
-                i++;
-            }
-            i = 1;
-
-            ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_2");
-            if (ele == null)
-                return false;
-            p = GetOffset(ele);
-            Tools.SetCursorPos(p.X + i, p.Y + i);
-            i = 0;
-            while (i < 100000)
-            {
-                i++;
-            }
-            i = 1;
-
-            ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_3");
-            if (ele == null)
-                return false;
-            p = GetOffset(ele);
-            Tools.DoubleClick(p.X + i, p.Y + i);
+            Tools.DoubleClick(p.X + 1, p.Y + 1);
             return true;
         }
 
