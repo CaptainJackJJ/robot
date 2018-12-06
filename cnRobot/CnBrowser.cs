@@ -141,7 +141,11 @@ namespace experiment
             ele.InnerText = m_articleTitle;
             ele.SetAttribute("value", m_articleTitle);
 
-            Tools.DoubleClick(362, 397);
+
+            // <a role="button" id="Editor_Edit_EditorBody_code" href="javascript:;" class="mceButton mceButtonEnabled mce_code" onmousedown="return false;" onclick="return false;" aria-labelledby="Editor_Edit_EditorBody_code_voice" title="编辑 HTML 源代码" tabindex="-1"><span class="mceIcon mce_code"></span><span class="mceVoiceLabel mceIconOnly" style="display: none;" id="Editor_Edit_EditorBody_code_voice">编辑 HTML 源代码</span></a>
+            //ele = this.Document.GetElementById("Editor_Edit_EditorBody_code");
+            //SafeClick(ele);
+            Tools.DoubleClick(452, 397);
         }
 
         public void EditHtml()
