@@ -29,6 +29,7 @@ namespace experiment
             GoToEditPage,
             LoginToEdit,
             Edit,
+            EditHtml,
             PrePublish, // can not direct click publish buttion, if so article type droplist would failed. so need PrePublsih
             Publish,
             WaitSucess,
@@ -151,6 +152,9 @@ namespace experiment
                     case EnumStep.Edit:
                         Edit();
                         break;
+                    case EnumStep.EditHtml:
+                        EditHtml();
+                        break;
                     case EnumStep.PrePublish:
                         PrePublish();
                         break;
@@ -211,7 +215,17 @@ namespace experiment
             //if (m_lastStep == EnumStep.Edit) 
             {
                 m_browser.Edit(m_articleInfo);
-                m_step = EnumStep.PrePublish;
+                m_step = EnumStep.EditHtml;
+            }
+        }
+
+        private void EditHtml()
+        {
+            // two step do one edit. because this maybe avoid title empty bug. to give more time to load edit page.
+            //if (m_lastStep == EnumStep.Edit) 
+            {
+                m_browser.EditHtml();
+                m_step = EnumStep.Publish;
             }
         }
 

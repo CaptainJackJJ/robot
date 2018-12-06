@@ -141,18 +141,19 @@ namespace experiment
             ele.InnerText = m_articleTitle;
             ele.SetAttribute("value", m_articleTitle);
 
-            ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.InnerText = m_head + m_articleContent + m_tail;
-            //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
+            Tools.DoubleClick(362, 397);
+        }
 
-            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
-            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
-            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
-            ele.InnerText = m_articleTitle;
-            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
-            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X + 3, p.Y + 1);
+        public void EditHtml()
+        {
+            // <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 700px; height: 515px; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 12px; white-space: pre-wrap;" dir="ltr" wrap="off" class="mceFocus"></textarea>
+            HtmlElement ele = this.Document.GetElementById("htmlSource");
+            ele.InnerText = m_articleContent + m_tail;
+            ele.SetAttribute("value", ele.InnerText);
+
+            // <input type="submit" role="button" name="insert" value="更新" id="insert">
+            ele = this.Document.GetElementById("insert");
+            SafeClick(ele);
         }
 
         public bool isMissContent()
@@ -235,7 +236,8 @@ namespace experiment
         public void Publish()
         {
 #if DEBUG
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
+            // <input type="submit" name="Editor$Edit$lkbDraft" value="存为草稿" onclick="return CheckInput();" id="Editor_Edit_lkbDraft" class="Button">
+            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbDraft");
 #else
             HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
 #endif
