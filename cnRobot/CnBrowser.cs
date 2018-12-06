@@ -265,7 +265,7 @@ namespace experiment
             return pos;
         }
 
-        public CnBlogRobot.ArticleInfo GoToEditPage()
+        public CnBlogRobot.ArticleInfo GetArticleInfo()
         {
             CnBlogRobot.ArticleInfo info = new CnBlogRobot.ArticleInfo();
 
@@ -323,8 +323,6 @@ namespace experiment
                     break;
                 }
             }
-
-            SafeNavigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
 
             return info;
         }

@@ -26,6 +26,7 @@ namespace experiment
             WaitVerifyDone,
             GoToListPage,
             GoToArticlePage,
+            GetArticleInfo,
             GoToEditPage,
             LoginToEdit,
             Edit,
@@ -142,6 +143,9 @@ namespace experiment
                         break;
                     case EnumStep.GoToArticlePage:
                         GoToArticlePage();
+                        break;
+                    case EnumStep.GetArticleInfo:
+                        GetArticleInfo();
                         break;
                     case EnumStep.GoToEditPage:
                         GoToEditPage();
@@ -314,7 +318,20 @@ namespace experiment
 
         private void GoToEditPage()
         {
-            m_articleInfo = m_browser.GoToEditPage();
+            if(!m_browser.Url.ToString().Contains("EditPosts") || m_lastStep != EnumStep.GoToEditPage)
+            {
+                m_browser.SafeNavigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
+            }
+            else
+            {
+                m_browser.Refresh();
+                m_step = EnumStep.Edit;
+            }            
+        }
+
+        private void GetArticleInfo()
+        {
+            m_articleInfo = m_browser.GetArticleInfo();
             if (m_articleInfo.readCount < m_MinReadCount)
             {
                 m_timesDetectLessMinReadCount++;
@@ -341,7 +358,7 @@ namespace experiment
                 Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");
                 return;
             }
-            m_step = EnumStep.Edit;
+            m_step = EnumStep.GoToEditPage;
             Log.WriteLog(LogType.Debug, m_articleInfo.title);
         }
 
@@ -383,7 +400,7 @@ namespace experiment
      
             bool isNetDealy = false;
             if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
-                m_step = EnumStep.GoToEditPage;
+                m_step = EnumStep.GetArticleInfo;
             else
             {
                 if (isNetDealy)
