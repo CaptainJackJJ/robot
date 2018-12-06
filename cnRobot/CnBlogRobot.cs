@@ -218,6 +218,7 @@ namespace experiment
             // two step do one edit. because this maybe avoid title empty bug. to give more time to load edit page.
             //if (m_lastStep == EnumStep.Edit) 
             {
+                m_articleInfo.title = "a";
                 m_browser.Edit(m_articleInfo);
                 m_step = EnumStep.EditHtml;
             }
@@ -536,7 +537,8 @@ namespace experiment
                 return;
             }
 
-            m_step = EnumStep.GoToListPage;
+            //m_step = EnumStep.GoToListPage;
+            m_step = EnumStep.GoToEditPage;
         }
 
         private void ConfirmLogin()

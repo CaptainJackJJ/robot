@@ -20,10 +20,12 @@ namespace experiment
         {
             InitializeComponent();
 
-            Tools.SetWebBrowserFeatures(11);
-            this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
+            webBrowser1.Navigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
 
-            m_blogRobot = new CnBlogRobot(webBrowser1, timerRobotBrain);
+            //Tools.SetWebBrowserFeatures(11);
+            //this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
+
+            //m_blogRobot = new CnBlogRobot(webBrowser1, timerRobotBrain);
         }
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,7 +43,7 @@ namespace experiment
 
         private void timerRobotBrain_Tick(object sender, EventArgs e)
         {
-            m_blogRobot.timerBrain();
+            //m_blogRobot.timerBrain();
         }
     }
 }
