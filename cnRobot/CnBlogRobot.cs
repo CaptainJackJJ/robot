@@ -22,6 +22,7 @@ namespace experiment
             GoToLoginPage,
             Login,
             ConfirmLogin,
+            ClickVerify,
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
@@ -127,6 +128,9 @@ namespace experiment
                         break;
                     case EnumStep.ConfirmLogin:
                         ConfirmLogin();
+                        break;
+                    case EnumStep.ClickVerify:
+                        ClickVerify();
                         break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
@@ -480,6 +484,16 @@ namespace experiment
             }            
         }
 
+        private void ClickVerify()
+        {
+            if (!m_browser.ClickVerify())
+            {
+                return;
+            }
+
+            m_step = EnumStep.Finished;
+        }
+
         private void ConfirmLogin()
         {
             // <input type="submit" id="signin" class="button" value="登 录">
@@ -490,7 +504,7 @@ namespace experiment
                     return;
             }
 
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.ClickVerify;
         }
 
         private void Login()

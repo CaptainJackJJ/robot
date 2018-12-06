@@ -490,6 +490,41 @@ namespace experiment
             //    NavigateToLoginPage();
         }
 
+        public bool ClickVerify()
+        {
+            // <span class="geetest_wait_dot geetest_dot_1"></span>
+            HtmlElement ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_1");
+            if (ele == null)
+                return false;
+            Point p = GetOffset(ele);
+            Tools.SetCursorPos(p.X + 1, p.Y + 1);
+            int i = 0;
+            while(i < 100000)
+            {
+                i++;
+            }
+            i = 1;
+
+            ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_2");
+            if (ele == null)
+                return false;
+            p = GetOffset(ele);
+            Tools.SetCursorPos(p.X + i, p.Y + i);
+            i = 0;
+            while (i < 100000)
+            {
+                i++;
+            }
+            i = 1;
+
+            ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_3");
+            if (ele == null)
+                return false;
+            p = GetOffset(ele);
+            Tools.DoubleClick(p.X + i, p.Y + i);
+            return true;
+        }
+
         public bool MouseClickEle(string tag, string outerhtml)
         {
             HtmlElement ele = GetEleByTagAndOuterHtml(tag, outerhtml);
