@@ -1,6 +1,6 @@
 ﻿namespace experiment
 {
-    partial class cnRobot
+    partial class CnRobotForm
     {
         /// <summary>
         /// Required designer variable.

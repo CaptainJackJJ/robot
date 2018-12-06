@@ -46,8 +46,8 @@ namespace experiment
 
         Timer m_timerBrain;
         CnBrowser m_browser = null;
-        db m_DataManagerSqlLite = null;
-        db.WorkingObjectInfo m_workingObjectInfo;
+        CnDb m_DataManagerSqlLite = null;
+        CnDb.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
@@ -61,7 +61,7 @@ namespace experiment
                 
         public CnBlogRobot(CnBrowser w, Timer timerBrain)
         {
-            m_DataManagerSqlLite = new db("workingObject.db");
+            m_DataManagerSqlLite = new CnDb("workingObject-cn.db");
 
             m_browser = w;
 
@@ -325,8 +325,8 @@ namespace experiment
 
         private void UseBackupObj()
         {
-            db objDB = new db("ObjectBackup.db");
-            db.ObjectInfo backupObj = objDB.GetBackupObj();
+            CnDb objDB = new CnDb("ObjectBackup.db");
+            CnDb.ObjectInfo backupObj = objDB.GetBackupObj();
             if (backupObj == null)
             {
                 Log.WriteLog(LogType.Warning, "backup db is empty");
@@ -482,7 +482,7 @@ namespace experiment
 
         private void ConfirmLogin()
         {
-            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
+            // <input type="submit" id="signin" class="button" value="登 录">
             if (!m_browser.MouseClickEle("input", "登 录"))
             {
                 //<button data-type="account" class="btn btn-primary">登录</button>
@@ -490,7 +490,7 @@ namespace experiment
                     return;
             }
 
-            m_step = EnumStep.GoToListPage;
+            m_step = EnumStep.Finished;
         }
 
         private void Login()
@@ -498,15 +498,15 @@ namespace experiment
             if (DateTime.Now.Hour < 9 || DateTime.Now.Hour > 22)
                 return;
 
-            if (m_browser.IsLogedin())
-            {
-                m_browser.Logout();
-            }
-            else if(!m_browser.Url.ToString().Contains("/login"))
-            {
-                m_browser.NavigateToLoginPage();
-            }
-            else
+            //if (m_browser.IsLogedin())
+            //{
+            //    m_browser.Logout();
+            //}
+            //else if(!m_browser.Url.ToString().Contains("/login"))
+            //{
+            //    m_browser.NavigateToLoginPage();
+            //}
+            //else
             {
                 m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)

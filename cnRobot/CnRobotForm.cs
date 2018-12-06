@@ -12,11 +12,11 @@ using System.Net.Security;
 
 namespace experiment
 {
-    public partial class cnRobot : Form
+    public partial class CnRobotForm : Form
     {
         CnBlogRobot m_blogRobot = null;
 
-        public cnRobot()
+        public CnRobotForm()
         {
             InitializeComponent();
 

@@ -15,7 +15,7 @@ namespace experiment
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new cnRobot());
+            Application.Run(new CnRobotForm());
         }
     }
 }

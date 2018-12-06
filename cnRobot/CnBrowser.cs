@@ -32,7 +32,7 @@ namespace experiment
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
 
-            db dm = new db("parameters.db");
+            CnDb dm = new CnDb("parameters.db");
             dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
@@ -105,7 +105,7 @@ namespace experiment
 
         public void NavigateToLoginPage()
         {
-            SafeNavigate("https://passport.csdn.net/account/login");  
+            SafeNavigate("https://passport.cnblogs.com/user/signin");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -455,13 +455,8 @@ namespace experiment
 
         public bool Login(string uName,string password)
         {
-            if (!ClickAccountLogin())
-            {
-                Log.WriteLog(LogType.NetworkWarning, "ClickAccountLogin failed");
-                return false;
-            }
-
-            HtmlElement ele = this.Document.GetElementById("username");
+            // <input type="text" id="input1" value="" class="input-text" onkeydown="check_enter(event)">
+            HtmlElement ele = this.Document.GetElementById("input1");
             if(ele == null)
             {
                 ele = this.Document.GetElementById("all");
@@ -470,8 +465,8 @@ namespace experiment
             ele.SetAttribute("value", uName);
 
 
-            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
-            ele = this.Document.GetElementById("password-number");
+            // <input type="password" id="input2" value="" class="input-text" onkeydown="check_enter(event)">
+            ele = this.Document.GetElementById("input2");
             if (ele != null)
             {
                 ele.Focus(); SendKeys.Send(" ");

@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace experiment
 {
-    class db
+    class CnDb
  {
         public class WorkingObjectInfo
         {
@@ -22,7 +22,6 @@ namespace experiment
             public short needFinishNum;
             public string lastWorkingDay;
             public bool isObjectFinished;
-            public bool isReadyForWork;
         }
 
         public class ObjectInfo
@@ -41,7 +40,7 @@ namespace experiment
         private const short m_MaxFinishedNum = 10;
 #endif
 
-        public db(string dbName)
+        public CnDb(string dbName)
         {
             connStr += dbName;
         }
@@ -111,7 +110,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
-            string sql = "SELECT * FROM objectInfo WHERE"
+            string sql = "SELECT [rowid], * FROM objectInfo WHERE"
                 + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
                 + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) LIMIT 1";
 
@@ -125,7 +124,7 @@ namespace experiment
             info.id = data.GetInt32(0);
             info.url = data.GetString(1);
             info.userName = data.GetString(2);
-            info.password = data.GetString(3);
+            info.password = data.GetString(3) + "#";
             info.lastListPageUrl = data.GetString(4);
             info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
             info.needFinishNum = data.GetInt16(6);
@@ -133,7 +132,6 @@ namespace experiment
             if (info.lastWorkingDay != "")
                 info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
             info.isObjectFinished = data.GetBoolean(8);
-            info.isReadyForWork = data.GetBoolean(9);
 
             DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
             dtFormat.LongDatePattern = "yyyy-MM-dd";
@@ -174,7 +172,6 @@ namespace experiment
             if (info.lastWorkingDay != "")
                 info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
             info.isObjectFinished = data.GetBoolean(8);
-            info.isReadyForWork = data.GetBoolean(9);
 
             data.Close();
             data.Dispose();
@@ -228,8 +225,7 @@ namespace experiment
             + " lastFinishedArticleUrlInList = '" + info.lastFinishedArticleUrlInList + "',"
             + " needFinishNum = " + info.needFinishNum + ","
             + " lastWorkingDay = '" + today + "',"
-            + " isObjectFinished = " + info.isObjectFinished + ","
-            + " isReadyForWork = " + info.isReadyForWork
+            + " isObjectFinished = " + info.isObjectFinished 
             + " WHERE id = " + info.id;
 
             if(ExecuteNonQuery(sql) <= 0)

@@ -51,15 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CnBlogRobot.cs" />
-    <Compile Include="db.cs" />
+    <Compile Include="CnDb.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Tools.cs" />
-    <Compile Include="cnRobot.cs">
+    <Compile Include="CnRobotForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="cnRobot.Designer.cs">
-      <DependentUpon>cnRobot.cs</DependentUpon>
+    <Compile Include="CnRobotForm.Designer.cs">
+      <DependentUpon>CnRobotForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,8 +71,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>workingObjectDataSet.xsd</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="cnRobot.resx">
-      <DependentUpon>cnRobot.cs</DependentUpon>
+    <EmbeddedResource Include="CnRobotForm.resx">
+      <DependentUpon>CnRobotForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
