@@ -321,7 +321,7 @@ namespace experiment
                 }
             }
 
-            SafeNavigate("https://mp.csdn.net/mdeditor");
+            SafeNavigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
 
             return info;
         }

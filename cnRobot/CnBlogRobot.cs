@@ -23,6 +23,7 @@ namespace experiment
             Login,
             ConfirmLogin,
             ClickVerify,
+            WaitVerifyDone,
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
@@ -131,6 +132,9 @@ namespace experiment
                         break;
                     case EnumStep.ClickVerify:
                         ClickVerify();
+                        break;
+                    case EnumStep.WaitVerifyDone:
+                        WaitVerifyDone();
                         break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
@@ -491,7 +495,17 @@ namespace experiment
                 return;
             }
 
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.WaitVerifyDone;
+        }
+
+        private void WaitVerifyDone()
+        {
+            if (m_browser.Url.ToString().Contains("signin"))
+            {
+                return;
+            }
+
+            m_step = EnumStep.GoToListPage;
         }
 
         private void ConfirmLogin()
