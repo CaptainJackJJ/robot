@@ -132,11 +132,12 @@ namespace experiment
         }
 
         public void Edit(CnBlogRobot.ArticleInfo articleInfo)
-        {           
-            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
+        {
+            // <input name="Editor$Edit$txbTitle" type="text" maxlength="200" id="Editor_Edit_txbTitle" onblur="localPreserver.saveDraftTitle();" onkeydown="title_keydown(event);" style="width:99%;">
+            HtmlElement ele = this.Document.GetElementById("Editor_Edit_txbTitle"); 
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send(" ");
+            ele.Focus(); SendKeys.Send("");
             ele.InnerText = m_articleTitle;
             ele.SetAttribute("value", m_articleTitle);
 

@@ -208,7 +208,7 @@ namespace experiment
         private void Edit()
         {
             // two step do one edit. because this maybe avoid title empty bug. to give more time to load edit page.
-            if (m_lastStep == EnumStep.Edit) 
+            //if (m_lastStep == EnumStep.Edit) 
             {
                 m_browser.Edit(m_articleInfo);
                 m_step = EnumStep.PrePublish;
@@ -327,7 +327,7 @@ namespace experiment
                 Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");
                 return;
             }
-            m_step = EnumStep.LoginToEdit;
+            m_step = EnumStep.Edit;
             Log.WriteLog(LogType.Debug, m_articleInfo.title);
         }
 
