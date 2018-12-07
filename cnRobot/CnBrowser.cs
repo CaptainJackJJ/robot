@@ -14,9 +14,6 @@ namespace experiment
 
     class CnBrowser : WebBrowser
     {
-        int m_articleTypeOffset;
-        int m_articleFieldOffset;
-
         const string m_head = @"";
         const string m_tail = @"<p></p>
 <p><strong>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net/"">http://www.captainbed.net</a></strong></p>
@@ -31,9 +28,6 @@ namespace experiment
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
-
-            CnDb dm = new CnDb("parameters.db");
-            dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
         // Override to allow custom script error handling.
@@ -224,17 +218,17 @@ namespace experiment
 
         public void PrePublish()
         {
-            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
+        //    SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
-            HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleTypeOffset);
+        //    HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
+        //    Point p = GetOffset(ele);
+        //    Tools.DoubleClick(p.X, p.Y);
+        //    Tools.Click(p.X, p.Y + m_articleTypeOffset);
 
-            ele = GetEleByTagAndOuterHtml("select", "编程语言");
-            p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleFieldOffset);
+        //    ele = GetEleByTagAndOuterHtml("select", "编程语言");
+        //    p = GetOffset(ele);
+        //    Tools.DoubleClick(p.X, p.Y);
+        //    Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
         public void Publish()

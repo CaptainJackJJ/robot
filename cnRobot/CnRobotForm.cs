@@ -20,12 +20,11 @@ namespace experiment
         {
             InitializeComponent();
 
-            webBrowser1.Navigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
+            // cn blog edit dialog does not support ie11 in this app.(offical ie11 is ok)
+            Tools.SetWebBrowserFeatures(10);
+           // this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
-            //Tools.SetWebBrowserFeatures(11);
-            //this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
-
-            //m_blogRobot = new CnBlogRobot(webBrowser1, timerRobotBrain);
+            m_blogRobot = new CnBlogRobot(webBrowser1, timerRobotBrain);
         }
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,7 +42,7 @@ namespace experiment
 
         private void timerRobotBrain_Tick(object sender, EventArgs e)
         {
-            //m_blogRobot.timerBrain();
+            m_blogRobot.timerBrain();
         }
     }
 }

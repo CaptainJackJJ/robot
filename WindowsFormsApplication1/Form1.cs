@@ -19,6 +19,7 @@ namespace experiment
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             webBrowser1.Navigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
         }
 
