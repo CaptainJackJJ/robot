@@ -333,7 +333,7 @@ namespace experiment
 
         private void UseBackupObj()
         {
-            CnDb objDB = new CnDb("ObjectBackup.db");
+            CnDb objDB = new CnDb("ObjectBackup-cn.db");
             CnDb.ObjectInfo backupObj = objDB.GetBackupObj();
             if (backupObj == null)
             {
