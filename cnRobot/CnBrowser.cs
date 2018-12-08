@@ -189,7 +189,8 @@ namespace experiment
 
         public bool isSuccess()
         {
-            HtmlElement ele = this.Document.GetElementById("alertSuccess");
+            // <div>发布成功</div>
+            HtmlElement ele = GetEleByTagAndOuterHtml("div", "成功");
             bool s = (ele != null && ele.Style == null);
             if(s)
             {

@@ -235,29 +235,7 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if(m_browser.isMissContent())
-            {
-                m_step = EnumStep.GoToListPage;
-                m_waitSuccessTimes = 0;
-                return;
-            }
-
-            if(m_browser.isPublishedMax())
-            {
-                m_DataManagerSqlLite.SetObjDailyJobDone(m_workingObjectInfo.id);
-
-                Environment.Exit(0);
-
-                //m_step = EnumStep.Login;
-                //m_waitSuccessTimes = 0;
-                //return;
-            }
-
-#if DEBUG
-            if(true)
-#else
             if(m_browser.isSuccess())
-#endif
             {                
                 //m_publishedArticleNum++;
 
