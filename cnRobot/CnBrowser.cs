@@ -239,7 +239,8 @@ namespace experiment
             // <input type="submit" name="Editor$Edit$lkbDraft" value="存为草稿" onclick="return CheckInput();" id="Editor_Edit_lkbDraft" class="Button">
             HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbDraft");
 #else
-            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
+            // <input type="submit" name="Editor$Edit$lkbPost" value="发布" onclick="return CheckInput();" id="Editor_Edit_lkbPost" class="Button">
+            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbPost");
 #endif
             SafeClick(ele);
         }
