@@ -179,40 +179,6 @@ namespace experiment
             return info;
         }
 
-        public void SetObjDailyJobDone(long id)
-        {
-            string sql = "UPDATE objectInfo SET"
-            + " isObjectFinished = 1"
-            + " WHERE id = " + id;
-
-            if (ExecuteNonQuery(sql) <= 0)
-            {
-                Log.WriteLog(LogType.SQL, "SetObjDailyJobDone error. sql is " + sql);
-            }
-        }
-
-        public void ZeroNeedFinishNum(long id)
-        {
-            string sql = "UPDATE objectInfo SET"
-            + " needFinishNum = 0"
-            + " WHERE id = " + id;
-
-            if (ExecuteNonQuery(sql) <= 0)
-            {
-                Log.WriteLog(LogType.SQL, "ZeroNeedFinishNum error. sql is " + sql);
-            }
-        }
-
-        public void ResetNeedFinishNum()
-        {
-            string sql = "UPDATE objectInfo SET needFinishNum = 1";
-
-            if (ExecuteNonQuery(sql) <= 0)
-            {
-                Log.WriteLog(LogType.SQL, "ResetNeedFinishNum error. sql is " + sql);
-            }
-        }
-
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
