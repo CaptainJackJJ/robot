@@ -243,7 +243,7 @@ namespace experiment
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
                 if(!m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo))
                 {
-                    UseBackupObj();
+                    //UseBackupObj();
                 }
 
                 Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
@@ -251,18 +251,6 @@ namespace experiment
             }
             else
             {
-                if(m_browser.isUnexpectError())
-                {
-                    Log.WriteLog(LogType.Error, "occur unexpect error, so jump over this article. lastListUrl is "
-                        + m_workingObjectInfo.lastListPageUrl + ", article is " + m_articleInfo.url);
-
-                    m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                    m_step = EnumStep.GoToListPage;
-                    m_waitSuccessTimes = 0;
-
-                    return;
-                }
-
                 m_waitSuccessTimes++;
                 if (m_waitSuccessTimes < m_maxSteps)
                     return; // Keep waiting

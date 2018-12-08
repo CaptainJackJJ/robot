@@ -226,7 +226,7 @@ namespace experiment
             + " needFinishNum = " + info.needFinishNum + ","
             + " lastWorkingDay = '" + today + "',"
             + " isObjectFinished = " + info.isObjectFinished 
-            + " WHERE id = " + info.id;
+            + " WHERE [rowid] = " + info.id;
 
             if(ExecuteNonQuery(sql) <= 0)
             {
