@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkObjCollector", "WorkObj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cnRobot", "cnRobot\cnRobot.csproj", "{2868FE7A-68CF-4727-9417-D08DEE5C413D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assigner-cn", "assigner-cn\assigner-cn.csproj", "{53E958A2-75AF-4F18-9680-ECE37EB0B577}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2868FE7A-68CF-4727-9417-D08DEE5C413D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2868FE7A-68CF-4727-9417-D08DEE5C413D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2868FE7A-68CF-4727-9417-D08DEE5C413D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E958A2-75AF-4F18-9680-ECE37EB0B577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E958A2-75AF-4F18-9680-ECE37EB0B577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E958A2-75AF-4F18-9680-ECE37EB0B577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E958A2-75AF-4F18-9680-ECE37EB0B577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E9ABCCB-9DF9-46CB-A187-64CDD8D77564}</ProjectGuid>
+    <ProjectGuid>{53E958A2-75AF-4F18-9680-ECE37EB0B577}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>assigner</RootNamespace>
@@ -48,17 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataManagerSqlLiteAssigner.cs" />
-    <Compile Include="FormAssigner.cs">
+    <Compile Include="dbAssignerCn.cs" />
+    <Compile Include="FormAssigner-cn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAssigner.Designer.cs">
-      <DependentUpon>FormAssigner.cs</DependentUpon>
+    <Compile Include="FormAssigner-cn.Designer.cs">
+      <DependentUpon>FormAssigner-cn.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormAssigner.resx">
-      <DependentUpon>FormAssigner.cs</DependentUpon>
+    <EmbeddedResource Include="FormAssigner-cn.resx">
+      <DependentUpon>FormAssigner-cn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -70,7 +70,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ObjectBackup-cn.db" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
