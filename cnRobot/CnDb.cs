@@ -22,6 +22,7 @@ namespace experiment
             public short needFinishNum;
             public string lastWorkingDay;
             public bool isObjectFinished;
+            public int publishedNum;
         }
 
         public class ObjectInfo
@@ -132,6 +133,7 @@ namespace experiment
             if (info.lastWorkingDay != "")
                 info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
             info.isObjectFinished = data.GetBoolean(8);
+            info.publishedNum = data.GetInt32(9);
 
             DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
             dtFormat.LongDatePattern = "yyyy-MM-dd";
@@ -185,11 +187,14 @@ namespace experiment
             if (String.IsNullOrEmpty(info.lastWorkingDay) || info.lastWorkingDay.Substring(0, 10) != today.Substring(0, 10))
                 info.isObjectFinished = false; // new day. so reset daily finish flag
 
+            info.publishedNum++;
+
             string sql = "UPDATE objectInfo SET"
             + " objectUrl = '" + info.url + "',"
             + " lastListPageUrl = '" + info.lastListPageUrl + "',"
             + " lastFinishedArticleUrlInList = '" + info.lastFinishedArticleUrlInList + "',"
             + " needFinishNum = " + info.needFinishNum + ","
+            + " publishedNum = " + info.publishedNum + ","
             + " lastWorkingDay = '" + today + "',"
             + " isObjectFinished = " + info.isObjectFinished 
             + " WHERE [rowid] = " + info.id;
