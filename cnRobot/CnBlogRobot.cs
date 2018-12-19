@@ -71,11 +71,8 @@ namespace experiment
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
-#if DEBUG
+
             m_timerBrain.Interval = 2000;
-#else
-            m_timerBrain.Interval = 15000;
-#endif
         }
 
         public void timerBrain()
@@ -519,6 +516,11 @@ namespace experiment
 
             m_step = EnumStep.GoToListPage;
             //m_step = EnumStep.GoToEditPage;
+
+#if DEBUG
+#else
+            m_timerBrain.Interval = 15000;
+#endif
         }
 
         private void ConfirmLogin()
