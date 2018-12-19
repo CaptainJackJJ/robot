@@ -200,18 +200,14 @@ namespace experiment
         }
 
         public bool isUnexpectError()
-        {
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("i");
+        {            
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("div");
             foreach (HtmlElement ele in collection)
             {
-                // <i class="mr8 notice-icon type-error"></i>
-                if (ele.OuterHtml.Contains("type-error"))
+                // <div>博文内容中不允许有包含js代码!<script type="text/javascript">g_blnCheckUnload=true;</script>
+                if (ele.OuterHtml.Contains("博文内容中不允许"))
                 {
-                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.NextSibling.InnerText);
-                    if (ele.NextSibling.InnerText.Contains("没有权限执行操作"))
-                    {
-                        Environment.Exit(0);
-                    }
+                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.InnerText);
                     return true;
                 }
             }
