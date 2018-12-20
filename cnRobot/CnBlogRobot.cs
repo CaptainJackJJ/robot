@@ -232,7 +232,13 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if(m_browser.isSuccess())
+            if (m_browser.isSuccess())
+            {
+                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
+            }
+
+            //if(m_browser.isSuccess())
+            if(true) // do not judge success
             {                
                 //m_publishedArticleNum++;
 
@@ -242,9 +248,6 @@ namespace experiment
                 {
                     //UseBackupObj();
                 }
-
-                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
-
             }
             else
             {                
