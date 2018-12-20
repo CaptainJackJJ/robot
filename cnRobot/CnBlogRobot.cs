@@ -232,13 +232,7 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if (m_browser.isSuccess())
-            {
-                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
-            }
-
-            //if(m_browser.isSuccess())
-            if(true) // do not judge success
+            if(m_browser.isSuccess())
             {                
                 //m_publishedArticleNum++;
 
@@ -248,10 +242,13 @@ namespace experiment
                 {
                     //UseBackupObj();
                 }
+
+                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
             }
             else
-            {                
-                if (m_browser.isUnexpectError())
+            {       
+                // just go to next article if not success
+                //if (m_browser.isUnexpectError())
                 {
                     Log.WriteLog(LogType.Error, "occur unexpect error, so jump over this article. lastListUrl is "
                         + m_workingObjectInfo.lastListPageUrl + ", article is " + m_articleInfo.url);
