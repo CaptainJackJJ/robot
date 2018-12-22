@@ -16,7 +16,7 @@ namespace experiment
     {
         const string m_head = @"";
         const string m_tail = @"
-<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！希望你也加入到我们人工智能的队伍中来！<a href=""https://www.cnblogs.com/captainbed/p/10013538.html"">https://www.cnblogs.com/captainbed</a></p>";
+<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://www.cnblogs.com/captainbed/p/10013538.html"">https://www.cnblogs.com/captainbed</a></p>";
 
         string m_articleContent = "";
         string m_articleTitle = "";
