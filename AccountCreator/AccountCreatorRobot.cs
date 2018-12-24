@@ -14,7 +14,7 @@ namespace AccountCreator
         {
             Create,
             Set,
-            Unbind,
+            BeFan,
         }
 
         enum EnumStep
@@ -362,7 +362,7 @@ namespace AccountCreator
             m_browser.Logout();
             if(m_taskType == EnumTaskType.Create)
                 m_step = EnumStep.Login;
-            else if(m_taskType == EnumTaskType.Unbind)
+            else if (m_taskType == EnumTaskType.BeFan)
             {
                 m_timerBrain.Enabled = false;
                 System.Media.SystemSounds.Beep.Play();
