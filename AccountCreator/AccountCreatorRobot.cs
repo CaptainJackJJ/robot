@@ -169,7 +169,14 @@ namespace AccountCreator
         private void ConfirmChangeCodeStyle()
         {
             m_browser.ConfirmChangeCodeStyle();
-            m_step = EnumStep.GoToBindPage;
+            //m_step = EnumStep.GoToBindPage;
+
+            if (m_taskType == EnumTaskType.Create)
+                m_step = EnumStep.GoToChangePasswordPage;
+            else
+            {
+                m_step = EnumStep.Logout;
+            }
         }
 
         private void ChangeCodeStyle()
