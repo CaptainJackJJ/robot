@@ -20,9 +20,15 @@ namespace AccountCreator
             public Int16 assignedNum;
             public string workStation;
             public string phone;
+            public Int32 fanToNum;
+            public bool isFaning;
+            public string fanToAccount;
+            public string fanToListPage;
+            public string fanToArticle;
         }
         
         private string connStr = @"data source=";
+        private readonly string m_myAccount = @"jiangjunshow";
 
         public AccountCreatorDb(string dbName)
         {
@@ -76,6 +82,45 @@ namespace AccountCreator
                 MessageBox.Show(e.Message);
             }
             return null;
+        }
+
+        public AccountInfo GetFan()
+        {
+            string sql = "SELECT * FROM [account] ORDER BY fanToNum ASC LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);           
+            data.Read();
+            if (!data.HasRows)
+            {
+                return null;
+            }
+
+            AccountInfo info = new AccountInfo();
+            info.id = data.GetInt32(0);
+            info.userName = data.GetString(1);
+            info.password = data.GetString(2);
+            info.assignedNum = data.GetInt16(3);
+            info.workStation = data.GetValue(4).ToString();
+            info.phone = data["phone"].ToString();
+            info.fanToNum = Convert.ToInt32(data["fanToNum"]);
+            info.isFaning = Convert.ToBoolean(data["isFaning"]);
+            info.fanToAccount = Convert.ToString(data["fanToAccount"]);
+            info.fanToListPage = Convert.ToString(data["fanToListPage"]);
+            info.fanToArticle = Convert.ToString(data["fanToArticle"]);
+
+            if (info.fanToAccount == "")
+            {
+                info.fanToAccount = m_myAccount;
+            }
+            if (info.fanToListPage == "")
+            {
+                info.fanToListPage = "https://blog.csdn.net/" + m_myAccount + "?orderby=ViewCount";
+            }
+
+            data.Close();
+            data.Dispose();
+
+            return info;
         }
 
         public AccountInfo GetUnsetAccount()
