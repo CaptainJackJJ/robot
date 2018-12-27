@@ -340,6 +340,11 @@ namespace AccountCreator
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout(false);
+                if(m_taskType == EnumTaskType.BeFan)
+                {
+                    m_step = EnumStep.GoToAccountLoginPage;
+                    return;
+                }
             }
             else
             {
