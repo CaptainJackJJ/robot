@@ -123,6 +123,24 @@ namespace AccountCreator
             return info;
         }
 
+        public bool SetFan(AccountInfo info)
+        {
+            string sql = "UPDATE account SET"
++ " fanToNum = " + info.fanToNum + ","
++ " isFaning = " + info.isFaning + ","
++ " fanToListPage = '" + info.fanToListPage + "',"
++ " fanToArticle = '" + info.fanToArticle + "'"
++ " WHERE ID = " + info.id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                MessageBox.Show("SetFan is failed");
+                return false;
+            }
+
+            return true;
+        }
+
         public AccountInfo GetUnsetAccount()
         {
             string sql = "SELECT * FROM [account] WHERE assignedNum < 1";

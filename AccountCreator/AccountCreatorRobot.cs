@@ -25,6 +25,7 @@ namespace AccountCreator
             Login,
             GoToMyAticle,
             BeFans,
+            GetUsernameForQQ,
             GoToChangePasswordPage,
             ConfirmChangePassword,
             ChangePassword,
@@ -118,6 +119,9 @@ namespace AccountCreator
                         break;
                     case EnumStep.BeFans:
                         BeFans();
+                        break;
+                    case EnumStep.GetUsernameForQQ:
+                        GetUsernameForQQ();
                         break;
                     case EnumStep.GoToChangePasswordPage:
                         GoToChangePasswordPage();
@@ -307,7 +311,7 @@ namespace AccountCreator
 
             bool isNetDealy = false;
             if (m_browser.GoToNextArticlePage(m_accountInfo.fanToArticle, ref isNetDealy))
-                m_step = EnumStep.Finished;
+                m_step = EnumStep.BeFans;
             else // no next article
             {
                 if (isNetDealy)
@@ -318,11 +322,16 @@ namespace AccountCreator
                 {
                     Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     m_step = EnumStep.Finished;
+
+                    m_accountInfo.isFaning = false;
+                    m_accountInfo.fanToNum++;
+                    m_accountDb.SetFan(m_accountInfo);
+
                     return;
                     //this working object is done.
                 }
 
-                m_accountInfo.fanToListPage = "";
+                m_accountInfo.fanToArticle = "";
             }
         }
 
@@ -402,7 +411,18 @@ namespace AccountCreator
 
         private void BeFans()
         {
-            m_accountInfo.userName = m_browser.BeFans();
+            m_browser.BeFans();
+
+            m_accountInfo.fanToArticle = m_browser.Url.ToString();
+            m_accountInfo.isFaning = true;
+            m_accountDb.SetFan(m_accountInfo);
+
+            m_step = EnumStep.GoToListPage;
+        }
+
+        private void GetUsernameForQQ()
+        {
+            m_accountInfo.userName = m_browser.GetUsernameForQQ();
             m_step = EnumStep.GoToConfigurePage;
         }
 
@@ -410,7 +430,7 @@ namespace AccountCreator
         {
             m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
             if (m_taskType == EnumTaskType.Create)
-                m_step = EnumStep.BeFans;
+                m_step = EnumStep.GetUsernameForQQ;
             else
                 m_step = EnumStep.GoToBindPage;            
         }
