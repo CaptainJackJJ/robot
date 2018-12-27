@@ -30,11 +30,6 @@ namespace AccountCreator
             int y = 50;
             webBrowser1.Location = new Point(0, y);
             webBrowser1.Size = new Size(this.Size.Width, this.Size.Height - y);
-
-#if DEBUG
-            MessageBox.Show("do not use debug");
-            Environment.Exit(0);
-#endif
         }
 
         private void buttonCreateAccount_Click(object sender, EventArgs e)

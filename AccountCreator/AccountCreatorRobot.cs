@@ -70,20 +70,28 @@ namespace AccountCreator
 
         public void SetTaskType(EnumTaskType type)
         {
+            if (type != EnumTaskType.BeFan)
+            {
+#if DEBUG
+                MessageBox.Show("do not use debug");
+                Environment.Exit(0);
+#endif
+            }
+
             m_taskType = type;
             if (m_taskType == EnumTaskType.Create)
             {
                 m_step = EnumStep.GoToLogoutPage;
             }
-            else if (m_taskType == EnumTaskType.Set)
+            else if (m_taskType == EnumTaskType.Set || m_taskType == EnumTaskType.BeFan)
             {
                 m_step = EnumStep.GoToAccountLoginPage;
             }
-            else
-            {
-                m_browser.NavigateToLoginPage();
-                m_step = EnumStep.Login;
-            }
+            //else
+            //{
+            //    m_browser.NavigateToLoginPage();
+            //    m_step = EnumStep.Login;
+            //}
         }
 
         public void timerBrain()
@@ -270,11 +278,19 @@ namespace AccountCreator
             }
             else
             {
-                m_accountInfo = m_accountDb.GetUnsetAccount();
+                if (m_taskType == EnumTaskType.Set)
+                {
+                    m_accountInfo = m_accountDb.GetUnsetAccount();
+                }
+                else
+                {
+                    m_accountInfo = m_accountDb.GetFan();
+                }
+
                 if (m_accountInfo == null)
                 {
                     m_timerBrain.Stop();
-                    MessageBox.Show("all account is set");
+                    MessageBox.Show("account is null");
                     
                     return;
                 }
