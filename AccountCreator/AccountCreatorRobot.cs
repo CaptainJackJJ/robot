@@ -80,6 +80,14 @@ namespace AccountCreator
                 Environment.Exit(0);
 #endif
             }
+            else
+            {
+#if DEBUG
+                m_timerBrain.Interval = 2000;
+#else
+                m_timerBrain.Interval = 10000;
+#endif
+            }
 
             m_taskType = type;
             if (m_taskType == EnumTaskType.Create)
