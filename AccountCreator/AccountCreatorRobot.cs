@@ -31,6 +31,8 @@ namespace AccountCreator
             GoToAccountLoginPage,
             LoginWithAccount,
             ConfirmLoginWithAccount,
+            GoToListPage,
+            GoToNextArticlePage,
             GoToProfile,
             GoToBindPage,
             Unbind,
@@ -134,6 +136,12 @@ namespace AccountCreator
                         break;
                     case EnumStep.ConfirmLoginWithAccount:
                         ConfirmLoginWithAccount();
+                        break;
+                    case EnumStep.GoToListPage:
+                        GoToListPage();
+                        break;
+                    case EnumStep.GoToNextArticlePage:
+                        GoToNextArticlePage();
                         break;
                     case EnumStep.GoToProfile:
                         GoToProfile();
@@ -267,7 +275,55 @@ namespace AccountCreator
                 m_browser.MouseClickEle("button", "登录");
             }
 
-            m_step = EnumStep.GoToProfile;
+            if (m_taskType == EnumTaskType.BeFan)
+            {
+                m_step = EnumStep.GoToListPage;
+            }
+            else
+            {
+                m_step = EnumStep.GoToProfile;
+            }
+        }
+
+        private void GoToListPage()
+        {
+            m_browser.SafeNavigate(m_accountInfo.fanToListPage);
+            m_step = EnumStep.GoToNextArticlePage;
+        }
+
+        private void GoToNextArticlePage()
+        {
+            if (m_accountInfo.fanToArticle == "") // Maybe get into new list page, so update the list page url.
+            {
+                string url = m_browser.Url.ToString();
+                if (url.Trim() == "https://www.csdn.net/")
+                {
+                    Log.WriteLog(LogType.Warning, "last url is https://www.csdn.net/. obj is " + m_accountInfo.fanToAccount);
+                    m_step = EnumStep.GoToListPage;
+                    return;
+                }
+                m_accountInfo.fanToListPage = m_browser.Url.ToString();
+            }
+
+            bool isNetDealy = false;
+            if (m_browser.GoToNextArticlePage(m_accountInfo.fanToArticle, ref isNetDealy))
+                m_step = EnumStep.Finished;
+            else // no next article
+            {
+                if (isNetDealy)
+                {
+                    return; // try GoToNextArticlePage again
+                }
+                if (!m_browser.GoToNextPage())
+                {
+                    Log.WriteLog(LogType.Notice, "list is empty, so object is done");
+                    m_step = EnumStep.Finished;
+                    return;
+                    //this working object is done.
+                }
+
+                m_accountInfo.fanToListPage = "";
+            }
         }
 
         private void LoginWithAccount()

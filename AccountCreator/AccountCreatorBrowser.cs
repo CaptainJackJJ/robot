@@ -154,6 +154,79 @@ namespace AccountCreator
             ClickEleByTagAndOuterHtml("button", "保存");
         }
 
+        // return false means no next article anymore.
+        public bool GoToNextArticlePage(string lastArticleUrl, ref bool isNetDealy)
+        {
+            isNetDealy = false;
+
+            short timesOfFindLastArticle = 0;
+            string lastArticleId = "";
+            if (!String.IsNullOrEmpty(lastArticleUrl))
+            {
+                lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
+                // add "target" string to avoid next article's id is include in front article's content.
+
+                // This link of article is not same as the link of artcile which is in list, but the ID is same
+                /* https://blog.csdn.net/laoyang360/article/details/52244917 */
+                // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
+            }
+
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
+            foreach (HtmlElement ele in collection)
+            {
+                // reach the list end.
+                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
+                {
+                    return false;
+                }
+                if (ele.OuterHtml.Contains("article/details"))
+                {
+                    if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
+                        continue; // this ele is hidden                    
+
+                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
+                    {
+                        ClickArticleInList(ele.OuterHtml);
+                        return true;
+                    }
+
+                    /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
+                        Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
+                        1：http://blog.csdn.net/rlhua/article/details/12624275
+                        2：http://blog.csdn.net/rlhua/articl...      </a>
+                    */
+                    // use substring to avoid OuterHtml contarin's other article's link
+                    if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
+                        timesOfFindLastArticle++;
+                }
+            }
+
+            isNetDealy = true;
+            return false;
+        }
+
+        private void ClickArticleInList(string ArticleOuterHtml)
+        {
+            int startIndex = ArticleOuterHtml.IndexOf("http");
+            int endIndex = ArticleOuterHtml.IndexOf("target") - 2;
+            string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
+            /* outerhtml
+            <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
+             */
+            SafeNavigate(ArticleUrl);// Do not use ele click, beacuse click will jump to other browser.
+        }
+
+        public bool GoToNextPage()
+        {
+            //<li class="js-page-next js-page-action ui-pager">下一页</li>
+            //<li class="js-page-next js-page-action ui-pager ui-pager-disabled">下一页</li>
+            HtmlElement ele = GetEleByTagAndOuterHtml("li", "下一页");
+            if (ele == null || ele.OuterHtml.Contains("disabled"))
+                return false;
+            SafeClick(ele);
+            return true;
+        }
+
         public bool ChangeCodeStyle()
         {
             HtmlElement ele = this.Document.GetElementById("codeStyle");
