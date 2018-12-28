@@ -192,6 +192,7 @@ namespace AccountCreator
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
 #endif              
             }
+            m_browser.CloseSecurityAlert();
         }
         
         private void ConfirmChangeCodeStyle()
