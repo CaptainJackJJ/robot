@@ -36,9 +36,9 @@ namespace experiment
         private string connStr = @"data source=";
 
 #if DEBUG
-                    private const short m_MaxFinishedNum = 10;
+                    private const short m_MaxFinishedNum = 3;
 #else
-        private const short m_MaxFinishedNum = 10;
+        private const short m_MaxFinishedNum = 3;
 #endif
 
         public DataManagerSqlLite(string dbName)
@@ -131,14 +131,15 @@ namespace experiment
             info.needFinishNum = data.GetInt16(6);
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
-                info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
+                info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay).ToShortDateString();
             info.isObjectFinished = data.GetBoolean(8);
             info.isReadyForWork = data.GetBoolean(9);
 
+            today = Convert.ToDateTime(today).ToShortDateString();
             DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
             dtFormat.LongDatePattern = "yyyy-MM-dd";
             if (info.lastWorkingDay == ""
-                || Convert.ToDateTime(info.lastWorkingDay.Substring(0, 10), dtFormat) < Convert.ToDateTime(today.Substring(0, 10), dtFormat))
+                || Convert.ToDateTime(info.lastWorkingDay, dtFormat) < Convert.ToDateTime(today, dtFormat))
             {
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
             }
@@ -172,7 +173,7 @@ namespace experiment
             info.needFinishNum = data.GetInt16(6);
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
-                info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
+                info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay).ToShortDateString();
             info.isObjectFinished = data.GetBoolean(8);
             info.isReadyForWork = data.GetBoolean(9);
 
@@ -219,7 +220,8 @@ namespace experiment
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
-            if (String.IsNullOrEmpty(info.lastWorkingDay) || info.lastWorkingDay.Substring(0, 10) != today.Substring(0, 10))
+            if (String.IsNullOrEmpty(info.lastWorkingDay)
+                || info.lastWorkingDay != Convert.ToDateTime(today).ToShortDateString())
                 info.isObjectFinished = false; // new day. so reset daily finish flag
 
             string sql = "UPDATE objectInfo SET"
