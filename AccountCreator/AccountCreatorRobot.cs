@@ -425,6 +425,10 @@ namespace AccountCreator
 
         private void BeFans()
         {
+            string strUrl = m_browser.Url.ToString();
+            if (strUrl.Contains("orderby=ViewCount")) // still at list page
+                return;
+
             m_browser.BeFans();
 
             m_accountInfo.fanToArticle = m_browser.Url.ToString();
