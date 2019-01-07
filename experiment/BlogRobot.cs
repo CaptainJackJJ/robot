@@ -347,6 +347,12 @@ namespace experiment
 
         private void GoToArticlePage()
         {
+            if (!m_browser.Url.ToString().Contains("article/list"))
+            {
+                m_step = EnumStep.GoToListPage;
+                return;
+            }
+
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
             {
                 string url = m_browser.Url.ToString();
