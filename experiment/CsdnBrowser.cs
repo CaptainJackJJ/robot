@@ -447,8 +447,8 @@ namespace experiment
 
         public bool IsLogedin()
         {
-            //TODO: This is not trustful
-            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
+            // <img class="login_img" src="//profile.csdnimg.cn/9/5/2/2_ugghhj">
+            if (GetEleByTagAndOuterHtml("img", "login_img\" src=\"//profile") != null)
                 return true;
             return false;
         }

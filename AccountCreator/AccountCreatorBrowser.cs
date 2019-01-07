@@ -400,8 +400,8 @@ namespace AccountCreator
 
         public bool IsLogedin()
         {
-            // <img class="login_img" src="//profile.csdnimg.cn/4/C/B/2_sdfsdfytre">
-            if (GetEleByTagAndOuterHtml("img", "login_img") != null)
+            // <img class="login_img" src="//profile.csdnimg.cn/9/5/2/2_ugghhj">
+            if (GetEleByTagAndOuterHtml("img", "login_img\" src=\"//profile") != null)
                 return true;
             return false;
         }
