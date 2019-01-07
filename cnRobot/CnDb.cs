@@ -122,6 +122,9 @@ namespace experiment
             if (!data.HasRows)
                 return null;
 
+            DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+            dtFormat.LongDatePattern = "yyyy-MM-dd";
+
             info.id = data.GetInt32(0);
             info.url = data.GetString(1);
             info.userName = data.GetString(2);
@@ -131,14 +134,12 @@ namespace experiment
             info.needFinishNum = data.GetInt16(6);
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
-                info.lastWorkingDay = info.lastWorkingDay.Substring(0, 10);
+                info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay, dtFormat).ToShortDateString();
             info.isObjectFinished = data.GetBoolean(8);
             info.publishedNum = data.GetInt32(9);
 
-            DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
-            dtFormat.LongDatePattern = "yyyy-MM-dd";
             if (info.lastWorkingDay == ""
-                || Convert.ToDateTime(info.lastWorkingDay.Substring(0, 10), dtFormat) < Convert.ToDateTime(today.Substring(0, 10), dtFormat))
+                || Convert.ToDateTime(info.lastWorkingDay, dtFormat) < Convert.ToDateTime(today.Substring(0, 10), dtFormat))
             {
                 info.needFinishNum = m_MaxFinishedNum; // This is new day.
             }
