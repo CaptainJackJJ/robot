@@ -209,7 +209,7 @@ namespace experiment
 
         public void ResetNeedFinishNum()
         {
-            string sql = "UPDATE objectInfo SET needFinishNum = 1";
+            string sql = "UPDATE objectInfo SET needFinishNum = " + m_MaxFinishedNum.ToString();
 
             if (ExecuteNonQuery(sql) <= 0)
             {

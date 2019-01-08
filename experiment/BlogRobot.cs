@@ -522,9 +522,9 @@ namespace experiment
                 m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                 {
-                    m_DataManagerSqlLite.ResetNeedFinishNum();
-                    return;
-                    //m_step = EnumStep.Finished;
+                    //m_DataManagerSqlLite.ResetNeedFinishNum();
+                    //return;
+                    m_step = EnumStep.Finished;
                 }
                 else
                 {
