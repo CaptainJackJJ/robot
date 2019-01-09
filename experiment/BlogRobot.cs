@@ -51,7 +51,7 @@ namespace experiment
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
-        UInt16 m_maxSteps = 40;
+        UInt16 m_maxSteps = 20;
         //UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
         UInt16 m_waitSuccessTimes = 0;
         UInt16 m_timesDetectLessMinReadCount = 0;
