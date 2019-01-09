@@ -153,8 +153,8 @@ namespace experiment
                         WaitSucess();
                         break;
                     case EnumStep.Finished:
-                        m_timerBrain.Stop();
-                        MessageBox.Show("今天的工作已完成");
+                        //m_timerBrain.Stop();
+                        //MessageBox.Show("今天的工作已完成");
                         return;
                 }
             }
@@ -523,8 +523,8 @@ namespace experiment
                 if (m_workingObjectInfo == null)
                 {
                     //m_DataManagerSqlLite.ResetNeedFinishNum();
-                    //return;
-                    m_step = EnumStep.Finished;
+                    return;
+                    //m_step = EnumStep.Finished;
                 }
                 else
                 {
