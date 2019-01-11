@@ -300,12 +300,12 @@ namespace experiment
             m_articleInfo = m_browser.GoToEditPage();
             if (m_articleInfo.readCount < m_MinReadCount)
             {
-                m_timesDetectLessMinReadCount++;
-                if (m_timesDetectLessMinReadCount < 3)
-                {
-                    m_step = EnumStep.GoToListPage;
-                    return;
-                }
+                //m_timesDetectLessMinReadCount++;
+                //if (m_timesDetectLessMinReadCount < 3)
+                //{
+                //    m_step = EnumStep.GoToListPage;
+                //    return;
+                //}
 
                 //this working object is done.
                 m_timesDetectLessMinReadCount = 0;
