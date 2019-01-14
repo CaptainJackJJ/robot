@@ -22,7 +22,6 @@ namespace experiment
             GoToLoginPage,
             Login,
             ConfirmLogin,
-            check,
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
@@ -125,9 +124,6 @@ namespace experiment
                         break;
                     case EnumStep.Login:
                         Login();
-                        break;
-                    case EnumStep.check:
-                        check();
                         break;
                     case EnumStep.ConfirmLogin:
                         ConfirmLogin();
@@ -494,28 +490,6 @@ namespace experiment
                 }
             }            
         }
-        private void check()
-        {
-            string url = m_browser.Url.ToString();
-            if (url.Contains("login"))
-                return;
-
-            m_workingObjectInfo.needFinishNum--;
-
-
-            if (url.Contains("sign"))
-            {
-                m_workingObjectInfo.isObjectFinished = true;                
-            }
-            else
-            {
-                m_workingObjectInfo.isObjectFinished = false;
-            }
-
-            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
-
-            m_step = EnumStep.Login;
-        }
 
         private void ConfirmLogin()
         {
@@ -527,19 +501,19 @@ namespace experiment
                     return;
             }
 
-            m_step = EnumStep.check;
+            m_step = EnumStep.GoToListPage;
         }
 
         private void Login()
         {
-            //if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
-            //    return;
+            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
+                return;
 
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout();
             }
-            if(!m_browser.Url.ToString().Contains("/login"))
+            else if(!m_browser.Url.ToString().Contains("/login"))
             {
                 m_browser.NavigateToLoginPage();
             }
