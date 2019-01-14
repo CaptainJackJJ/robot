@@ -36,7 +36,7 @@ namespace experiment
         private string connStr = @"data source=";
 
 #if DEBUG
-                    private const short m_MaxFinishedNum = 3;
+                    private const short m_MaxFinishedNum = 1;
 #else
         private const short m_MaxFinishedNum = 3;
 #endif
@@ -220,9 +220,9 @@ namespace experiment
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
-            if (String.IsNullOrEmpty(info.lastWorkingDay)
-                || info.lastWorkingDay != Convert.ToDateTime(today).ToShortDateString())
-                info.isObjectFinished = false; // new day. so reset daily finish flag
+            //if (String.IsNullOrEmpty(info.lastWorkingDay)
+            //    || info.lastWorkingDay != Convert.ToDateTime(today).ToShortDateString())
+            //    info.isObjectFinished = false; // new day. so reset daily finish flag
 
             string sql = "UPDATE objectInfo SET"
             + " objectUrl = '" + info.url + "',"
