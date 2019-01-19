@@ -414,6 +414,9 @@ namespace experiment
         }
         private void GoToListPage()
         {
+            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
+                return;
+
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
             m_step = EnumStep.GoToArticlePage;
         }
@@ -538,9 +541,6 @@ namespace experiment
 
         private void Login()
         {
-            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour > 22)
-                return;
-
             //if (m_browser.IsLogedin())
             //{
             //    m_browser.Logout();
