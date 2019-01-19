@@ -519,7 +519,7 @@ namespace experiment
 
 #if DEBUG
 #else
-            m_timerBrain.Interval = 15000;
+            m_timerBrain.Interval = 15000 * 2;
 #endif
         }
 
