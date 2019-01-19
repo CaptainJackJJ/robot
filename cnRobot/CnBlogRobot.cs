@@ -364,6 +364,9 @@ namespace experiment
 
         private void GoToArticlePage()
         {
+            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
+                return;
+
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
             {
                 string url = m_browser.Url.ToString();
@@ -414,9 +417,6 @@ namespace experiment
         }
         private void GoToListPage()
         {
-            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
-                return;
-
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
             m_step = EnumStep.GoToArticlePage;
         }
