@@ -70,7 +70,7 @@ namespace experiment
 #if DEBUG
             m_timerBrain.Interval = 2000;
 #else
-            m_timerBrain.Interval = 15000;
+            m_timerBrain.Interval = 10000;
 #endif
         }
 
@@ -522,7 +522,7 @@ namespace experiment
                 m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                 {
-                    //m_DataManagerSqlLite.ResetNeedFinishNum();
+                    m_DataManagerSqlLite.ResetNeedFinishNum();
                     return;
                     //m_step = EnumStep.Finished;
                 }
