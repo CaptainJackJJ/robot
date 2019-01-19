@@ -38,7 +38,7 @@ namespace experiment
 #if DEBUG
                     private const short m_MaxFinishedNum = 3;
 #else
-        private const short m_MaxFinishedNum = 10;
+        private const short m_MaxFinishedNum = 1000;
 #endif
 
         public CnDb(string dbName)
