@@ -113,7 +113,7 @@ namespace experiment
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
             string sql = "SELECT [rowid], * FROM objectInfo WHERE"
                 + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
-                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) LIMIT 1";
+                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) ORDER BY [publishedNum] ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
