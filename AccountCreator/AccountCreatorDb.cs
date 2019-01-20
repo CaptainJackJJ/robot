@@ -86,7 +86,7 @@ namespace AccountCreator
 
         public AccountInfo GetFan()
         {
-            string sql = "SELECT * FROM [account] ORDER BY fanToNum ASC LIMIT 1";
+            string sql = "SELECT * FROM [account] WHERE blocked = 0 ORDER BY fanToNum ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);           
             data.Read();
