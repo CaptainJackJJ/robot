@@ -359,7 +359,7 @@ namespace experiment
 
             m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            m_step = EnumStep.Login;
+            m_step = EnumStep.GoToListPage;
         }
 
         private void GoToArticlePage()
