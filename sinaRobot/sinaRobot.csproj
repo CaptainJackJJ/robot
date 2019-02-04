@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A17D6B48-2424-4BA8-A3C6-CEBCEEA35087}</ProjectGuid>
+    <ProjectGuid>{F2271D5E-C6DF-4599-932B-990B021C7934}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>experiment</RootNamespace>
@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="sinaBlogRobot.cs" />
+    <Compile Include="sinaRobot.cs" />
     <Compile Include="sinaDb.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NativeMethods.cs" />

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assigner-cn", "assigner-cn\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "touTiaoRobot", "touTiaoRobot\touTiaoRobot.csproj", "{A17D6B48-2424-4BA8-A3C6-CEBCEEA35087}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sinaRobot", "sinaRobot\sinaRobot.csproj", "{F2271D5E-C6DF-4599-932B-990B021C7934}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A17D6B48-2424-4BA8-A3C6-CEBCEEA35087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A17D6B48-2424-4BA8-A3C6-CEBCEEA35087}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17D6B48-2424-4BA8-A3C6-CEBCEEA35087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2271D5E-C6DF-4599-932B-990B021C7934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2271D5E-C6DF-4599-932B-990B021C7934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2271D5E-C6DF-4599-932B-990B021C7934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2271D5E-C6DF-4599-932B-990B021C7934}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

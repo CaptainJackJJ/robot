@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace experiment
 {
-    class sinaBlogRobot
+    class sinaRobot
     {
         enum EnumStep
         {
@@ -63,7 +63,7 @@ namespace experiment
 
         public static UInt64 m_MinReadCount = 3000;
                 
-        public sinaBlogRobot(sinaBrowser w, Timer timerBrain)
+        public sinaRobot(sinaBrowser w, Timer timerBrain)
         {
             m_workingObjDb = new sinaDb("workingObject-cn.db");
 
@@ -359,11 +359,14 @@ namespace experiment
 
             m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            m_step = EnumStep.Login;
+            m_step = EnumStep.GoToListPage;
         }
 
         private void GoToArticlePage()
         {
+            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
+                return;
+
             if (m_workingObjectInfo.lastFinishedArticleUrlInList == "") // Get into new list page, so update the list page url.
             {
                 string url = m_browser.Url.ToString();
@@ -519,7 +522,7 @@ namespace experiment
 
 #if DEBUG
 #else
-            m_timerBrain.Interval = 15000;
+            m_timerBrain.Interval = 15000 * 2;
 #endif
         }
 
@@ -538,9 +541,6 @@ namespace experiment
 
         private void Login()
         {
-            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour > 22)
-                return;
-
             //if (m_browser.IsLogedin())
             //{
             //    m_browser.Logout();
