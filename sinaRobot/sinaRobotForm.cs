@@ -21,12 +21,12 @@ namespace experiment
             InitializeComponent();
 
             // cn blog edit dialog does not support ie11 in this app.(offical ie11 is ok)
-            Tools.SetWebBrowserFeatures(9);
+            Tools.SetWebBrowserFeatures(11);
            // this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
             m_blogRobot = new sinaRobot(webBrowser1, timerRobotBrain);
 
-            webBrowser1.Navigate("http://blog.sina.com.cn/captainbed");
+            webBrowser1.Navigate("http://blog.sina.com.cn/");
         }
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
