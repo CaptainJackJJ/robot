@@ -50,7 +50,7 @@ namespace experiment
 
         Timer m_timerBrain;
         sinaBrowser m_browser = null;
-        sinaDb m_DataManagerSqlLite = null;
+        sinaDb m_workingObjDb = null;
         sinaDb.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
@@ -65,7 +65,7 @@ namespace experiment
                 
         public sinaBlogRobot(sinaBrowser w, Timer timerBrain)
         {
-            m_DataManagerSqlLite = new sinaDb("workingObject-cn.db");
+            m_workingObjDb = new sinaDb("workingObject-cn.db");
 
             m_browser = w;
 
@@ -238,7 +238,7 @@ namespace experiment
 
                 m_workingObjectInfo.needFinishNum--;
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                if(!m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo))
+                if(!m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo))
                 {
                     //UseBackupObj();
                 }
@@ -357,7 +357,7 @@ namespace experiment
             }
             objDB.DeleteBackupObj(backupObj.id);
 
-            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
+            m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
             m_step = EnumStep.Login;
         }
@@ -438,7 +438,7 @@ namespace experiment
             }
             else
             {
-                m_workingObjectInfo = m_DataManagerSqlLite.GetFirstWorkingObject();
+                m_workingObjectInfo = m_workingObjDb.GetFirstWorkingObject();
                 if (m_workingObjectInfo == null)
                 {
                     return;
@@ -551,7 +551,7 @@ namespace experiment
             //}
             //else
             {
-                m_workingObjectInfo = m_DataManagerSqlLite.GetWorkingObjectInfo();
+                m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                 {
                     m_step = EnumStep.Finished;
