@@ -25,11 +25,13 @@ namespace experiment
            // this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
             m_blogRobot = new sinaRobot(webBrowser1, timerRobotBrain);
+
+            webBrowser1.Navigate("http://blog.sina.com.cn/captainbed");
         }
 
         private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("https://blog.csdn.net/jiangjunshow/article/details/77711593");
+            webBrowser1.Navigate("http://blog.sina.com.cn/captainbed");
         }
 
         private void submitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,6 +45,11 @@ namespace experiment
         private void timerRobotBrain_Tick(object sender, EventArgs e)
         {
             m_blogRobot.timerBrain();
+        }
+
+        private void sinaRobotForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -65,7 +65,7 @@ namespace experiment
                 
         public sinaRobot(sinaBrowser w, Timer timerBrain)
         {
-            m_workingObjDb = new sinaDb("workingObject-cn.db");
+            m_workingObjDb = new sinaDb("workingObject-sina.db");
 
             m_browser = w;
 
