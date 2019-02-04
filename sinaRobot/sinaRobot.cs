@@ -378,7 +378,7 @@ namespace experiment
         private void GoToListPage()
         {
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
-            m_step = EnumStep.GoToArticlePage;
+            m_step = EnumStep.Finished;
         }
 
     }

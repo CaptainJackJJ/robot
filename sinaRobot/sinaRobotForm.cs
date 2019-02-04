@@ -41,7 +41,7 @@ namespace experiment
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            timerRobotBrain.Enabled = true;
         }
 
         private void timerRobotBrain_Tick(object sender, EventArgs e)
