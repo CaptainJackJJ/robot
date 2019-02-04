@@ -21,7 +21,7 @@ namespace experiment
             InitializeComponent();
 
             // cn blog edit dialog does not support ie11 in this app.(offical ie11 is ok)
-            Tools.SetWebBrowserFeatures(10);
+            Tools.SetWebBrowserFeatures(9);
            // this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
 
             m_blogRobot = new sinaRobot(webBrowser1, timerRobotBrain);

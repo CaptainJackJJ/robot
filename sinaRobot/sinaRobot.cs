@@ -13,17 +13,6 @@ namespace experiment
         enum EnumStep
         {
             None,
-
-            GoToLoginPageForLockCheck,
-            LoginForLockCheck,
-            ConfirmLoginForLockCheck,
-            CheckLock,
-
-            GoToLoginPage,
-            Login,
-            ConfirmLogin,
-            ClickVerify,
-            WaitVerifyDone,
             GoToListPage,
             GoToArticlePage,
             GetArticleInfo,
@@ -45,13 +34,13 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_step = EnumStep.GoToListPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
         sinaBrowser m_browser = null;
         sinaDb m_workingObjDb = null;
-        sinaDb.WorkingObjectInfo m_workingObjectInfo;
+        public sinaDb.WorkingObjectInfo m_workingObjectInfo;
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
@@ -66,11 +55,12 @@ namespace experiment
         public sinaRobot(sinaBrowser w, Timer timerBrain)
         {
             m_workingObjDb = new sinaDb("workingObject-sina.db");
+            m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
 
             m_browser = w;
 
             m_timerBrain = timerBrain;
-            m_timerBrain.Enabled = true;
+            m_timerBrain.Enabled = false;
 
             m_timerBrain.Interval = 2000;
         }
@@ -108,33 +98,6 @@ namespace experiment
             {
                 switch(m_step)
                 {
-                    case EnumStep.GoToLoginPageForLockCheck:
-                        GoToLoginPageForLockCheck();
-                        break;
-                    case EnumStep.LoginForLockCheck:
-                        LoginForLockCheck();
-                        break;
-                    case EnumStep.ConfirmLoginForLockCheck:
-                        ConfirmLoginForLockCheck();
-                        break;
-                    case EnumStep.CheckLock:
-                        CheckLock();
-                        break;
-                    case EnumStep.GoToLoginPage:
-                        GoToLoginPage();
-                        break;
-                    case EnumStep.Login:
-                        Login();
-                        break;
-                    case EnumStep.ConfirmLogin:
-                        ConfirmLogin();
-                        break;
-                    case EnumStep.ClickVerify:
-                        ClickVerify();
-                        break;
-                    case EnumStep.WaitVerifyDone:
-                        WaitVerifyDone();
-                        break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
                         break;
@@ -146,9 +109,6 @@ namespace experiment
                         break;
                     case EnumStep.GoToEditPage:
                         GoToEditPage();
-                        break;
-                    case EnumStep.LoginToEdit:
-                        LoginToEdit();
                         break;
                     case EnumStep.Edit:
                         Edit();
@@ -421,149 +381,5 @@ namespace experiment
             m_step = EnumStep.GoToArticlePage;
         }
 
-        private void GoToLoginPageForLockCheck()
-        {
-            m_browser.NavigateToLoginPage();
-            m_step = EnumStep.LoginForLockCheck;
-        }
-        private void LoginForLockCheck()
-        {
-            if (DateTime.Now.Hour < 9 || DateTime.Now.Hour > 22)
-                return;
-
-            if (m_browser.IsLogedin())
-            {
-                m_browser.Logout();
-            }
-            else if (!m_browser.Url.ToString().Contains("/login"))
-            {
-                m_browser.NavigateToLoginPage();
-            }
-            else
-            {
-                m_workingObjectInfo = m_workingObjDb.GetFirstWorkingObject();
-                if (m_workingObjectInfo == null)
-                {
-                    return;
-                    //m_step = EnumStep.Finished;
-                }
-                else
-                {
-                    if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
-                    {
-                        m_step = EnumStep.ConfirmLoginForLockCheck;
-                    }
-                }
-            }
-        }
-        private void ConfirmLoginForLockCheck()
-        {
-            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
-            if (!m_browser.MouseClickEle("input", "登 录"))
-            {
-                //<button data-type="account" class="btn btn-primary">登录</button>
-                if (!m_browser.MouseClickEle("button", "登录"))
-                    return;
-            }
-
-            m_step = EnumStep.CheckLock;
-        }
-
-        private void CheckLock()
-        {
-            //https://passport.csdn.net/passport_fe/sign.html
-            if (!m_browser.Url.ToString().Contains("sign"))
-            {
-                m_browser.Logout();
-                m_step = EnumStep.GoToLoginPage;
-            }
-        }
-        
-        private void GoToLoginPage()
-        {
-            m_browser.NavigateToLoginPage();
-            m_step = EnumStep.Login;
-        }
-
-        private void LoginToEdit()
-        {
-            if (!m_browser.IsLogedin())
-            {
-                m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password);
-            }
-            else
-            {
-                if(m_browser.IsInEditPage())
-                {
-                    m_step = EnumStep.Edit;
-                }
-            }            
-        }
-
-        private void ClickVerify()
-        {
-            if (!m_browser.ClickVerify())
-            {
-                return;
-            }
-
-            m_step = EnumStep.WaitVerifyDone;
-        }
-
-        private void WaitVerifyDone()
-        {
-            if (m_browser.Url.ToString().Contains("signin"))
-            {
-                return;
-            }
-
-            m_step = EnumStep.GoToListPage;
-            //m_step = EnumStep.GoToEditPage;
-
-#if DEBUG
-#else
-            m_timerBrain.Interval = 15000 * 2;
-#endif
-        }
-
-        private void ConfirmLogin()
-        {
-            // <input type="submit" id="signin" class="button" value="登 录">
-            if (!m_browser.MouseClickEle("input", "登 录"))
-            {
-                //<button data-type="account" class="btn btn-primary">登录</button>
-                if (!m_browser.MouseClickEle("button", "登录"))
-                    return;
-            }
-
-            m_step = EnumStep.ClickVerify;
-        }
-
-        private void Login()
-        {
-            //if (m_browser.IsLogedin())
-            //{
-            //    m_browser.Logout();
-            //}
-            //else if(!m_browser.Url.ToString().Contains("/login"))
-            //{
-            //    m_browser.NavigateToLoginPage();
-            //}
-            //else
-            {
-                m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
-                if (m_workingObjectInfo == null)
-                {
-                    m_step = EnumStep.Finished;
-                }
-                else
-                {
-                    if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
-                    {
-                        m_step = EnumStep.ConfirmLogin;
-                    }
-                }        
-            }
-        }
     }
 }
