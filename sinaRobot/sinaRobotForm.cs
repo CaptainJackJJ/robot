@@ -29,17 +29,19 @@ namespace experiment
             webBrowser1.Navigate("http://blog.sina.com.cn/");
         }
 
-        private void navigateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void copyUsernameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("http://blog.sina.com.cn/captainbed");
+            Clipboard.SetDataObject(m_blogRobot.m_workingObjectInfo.userName); 
         }
 
-        private void submitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void copyPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Clipboard.SetDataObject(m_blogRobot.m_workingObjectInfo.password); 
         }
 
-        private void accountToolStripMenuItem_Click(object sender, EventArgs e)
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
         }
 
         private void timerRobotBrain_Tick(object sender, EventArgs e)

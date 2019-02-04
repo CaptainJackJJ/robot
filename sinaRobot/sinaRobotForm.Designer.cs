@@ -53,23 +53,23 @@
             // navigateToolStripMenuItem
             // 
             this.navigateToolStripMenuItem.Name = "navigateToolStripMenuItem";
-            this.navigateToolStripMenuItem.Size = new System.Drawing.Size(69, 21);
-            this.navigateToolStripMenuItem.Text = "navigate";
-            this.navigateToolStripMenuItem.Click += new System.EventHandler(this.navigateToolStripMenuItem_Click);
+            this.navigateToolStripMenuItem.Size = new System.Drawing.Size(109, 21);
+            this.navigateToolStripMenuItem.Text = "copy username";
+            this.navigateToolStripMenuItem.Click += new System.EventHandler(this.copyUsernameToolStripMenuItem_Click);
             // 
             // submitToolStripMenuItem
             // 
             this.submitToolStripMenuItem.Name = "submitToolStripMenuItem";
-            this.submitToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
-            this.submitToolStripMenuItem.Text = "submit";
-            this.submitToolStripMenuItem.Click += new System.EventHandler(this.submitToolStripMenuItem_Click);
+            this.submitToolStripMenuItem.Size = new System.Drawing.Size(109, 21);
+            this.submitToolStripMenuItem.Text = "copy password";
+            this.submitToolStripMenuItem.Click += new System.EventHandler(this.copyPasswordToolStripMenuItem_Click);
             // 
             // accountToolStripMenuItem
             // 
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(65, 21);
-            this.accountToolStripMenuItem.Text = "account";
-            this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(46, 21);
+            this.accountToolStripMenuItem.Text = "start";
+            this.accountToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // timerRobotBrain
             // 
