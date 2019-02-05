@@ -339,58 +339,33 @@ namespace experiment
         public bool GoToNextArticlePage(string lastArticleUrl, ref bool isNetDealy)
         {
             m_articleContent = "";
-            isNetDealy = false;
+            isNetDealy = true;
 
-            short timesOfFindLastArticle = 0;
-            string lastArticleId = "";
-            if (!String.IsNullOrEmpty(lastArticleUrl))
-            {
-                lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
-                // add "target" string to avoid next article's id is include in front article's content.
-
-                // This link of article is not same as the link of artcile which is in list, but the ID is same
-                /* https://blog.csdn.net/laoyang360/article/details/52244917 */
-                // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-            }
-
+            //<span class="atc_title">
+            // <a title="" target="_blank" href="http://blog.sina.com.cn/s/blog_4c8a693a0102yeu0.html">保险行业也暴雷，A股还可有安全的…</a>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
             foreach (HtmlElement ele in collection)
             {
-                // reach the list end.
-                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
+                if (ele.OuterHtml.Contains("blog.sina.com.cn/s/blog"))
                 {
-                    return false;
-                }
-                if (ele.OuterHtml.Contains("article/details"))
-                {
-                    if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
-                        continue; // this ele is hidden                    
-
-                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
+                    isNetDealy = false;
+                    if (lastArticleUrl == ""
+                        || ele.OuterHtml.Contains(lastArticleUrl))
                     {
                         ClickArticleInList(ele.OuterHtml);
                         return true;
                     }
-
-                    /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-                        Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
-                        1：http://blog.csdn.net/rlhua/article/details/12624275
-                        2：http://blog.csdn.net/rlhua/articl...      </a>
-                    */
-                    // use substring to avoid OuterHtml contarin's other article's link
-                    if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
-                        timesOfFindLastArticle++;
                 }
             }
-
-            isNetDealy = true;
+            
             return false;
         }
 
         private void ClickArticleInList(string ArticleOuterHtml)
         {
+            // <a title="" target="_blank" href="http://blog.sina.com.cn/s/blog_4c8a693a0102yeu0.html">保险行业也暴雷，A股还可有安全的…</a>       
             int startIndex = ArticleOuterHtml.IndexOf("http");
-            int endIndex = ArticleOuterHtml.IndexOf("target") - 2;
+            int endIndex = ArticleOuterHtml.IndexOf(".html") + 5;
             string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
             /* outerhtml
             <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
