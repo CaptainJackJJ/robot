@@ -338,7 +338,7 @@ namespace experiment
                 }
                 m_workingObjectInfo.lastListPageUrl = m_browser.Url.ToString();
             }
-     
+
             bool isNetDealy = false;
             if (m_browser.GoToNextArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
                 m_step = EnumStep.GetArticleInfo;

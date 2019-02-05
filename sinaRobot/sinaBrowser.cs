@@ -326,12 +326,11 @@ namespace experiment
 
         public bool GoToNextPage()
         {
-            //<li class="js-page-next js-page-action ui-pager">下一页</li>
-            //<li class="js-page-next js-page-action ui-pager ui-pager-disabled">下一页</li>
-            HtmlElement ele = GetEleByTagAndOuterHtml("li", "下一页");
+            //<a href="http://blog.sina.com.cn/s/articlelist_1284139322_3_2.html" title="跳转至第 2 页">下一页&nbsp;&gt;</a>
+            HtmlElement ele = GetEleByTagAndOuterHtml("a", "下一页");
             if (ele == null || ele.OuterHtml.Contains("disabled"))
                 return false;
-            SafeClick(ele);
+            ClickLinkInEle(ele.OuterHtml);
             return true;
         }
 
@@ -352,7 +351,7 @@ namespace experiment
                     if (lastArticleUrl == ""
                         || ele.OuterHtml.Contains(lastArticleUrl))
                     {
-                        ClickArticleInList(ele.OuterHtml);
+                        ClickLinkInEle(ele.OuterHtml);
                         return true;
                     }
                 }
@@ -361,12 +360,12 @@ namespace experiment
             return false;
         }
 
-        private void ClickArticleInList(string ArticleOuterHtml)
+        private void ClickLinkInEle(string EleOuterHtml)
         {
             // <a title="" target="_blank" href="http://blog.sina.com.cn/s/blog_4c8a693a0102yeu0.html">保险行业也暴雷，A股还可有安全的…</a>       
-            int startIndex = ArticleOuterHtml.IndexOf("http");
-            int endIndex = ArticleOuterHtml.IndexOf(".html") + 5;
-            string ArticleUrl = ArticleOuterHtml.Substring(startIndex, endIndex - startIndex);
+            int startIndex = EleOuterHtml.IndexOf("http");
+            int endIndex = EleOuterHtml.IndexOf(".html") + 5;
+            string ArticleUrl = EleOuterHtml.Substring(startIndex, endIndex - startIndex);
             /* outerhtml
             <a href="https://blog.csdn.net/wojiushiwo987/article/details/52244917" target="_blank"><span class="article-type type-1">原        </span>Elasticsearch学习，请先看这一篇！      </a>
              */
