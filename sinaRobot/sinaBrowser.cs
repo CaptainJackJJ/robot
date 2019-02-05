@@ -122,21 +122,18 @@ namespace experiment
             return true;
         }
 
-        public void Edit(sinaRobot.ArticleInfo articleInfo)
+        public void EditTitle(sinaRobot.ArticleInfo articleInfo)
         {
-            // <input name="Editor$Edit$txbTitle" type="text" maxlength="200" id="Editor_Edit_txbTitle" onblur="localPreserver.saveDraftTitle();" onkeydown="title_keydown(event);" style="width:99%;">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_txbTitle"); 
+            // <input id="articleTitle" name="blog_title" type="text" size="96" class="Fm_input1" value="">
+            HtmlElement ele = this.Document.GetElementById("articleTitle"); 
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
             ele.Focus(); SendKeys.Send("");
             ele.InnerText = m_articleTitle;
             ele.SetAttribute("value", m_articleTitle);
 
-
-            // <a role="button" id="Editor_Edit_EditorBody_code" href="javascript:;" class="mceButton mceButtonEnabled mce_code" onmousedown="return false;" onclick="return false;" aria-labelledby="Editor_Edit_EditorBody_code_voice" title="编辑 HTML 源代码" tabindex="-1"><span class="mceIcon mce_code"></span><span class="mceVoiceLabel mceIconOnly" style="display: none;" id="Editor_Edit_EditorBody_code_voice">编辑 HTML 源代码</span></a>
-            //ele = this.Document.GetElementById("Editor_Edit_EditorBody_code");
-            //SafeClick(ele);
-            Tools.DoubleClick(452, 397);
+            // <label for="SinaEditor_59_viewcodecheckbox">显示源代码</label>
+            Tools.DoubleClick(266, 654);
         }
 
         public void EditHtml()
