@@ -336,7 +336,7 @@ namespace experiment
         }
 
         // return false means no next article anymore.
-        public bool GoToArticlePage(string lastArticleUrl, ref bool isNetDealy)
+        public bool GoToNextArticlePage(string lastArticleUrl, ref bool isNetDealy)
         {
             m_articleContent = "";
             isNetDealy = false;

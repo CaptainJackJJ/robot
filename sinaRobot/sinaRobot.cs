@@ -14,7 +14,7 @@ namespace experiment
         {
             None,
             GoToListPage,
-            GoToArticlePage,
+            GoToNextArticlePage,
             GetArticleInfo,
             GoToEditPage,
             LoginToEdit,
@@ -101,8 +101,8 @@ namespace experiment
                     case EnumStep.GoToListPage:
                         GoToListPage();
                         break;
-                    case EnumStep.GoToArticlePage:
-                        GoToArticlePage();
+                    case EnumStep.GoToNextArticlePage:
+                        GoToNextArticlePage();
                         break;
                     case EnumStep.GetArticleInfo:
                         GetArticleInfo();
@@ -322,7 +322,7 @@ namespace experiment
             m_step = EnumStep.GoToListPage;
         }
 
-        private void GoToArticlePage()
+        private void GoToNextArticlePage()
         {
             if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
                 return;
@@ -340,7 +340,7 @@ namespace experiment
             }
      
             bool isNetDealy = false;
-            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
+            if (m_browser.GoToNextArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
                 m_step = EnumStep.GetArticleInfo;
             else
             {
@@ -353,7 +353,7 @@ namespace experiment
                         m_goToArticleDelayTimes = 0;
                         m_timesOfSomeStep = 0; // to avoid shut domn.
                     }
-                    return; // try goToArticlePage again
+                    return; // try GoToNextArticlePage again
                 }
                 if(!m_browser.GoToNextPage())
                 {
@@ -378,7 +378,7 @@ namespace experiment
         private void GoToListPage()
         {
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.GoToNextArticlePage;
         }
 
     }
