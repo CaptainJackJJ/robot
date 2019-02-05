@@ -266,60 +266,31 @@ namespace experiment
         {
             sinaRobot.ArticleInfo info = new sinaRobot.ArticleInfo();
 
-            // <span class="read-count">阅读数：884</span>
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("阅读数"))
-                {
-                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
-                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
-                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
-                    info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < sinaRobot.m_MinReadCount)
-                        return info;
-                    else
-                        break;
-                }
-            }
-
             info.url = this.Document.Url.ToString();
 
-            collection = this.Document.GetElementsByTagName("h1");
-            foreach (HtmlElement ele in collection)
+            // <h2 id="t_4c8a693a0102yeu0" class="titName SG_txta">保险行业也暴雷，A股还可有安全的？</h2>
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("h2");
+            foreach (HtmlElement ele1 in collection)
             {
-                if (ele.OuterHtml.Contains("title-article"))
+                if (ele1.OuterHtml.Contains("titName SG_txta"))
                 {
-                    if (ele.InnerText.Length > 60)
-                    {
-                        info.title = ele.InnerText.Substring(0, 60);
-                    }
-                    else
-                        info.title = ele.InnerText;
-                    info.title = Regex.Replace(info.title, "[ \\[ \\] \\^ _*×――(^)^$%~!@#$…&%￥=<>《》!！??？:：•`·、。；,.;\"‘’“”]", " ");
+                    info.title = ele1.InnerText;
                     m_articleTitle = info.title;
                     break;
                 }
             }
 
-            collection = this.Document.GetElementsByTagName("div");
-            foreach (HtmlElement ele in collection)
+            //<div id="sina_keyword_ad_area2" class="articalContent   newfont_family">
+            HtmlElement ele = this.Document.GetElementById("sina_keyword_ad_area2");
+            if (ele.OuterHtml.Length > 100000)
             {
-                if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
-                    (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
-                {                    
-                    if (ele.OuterHtml.Length > 100000)
-                    {
-                        Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
-                            + info.url + " , original len is " + ele.OuterHtml.Length);
+                Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
+                    + info.url + " , original len is " + ele.OuterHtml.Length);
 
-                        m_articleContent = ele.OuterHtml.Substring(0, 100000);
-                    }
-                    else
-                        m_articleContent = ele.OuterHtml;
-                    break;
-                }
+                m_articleContent = ele.OuterHtml.Substring(0, 100000);
             }
+            else
+                m_articleContent = ele.OuterHtml;
 
             return info;
         }

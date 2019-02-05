@@ -270,25 +270,6 @@ namespace experiment
         private void GetArticleInfo()
         {
             m_articleInfo = m_browser.GetArticleInfo();
-            if (m_articleInfo.readCount < m_MinReadCount)
-            {
-                m_timesDetectLessMinReadCount++;
-                if (m_timesDetectLessMinReadCount < 3)
-                {
-                    m_step = EnumStep.GoToListPage;
-                    return;
-                }
-
-                //this working object is done.
-                m_timesDetectLessMinReadCount = 0;
-
-                UseBackupObj();
-
-                Log.WriteLog(LogType.Trace, "read count is too small, so object is done");
-                return;
-            }
-
-            m_timesDetectLessMinReadCount = 0;
 
             if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
                 || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
