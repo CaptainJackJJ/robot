@@ -253,18 +253,8 @@ namespace experiment
 
         private void GoToEditPage()
         {
-            m_browser.SafeNavigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
-            m_step = EnumStep.Edit;
-
-            //if(!m_browser.Url.ToString().Contains("EditPosts") || m_lastStep != EnumStep.GoToEditPage)
-            //{
-            //    m_browser.SafeNavigate("https://i.cnblogs.com/EditPosts.aspx?opt=1");
-            //}
-            //else
-            //{
-            //    m_browser.Refresh();
-            //    m_step = EnumStep.Edit;
-            //}            
+            m_browser.SafeNavigate("http://control.blog.sina.com.cn/admin/article/article_add.php");
+            m_step = EnumStep.Edit;        
         }
 
         private void GetArticleInfo()
