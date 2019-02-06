@@ -138,18 +138,12 @@ namespace experiment
 
         public void EditHtml()
         {
-            // <iframe id="mce_61_ifr" src="https://common.cnblogs.com/editor/tiny_mce/themes/advanced/source_editor.htm?mce_rdomain=cnblogs.com&amp;id=20170728" frameborder="0" style="border: 0px; width: 720px; height: 580px;"></iframe>
-            HtmlElement ele = GetEleByTagAndOuterHtml("iframe", "source_editor");
-            HtmlDocument htmlDocDlg = this.Document.Window.Frames[ele.Id.ToString()].Document;
-
-            // <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 700px; height: 515px; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 12px; white-space: pre-wrap;" dir="ltr" wrap="off" class="mceFocus"></textarea>
-            ele = htmlDocDlg.GetElementById("htmlSource");
+            //<textarea name="blog_body" id="SinaEditorTextarea" class="textarea" style="border: 0px none; display: block;"></textarea>
+            HtmlElement ele = this.Document.GetElementById("SinaEditorTextarea");
+            // This line makes title input success. 
+            // Maybe bacuase this simulated human key press
+            ele.Focus(); SendKeys.Send("");
             ele.InnerText = m_articleContent + m_tail;
-            ele.SetAttribute("value", ele.InnerText);
-
-            // <input type="submit" role="button" name="insert" value="更新" id="insert">
-            ele = htmlDocDlg.GetElementById("insert");
-            SafeClick(ele);
         }
 
         public bool isMissContent()
