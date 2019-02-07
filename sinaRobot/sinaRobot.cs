@@ -17,10 +17,8 @@ namespace experiment
             GoToNextArticlePage,
             GetArticleInfo,
             GoToEditPage,
-            LoginToEdit,
             EditTitle,
             EditHtml,
-            PrePublish, // can not direct click publish buttion, if so article type droplist would failed. so need PrePublsih
             Publish,
             WaitSucess,
             Finished
@@ -115,9 +113,6 @@ namespace experiment
                         break;
                     case EnumStep.EditHtml:
                         EditHtml();
-                        break;
-                    case EnumStep.PrePublish:
-                        PrePublish();
                         break;
                     case EnumStep.Publish:
                         Publish();
@@ -237,12 +232,6 @@ namespace experiment
             }
 
             m_waitSuccessTimes = 0;
-        }
-
-        private void PrePublish()
-        {
-            m_browser.PrePublish();
-            m_step = EnumStep.Publish;
         }
 
         private void Publish()

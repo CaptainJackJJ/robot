@@ -60,8 +60,8 @@
             // submitToolStripMenuItem
             // 
             this.submitToolStripMenuItem.Name = "submitToolStripMenuItem";
-            this.submitToolStripMenuItem.Size = new System.Drawing.Size(109, 21);
-            this.submitToolStripMenuItem.Text = "copy password";
+            this.submitToolStripMenuItem.Size = new System.Drawing.Size(49, 21);
+            this.submitToolStripMenuItem.Text = "none";
             this.submitToolStripMenuItem.Click += new System.EventHandler(this.copyPasswordToolStripMenuItem_Click);
             // 
             // accountToolStripMenuItem
