@@ -168,19 +168,6 @@ namespace experiment
             return false;
         }
 
-        public bool isPublishedMax()
-        {
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("今天发表文章数量已达到限制的 10 篇"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public bool isSuccess()
         {
             // <div>发布成功</div>
@@ -191,6 +178,21 @@ namespace experiment
                 m_articleContent = "";
             }
             return s;
+        }
+
+        public bool isPublishTooMuch()
+        {
+            //<td id="_5671549543811463_text">您短时间发表文章过多，请稍后再试</td>
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("td");
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("您短时间发表文章过多"))
+                {
+                    //Log.WriteLog(LogType.Error, "isPublishTooMuch. msg is " + ele.InnerText);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool isUnexpectError()

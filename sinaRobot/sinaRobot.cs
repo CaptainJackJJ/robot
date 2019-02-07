@@ -179,10 +179,13 @@ namespace experiment
 
         private void WaitSucess()
         {
-            m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-            m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
+            if (!m_browser.isPublishTooMuch())
+            {
+                m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
+                m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
-            Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
+                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
+            }            
 
             m_step = EnumStep.GoToListPage;
         }
