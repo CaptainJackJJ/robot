@@ -222,13 +222,7 @@ namespace experiment
 
         public void Publish()
         {
-#if DEBUG
-            // <input type="submit" name="Editor$Edit$lkbDraft" value="存为草稿" onclick="return CheckInput();" id="Editor_Edit_lkbDraft" class="Button">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbDraft");
-#else
-            // <input type="submit" name="Editor$Edit$lkbPost" value="发布" onclick="return CheckInput();" id="Editor_Edit_lkbPost" class="Button">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbPost");
-#endif
+            HtmlElement ele = this.Document.GetElementById("articlePostBtn");
             SafeClick(ele);
         }
 
