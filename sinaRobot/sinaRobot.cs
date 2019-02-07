@@ -184,20 +184,12 @@ namespace experiment
 
         private void WaitSucess()
         {
-            m_workingObjectInfo.needFinishNum--;
             m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
             m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
             Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
 
-            if (m_workingObjectInfo.needFinishNum <= 0)
-            {
-                Environment.Exit(0);
-            }
-            else
-            {
-                m_step = EnumStep.GoToListPage;
-            }
+            m_step = EnumStep.GoToListPage;
         }
 
         private void Publish()
@@ -233,7 +225,6 @@ namespace experiment
             if (backupObj == null)
             {
                 Log.WriteLog(LogType.Warning, "backup db is empty");
-                m_workingObjectInfo.needFinishNum = 0;
             }
             else
             {

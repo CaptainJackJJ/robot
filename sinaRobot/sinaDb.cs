@@ -111,9 +111,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
-            string sql = "SELECT [rowid], * FROM objectInfo WHERE"
-                + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
-                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) ORDER BY [publishedNum] ASC LIMIT 1";
+            string sql = "SELECT [rowid], * FROM objectInfo ORDER BY [publishedNum] ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -137,15 +135,6 @@ namespace experiment
                 info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay).ToShortDateString();
             info.isObjectFinished = data.GetBoolean(8);
             info.publishedNum = data.GetInt32(9);
-
-            if (info.lastWorkingDay == ""
-                || Convert.ToDateTime(info.lastWorkingDay, dtFormat) < Convert.ToDateTime(today.Substring(0, 10), dtFormat))
-            {
-                info.needFinishNum = m_MaxFinishedNum; // This is new day.
-            }
-
-            //if (info.needFinishNum > 1)
-            //    info.needFinishNum = 1;
 
             data.Close();
             data.Dispose();

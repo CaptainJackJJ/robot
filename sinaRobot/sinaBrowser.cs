@@ -296,6 +296,8 @@ namespace experiment
             m_articleContent = "";
             isNetDealy = true;
 
+            bool bFind = false;
+
             //<span class="atc_title">
             // <a title="" target="_blank" href="http://blog.sina.com.cn/s/blog_4c8a693a0102yeu0.html">保险行业也暴雷，A股还可有安全的…</a>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
@@ -304,11 +306,16 @@ namespace experiment
                 if (ele.OuterHtml.Contains("blog.sina.com.cn/s/blog"))
                 {
                     isNetDealy = false;
-                    if (lastArticleUrl == ""
-                        || ele.OuterHtml.Contains(lastArticleUrl))
+
+                    if (lastArticleUrl == "" || bFind == true)
                     {
                         ClickLinkInEle(ele.OuterHtml);
                         return true;
+                    }
+
+                    if (ele.OuterHtml.Contains(lastArticleUrl))
+                    {
+                        bFind = true;
                     }
                 }
             }
