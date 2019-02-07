@@ -174,8 +174,6 @@ namespace experiment
 
         private void EditHtml()
         {
-            // two step do one edit. because this maybe avoid title empty bug. to give more time to load edit page.
-            //if (m_lastStep == EnumStep.Edit) 
             {
                 m_browser.EditHtml();
                 m_step = EnumStep.Publish;
