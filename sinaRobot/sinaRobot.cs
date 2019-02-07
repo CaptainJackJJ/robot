@@ -43,9 +43,6 @@ namespace experiment
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
         UInt16 m_maxSteps = 40000;
-        //UInt16 m_publishedArticleNum = 0; // get quit after finish 5 articles
-        UInt16 m_waitSuccessTimes = 0;
-        UInt16 m_timesDetectLessMinReadCount = 0;
         UInt16 m_timesCantGoToNext = 0;
 
         public static UInt64 m_MinReadCount = 3000;
@@ -60,7 +57,7 @@ namespace experiment
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = false;
 
-            m_timerBrain.Interval = 2000;
+            m_timerBrain.Interval = 4000;
         }
 
         public void timerBrain()
@@ -187,40 +184,11 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if(m_browser.isSuccess())
-            {                
-                //m_publishedArticleNum++;
+            m_workingObjectInfo.needFinishNum--;
+            m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
+            m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
-                m_workingObjectInfo.needFinishNum--;
-                m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                if(!m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo))
-                {
-                    //UseBackupObj();
-                }
-
-                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
-            }
-            else
-            {       
-                // just go to next article if not success
-                //if (m_browser.isUnexpectError())
-                {
-                    Log.WriteLog(LogType.Error, "occur unexpect error, so jump over this article. lastListUrl is "
-                        + m_workingObjectInfo.lastListPageUrl + ", article is " + m_articleInfo.url);
-
-                    m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                    m_step = EnumStep.GoToListPage;
-                    m_waitSuccessTimes = 0;
-
-                    return;
-                }
-
-                m_waitSuccessTimes++;
-                if (m_waitSuccessTimes < m_maxSteps)
-                    return; // Keep waiting
-
-                Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
-            }
+            Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
@@ -230,8 +198,6 @@ namespace experiment
             {
                 m_step = EnumStep.GoToListPage;
             }
-
-            m_waitSuccessTimes = 0;
         }
 
         private void Publish()
