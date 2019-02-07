@@ -15,9 +15,12 @@ namespace experiment
     class sinaBrowser : WebBrowser
     {
         const string m_head = @"";
-        const string m_tail = @"
-<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
 
+        const string m_tail = @"
+<p></p><p>再分享一个大牛的AI教程吧。人工智能被认为是一种拯救世界、终结世界的技术。不懂AI就会被社会淘汰。教程通俗易懂，有初中基础就能学会，而且还风趣幽默，内嵌黄段子。<a href=""http://blog.sina.com.cn/s/blog_1594877b60102ypru.html"">http://blog.sina.com.cn/captainbed</a></p>";
+
+
+        
         string m_articleContent = "";
         string m_articleTitle = "";
 
