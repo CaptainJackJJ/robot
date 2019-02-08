@@ -110,7 +110,6 @@ namespace experiment
 
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
-            string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
             string sql = "SELECT [rowid], * FROM objectInfo WHERE isObjectFinished = 0 ORDER BY [lastWorkingDay] ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
@@ -173,7 +172,7 @@ namespace experiment
 
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
-            string today = DateTime.Today.ToString(new CultureInfo("ko"));
+            string today = DateTime.Today.ToString();
 
             info.publishedNum++;
 
