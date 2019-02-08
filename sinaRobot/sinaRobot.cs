@@ -310,7 +310,7 @@ namespace experiment
 
         private void GoToLoginPage()
         {
-            m_browser.SafeNavigate("https://login.sina.com.cn/signup/signin.php");
+            m_browser.NavigateToLoginPage();
             m_step = EnumStep.Login;
         }
 

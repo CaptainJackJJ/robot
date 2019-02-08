@@ -99,7 +99,7 @@ namespace experiment
 
         public void NavigateToLoginPage()
         {
-            SafeNavigate("https://passport.cnblogs.com/user/signin");  
+            SafeNavigate("https://login.sina.com.cn/signup/signin.php");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -414,11 +414,8 @@ namespace experiment
 
         public void Logout()
         {
-            //<a href="//passport.csdn.net/account/logout">退出</a>
+            //<a target="_blank" suda-uatrack="key=index_top&amp;value=logout" href="#0" action-type="logout_btn">退出</a>
             ClickEleByTagAndOuterHtml("a", "退出");
-            //SafeNavigate("//passport.csdn.net/account/logout");
-            //if(ClickEleByTagAndOuterHtml("a", "退出"))
-            //    NavigateToLoginPage();
         }
 
         public bool ClickVerify()
