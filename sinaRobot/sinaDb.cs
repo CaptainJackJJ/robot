@@ -198,6 +198,20 @@ namespace experiment
             return true;
         }
 
+        public bool SetWorkingObjDone(long id)
+        {
+            string sql = "UPDATE objectInfo SET"
+            + " isObjectFinished = 1"
+            + " WHERE [rowid] = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetWorkingObjDone error. sql is " + sql);
+                return false;
+            }
+            return true;
+        }
+
         public ObjectInfo GetBackupObj()
         {
             string sql = "SELECT * FROM object LIMIT 1";

@@ -179,7 +179,11 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if (!m_browser.isPublishTooMuch())
+            if (m_browser.isPublishTooMuch())
+            {
+                m_workingObjDb.SetWorkingObjDone(m_workingObjectInfo.id);
+            }
+            else
             {
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
                 m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
