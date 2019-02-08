@@ -111,7 +111,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
-            string sql = "SELECT [rowid], * FROM objectInfo WHERE isObjectFinished = 0 ORDER BY [publishedNum] ASC LIMIT 1";
+            string sql = "SELECT [rowid], * FROM objectInfo WHERE isObjectFinished = 0 ORDER BY [lastWorkingDay] ASC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -173,10 +173,7 @@ namespace experiment
 
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
-            string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0, 10) + " 00:00:00.000";
-            if (String.IsNullOrEmpty(info.lastWorkingDay)
-                || Convert.ToDateTime(info.lastWorkingDay).ToShortDateString() != Convert.ToDateTime(today).ToShortDateString())
-                info.isObjectFinished = false; // new day. so reset daily finish flag
+            string today = DateTime.Today.ToString(new CultureInfo("ko"));
 
             info.publishedNum++;
 
