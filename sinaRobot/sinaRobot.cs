@@ -332,7 +332,8 @@ namespace experiment
                 m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                 {
-                    m_workingObjDb.ResetWorkingObjDone();
+                    //m_workingObjDb.ResetWorkingObjDone();
+                    MessageBox.Show("all done at this ip");
                 }
                 else
                 {
