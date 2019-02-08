@@ -56,7 +56,7 @@ namespace experiment
             m_browser = w;
 
             m_timerBrain = timerBrain;
-            m_timerBrain.Enabled = false;
+            m_timerBrain.Enabled = true;
 
             m_timerBrain.Interval = 3000;
             //m_timerBrain.Interval = 8888;
