@@ -58,7 +58,8 @@ namespace experiment
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = false;
 
-            m_timerBrain.Interval = 8888;
+            m_timerBrain.Interval = 3000;
+            //m_timerBrain.Interval = 8888;
         }
 
         public void timerBrain()
@@ -315,15 +316,15 @@ namespace experiment
 
         private void Login()
         {
-            //if (m_browser.IsLogedin())
-            //{
-            //    m_browser.Logout();
-            //}
-            //else if(!m_browser.Url.ToString().Contains("/login"))
-            //{
-            //    m_browser.NavigateToLoginPage();
-            //}
-            //else
+            if (m_browser.IsLogedin())
+            {
+                m_browser.Logout();
+            }
+            else if (!m_browser.Url.ToString().Contains("/login"))
+            {
+                m_browser.NavigateToLoginPage();
+            }
+            else
             {
                 m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)

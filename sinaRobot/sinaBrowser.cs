@@ -387,8 +387,8 @@ namespace experiment
 
         public bool IsLogedin()
         {
-            //TODO: This is not trustful
-            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
+            //http://my.sina.com.cn/
+            if (this.Url.ToString() == "http://my.sina.com.cn/")
                 return true;
             return false;
         }
