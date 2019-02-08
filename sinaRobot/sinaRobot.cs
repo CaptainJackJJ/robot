@@ -13,6 +13,8 @@ namespace experiment
         enum EnumStep
         {
             None,
+            GoToLoginPage,
+            Login,
             GoToListPage,
             GoToNextArticlePage,
             GetArticleInfo,
@@ -32,7 +34,7 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GoToListPage;
+        EnumStep m_step = EnumStep.GoToLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -50,7 +52,6 @@ namespace experiment
         public sinaRobot(sinaBrowser w, Timer timerBrain)
         {
             m_workingObjDb = new sinaDb("workingObject-sina.db");
-            m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
 
             m_browser = w;
 
@@ -93,6 +94,12 @@ namespace experiment
             {
                 switch(m_step)
                 {
+                    case EnumStep.GoToLoginPage:
+                        GoToLoginPage();
+                        break;
+                    case EnumStep.Login:
+                        Login();
+                        break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
                         break;
@@ -300,5 +307,37 @@ namespace experiment
             m_step = EnumStep.GoToNextArticlePage;
         }
 
+        private void GoToLoginPage()
+        {
+            m_browser.SafeNavigate("https://login.sina.com.cn/signup/signin.php");
+            m_step = EnumStep.Login;
+        }
+
+        private void Login()
+        {
+            //if (m_browser.IsLogedin())
+            //{
+            //    m_browser.Logout();
+            //}
+            //else if(!m_browser.Url.ToString().Contains("/login"))
+            //{
+            //    m_browser.NavigateToLoginPage();
+            //}
+            //else
+            {
+                m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
+                if (m_workingObjectInfo == null)
+                {
+                    m_step = EnumStep.Finished;
+                }
+                else
+                {
+                    if (m_browser.Login(m_workingObjectInfo.userName, m_workingObjectInfo.password))
+                    {
+                        m_step = EnumStep.GoToListPage;
+                    }
+                }
+            }
+        }
     }
 }

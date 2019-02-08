@@ -395,27 +395,18 @@ namespace experiment
 
         public bool Login(string uName,string password)
         {
-            // <input type="text" id="input1" value="" class="input-text" onkeydown="check_enter(event)">
-            HtmlElement ele = this.Document.GetElementById("input1");
-            if(ele == null)
-            {
-                ele = this.Document.GetElementById("all");
-                ele.Focus(); SendKeys.Send(" ");
-            }
+            // <input autocomplete="off" id="username" name="username" tabindex="0" type="text" value="" maxlength="64" class="fInput w200" alt="登录名:无内容/长度{1-64}/errArea{usernameErr}" placeholder="微博/邮箱/博客帐号">
+            HtmlElement ele = this.Document.GetElementById("username");
             ele.SetAttribute("value", uName);
 
 
-            // <input type="password" id="input2" value="" class="input-text" onkeydown="check_enter(event)">
-            ele = this.Document.GetElementById("input2");
-            if (ele != null)
-            {
-                ele.Focus(); SendKeys.Send(" ");
-            }
-            else
-            {
-                ele = this.Document.GetElementById("password");
-            }
+            // <input id="password" name="password" type="password" tabindex="1" maxlength="32" alt="密码:无内容/errArea{passwordErr}" class="fInput w200" value="">
+            ele = this.Document.GetElementById("password");
             ele.SetAttribute("value", password);
+
+            //<input style="width:202px;" type="submit" tabindex="5" class="W_btn_a btn_34px" value="登 录">
+            ele = GetEleByTagAndOuterHtml("input", "登 录");
+            SafeClick(ele);
 
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
