@@ -190,6 +190,7 @@ namespace experiment
             if (m_browser.isPublishTooMuch())
             {
                 m_workingObjDb.SetWorkingObjDone(m_workingObjectInfo.id);
+                m_step = EnumStep.GoToLoginPage;
             }
             else
             {
@@ -197,9 +198,8 @@ namespace experiment
                 m_workingObjDb.SetWorkingObjectInfo(m_workingObjectInfo);
 
                 Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
-            }            
-
-            m_step = EnumStep.GoToListPage;
+                m_step = EnumStep.GoToListPage;
+            }     
         }
 
         private void Publish()
@@ -329,7 +329,7 @@ namespace experiment
                 m_workingObjectInfo = m_workingObjDb.GetWorkingObjectInfo();
                 if (m_workingObjectInfo == null)
                 {
-                    m_step = EnumStep.Finished;
+                    m_workingObjDb.ResetWorkingObjDone();
                 }
                 else
                 {

@@ -212,6 +212,16 @@ namespace experiment
             return true;
         }
 
+        public void ResetWorkingObjDone()
+        {
+            string sql = "UPDATE objectInfo SET isObjectFinished = 0";
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "ResetWorkingObjDone error. sql is " + sql);
+            }
+        }
+
         public ObjectInfo GetBackupObj()
         {
             string sql = "SELECT * FROM object LIMIT 1";
