@@ -169,7 +169,7 @@ namespace experiment
 
         public bool SetWorkingObjectInfo(WorkingObjectInfo info)
         {
-            string today = DateTime.Today.ToString();
+            string today = DateTime.Now.ToString();
 
             info.publishedNum++;
 
