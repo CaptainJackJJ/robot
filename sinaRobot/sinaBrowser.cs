@@ -127,6 +127,8 @@ namespace experiment
 
         public void EditTitle(sinaRobot.ArticleInfo articleInfo)
         {
+            Tools.CloseSecurityAlert();
+
             // <input id="articleTitle" name="blog_title" type="text" size="96" class="Fm_input1" value="">
             HtmlElement ele = this.Document.GetElementById("articleTitle"); 
             // This line makes title input success. 

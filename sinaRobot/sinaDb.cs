@@ -129,9 +129,6 @@ namespace experiment
             info.lastListPageUrl = data.GetString(4);
             info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
             info.needFinishNum = data.GetInt16(6);
-            info.lastWorkingDay = data.GetValue(7).ToString();
-            if (info.lastWorkingDay != "")
-                info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay).ToShortDateString();
             info.isObjectFinished = data.GetBoolean(8);
             info.publishedNum = data.GetInt32(9);
 
