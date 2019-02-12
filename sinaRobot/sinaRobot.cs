@@ -51,7 +51,6 @@ namespace experiment
                 
         public sinaRobot(sinaBrowser w, Timer timerBrain)
         {
-            string today = DateTime.Today.ToString();
             m_workingObjDb = new sinaDb("workingObject-sina.db");
 
             m_browser = w;
