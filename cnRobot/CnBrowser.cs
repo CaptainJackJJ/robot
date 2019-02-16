@@ -14,7 +14,9 @@ namespace experiment
 
     class CnBrowser : WebBrowser
     {
-        const string m_head = @"";
+        const string m_head = @"
+<p>分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+
         const string m_tail = @"
 <p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
 
@@ -147,7 +149,7 @@ namespace experiment
 
             // <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 700px; height: 515px; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 12px; white-space: pre-wrap;" dir="ltr" wrap="off" class="mceFocus"></textarea>
             ele = htmlDocDlg.GetElementById("htmlSource");
-            ele.InnerText = m_articleContent + m_tail;
+            ele.InnerText = m_head + m_articleContent + m_tail;
             ele.SetAttribute("value", ele.InnerText);
 
             // <input type="submit" role="button" name="insert" value="更新" id="insert">
