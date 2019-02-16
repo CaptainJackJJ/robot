@@ -149,7 +149,7 @@ namespace experiment
 
             // <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 700px; height: 515px; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 12px; white-space: pre-wrap;" dir="ltr" wrap="off" class="mceFocus"></textarea>
             ele = htmlDocDlg.GetElementById("htmlSource");
-            ele.InnerText = m_head + m_articleContent + m_tail;
+            ele.InnerText = m_articleContent + m_tail;
             ele.SetAttribute("value", ele.InnerText);
 
             // <input type="submit" role="button" name="insert" value="更新" id="insert">
