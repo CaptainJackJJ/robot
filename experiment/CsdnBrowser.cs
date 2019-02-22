@@ -17,9 +17,11 @@ namespace experiment
         int m_articleTypeOffset;
         int m_articleFieldOffset;
 
-        const string m_head = @"";
+        const string m_head = @"
+<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+
         const string m_tail = @"
-<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
 
 
         string m_articleContent = "";
