@@ -15,10 +15,10 @@ namespace experiment
     class CnBrowser : WebBrowser
     {
         const string m_head = @"
-<p>分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+<p>分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net"">http://www.captainbed.net</a></p>";
 
         const string m_tail = @"
-<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net"">http://www.captainbed.net</a></p>";
 
         string m_articleContent = "";
         string m_articleTitle = "";
