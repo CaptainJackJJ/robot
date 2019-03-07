@@ -127,25 +127,24 @@ namespace experiment
         public void Edit(CnBlogRobot.ArticleInfo articleInfo)
         {
             // <input name="Editor$Edit$txbTitle" type="text" maxlength="200" id="Editor_Edit_txbTitle" onblur="localPreserver.saveDraftTitle();" onkeydown="title_keydown(event);" style="width:99%;">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_txbTitle"); 
-            // This line makes title input success. 
-            // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send("");
-            ele.InnerText = m_articleTitle;
-            ele.SetAttribute("value", ele.InnerText);
-
-            // <textarea name="Editor$Edit$Advanced$txbExcerpt" rows="4" cols="20" id="Editor_Edit_Advanced_txbExcerpt" style="width:98%;"></textarea>
-            ele = this.Document.GetElementById("Editor_Edit_Advanced_txbExcerpt");
+            HtmlElement ele = this.Document.GetElementById("Editor_Edit_Advanced_txbExcerpt");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
             ele.Focus(); SendKeys.Send("");
             ele.InnerText = "              ." + m_articleTitle;
             ele.SetAttribute("value", ele.InnerText);
 
+            ele = this.Document.GetElementById("Editor_Edit_txbTitle");
+            // This line makes title input success. 
+            // Maybe bacuase this simulated human key press
+            ele.Focus(); SendKeys.Send("");
+            ele.InnerText = m_articleTitle;
+            ele.SetAttribute("value", m_articleTitle);
+
             // <a role="button" id="Editor_Edit_EditorBody_code" href="javascript:;" class="mceButton mceButtonEnabled mce_code" onmousedown="return false;" onclick="return false;" aria-labelledby="Editor_Edit_EditorBody_code_voice" title="编辑 HTML 源代码" tabindex="-1"><span class="mceIcon mce_code"></span><span class="mceVoiceLabel mceIconOnly" style="display: none;" id="Editor_Edit_EditorBody_code_voice">编辑 HTML 源代码</span></a>
             //ele = this.Document.GetElementById("Editor_Edit_EditorBody_code");
             //SafeClick(ele);
-            Tools.DoubleClick(452, 397);
+            Tools.DoubleClick(452, 137);
         }
 
         public void EditHtml()
