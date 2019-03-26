@@ -12,21 +12,28 @@ namespace experiment
 {
 
 
-    class CnBrowser : WebBrowser
+    class CsdnBrowser : WebBrowser
     {
+        int m_articleTypeOffset;
+        int m_articleFieldOffset;
+
         const string m_head = @"
-<p>分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net/cnrobot"">http://www.captainbed.net</a></p>";
+<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
 
         const string m_tail = @"
-<p>再分享一下我老师大神的人工智能教程吧。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""http://www.captainbed.net/cnrobot"">http://www.captainbed.net</a></p>";
+<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+
 
         string m_articleContent = "";
         string m_articleTitle = "";
 
-        public CnBrowser()
+        public CsdnBrowser()
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
+
+            dbCsdnModifier dm = new dbCsdnModifier("parameters.db");
+            dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
         // Override to allow custom script error handling.
@@ -43,7 +50,7 @@ namespace experiment
             /// <summary>
             /// Default constructor.
             /// </summary>
-            public WebBrowserSiteEx(CnBrowser webBrowser)
+            public WebBrowserSiteEx(CsdnBrowser webBrowser)
                 : base(webBrowser)
             {
             }
@@ -98,7 +105,7 @@ namespace experiment
 
         public void NavigateToLoginPage()
         {
-            SafeNavigate("https://passport.cnblogs.com/user/signin");  
+            SafeNavigate("https://passport.csdn.net/account/login");  
         }
 
         private HtmlElement GetEleByTagAndOuterHtml(string tag,string html)
@@ -124,43 +131,27 @@ namespace experiment
             return true;
         }
 
-        public void Edit(CnBlogRobot.ArticleInfo articleInfo)
-        {
-            // <input name="Editor$Edit$txbTitle" type="text" maxlength="200" id="Editor_Edit_txbTitle" onblur="localPreserver.saveDraftTitle();" onkeydown="title_keydown(event);" style="width:99%;">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_Advanced_txbExcerpt");
+        public void Edit(csdnModifier.ArticleInfo articleInfo)
+        {           
+            HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send("");
-            ele.InnerText = "              ." + m_articleTitle;
-            ele.SetAttribute("value", ele.InnerText);
-
-            ele = this.Document.GetElementById("Editor_Edit_txbTitle");
-            // This line makes title input success. 
-            // Maybe bacuase this simulated human key press
-            ele.Focus(); SendKeys.Send("");
+            ele.Focus(); SendKeys.Send(" ");
             ele.InnerText = m_articleTitle;
             ele.SetAttribute("value", m_articleTitle);
 
-            // <a role="button" id="Editor_Edit_EditorBody_code" href="javascript:;" class="mceButton mceButtonEnabled mce_code" onmousedown="return false;" onclick="return false;" aria-labelledby="Editor_Edit_EditorBody_code_voice" title="编辑 HTML 源代码" tabindex="-1"><span class="mceIcon mce_code"></span><span class="mceVoiceLabel mceIconOnly" style="display: none;" id="Editor_Edit_EditorBody_code_voice">编辑 HTML 源代码</span></a>
-            //ele = this.Document.GetElementById("Editor_Edit_EditorBody_code");
-            //SafeClick(ele);
-            Tools.DoubleClick(452, 137);
-        }
-
-        public void EditHtml()
-        {
-            // <iframe id="mce_61_ifr" src="https://common.cnblogs.com/editor/tiny_mce/themes/advanced/source_editor.htm?mce_rdomain=cnblogs.com&amp;id=20170728" frameborder="0" style="border: 0px; width: 720px; height: 580px;"></iframe>
-            HtmlElement ele = GetEleByTagAndOuterHtml("iframe", "source_editor");
-            HtmlDocument htmlDocDlg = this.Document.Window.Frames[ele.Id.ToString()].Document;
-
-            // <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 700px; height: 515px; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 12px; white-space: pre-wrap;" dir="ltr" wrap="off" class="mceFocus"></textarea>
-            ele = htmlDocDlg.GetElementById("htmlSource");
+            ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
             ele.InnerText = m_head + m_articleContent + m_tail;
-            ele.SetAttribute("value", ele.InnerText);
+            //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
-            // <input type="submit" role="button" name="insert" value="更新" id="insert">
-            ele = htmlDocDlg.GetElementById("insert");
-            SafeClick(ele);
+            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
+            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
+            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
+            ele.InnerText = m_articleTitle;
+            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
+            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X + 3, p.Y + 1);
         }
 
         public bool isMissContent()
@@ -197,8 +188,7 @@ namespace experiment
 
         public bool isSuccess()
         {
-            // <div>发布成功</div>
-            HtmlElement ele = GetEleByTagAndOuterHtml("div", "成功");
+            HtmlElement ele = this.Document.GetElementById("alertSuccess");
             bool s = (ele != null && ele.Style == null);
             if(s)
             {
@@ -208,14 +198,18 @@ namespace experiment
         }
 
         public bool isUnexpectError()
-        {            
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("div");
+        {
+            HtmlElementCollection collection = this.Document.GetElementsByTagName("i");
             foreach (HtmlElement ele in collection)
             {
-                // <div>博文内容中不允许有包含js代码!<script type="text/javascript">g_blnCheckUnload=true;</script>
-                if (ele.OuterHtml.Contains("博文内容中不允许"))
+                // <i class="mr8 notice-icon type-error"></i>
+                if (ele.OuterHtml.Contains("type-error"))
                 {
-                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.InnerText);
+                    Log.WriteLog(LogType.Error, "occur unexpect error. error msg is " + ele.NextSibling.InnerText);
+                    if (ele.NextSibling.InnerText.Contains("没有权限执行操作"))
+                    {
+                        Environment.Exit(0);
+                    }
                     return true;
                 }
             }
@@ -224,27 +218,25 @@ namespace experiment
 
         public void PrePublish()
         {
-        //    SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
+            SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
-        //    HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
-        //    Point p = GetOffset(ele);
-        //    Tools.DoubleClick(p.X, p.Y);
-        //    Tools.Click(p.X, p.Y + m_articleTypeOffset);
+            HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
+            Point p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + m_articleTypeOffset);
 
-        //    ele = GetEleByTagAndOuterHtml("select", "编程语言");
-        //    p = GetOffset(ele);
-        //    Tools.DoubleClick(p.X, p.Y);
-        //    Tools.Click(p.X, p.Y + m_articleFieldOffset);
+            ele = GetEleByTagAndOuterHtml("select", "编程语言");
+            p = GetOffset(ele);
+            Tools.DoubleClick(p.X, p.Y);
+            Tools.Click(p.X, p.Y + m_articleFieldOffset);
         }
 
         public void Publish()
         {
 #if DEBUG
-            // <input type="submit" name="Editor$Edit$lkbDraft" value="存为草稿" onclick="return CheckInput();" id="Editor_Edit_lkbDraft" class="Button">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbDraft");
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "保存为草稿");
 #else
-            // <input type="submit" name="Editor$Edit$lkbPost" value="发布" onclick="return CheckInput();" id="Editor_Edit_lkbPost" class="Button">
-            HtmlElement ele = this.Document.GetElementById("Editor_Edit_lkbPost");
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "button btn-c-blue\">发布文章");
 #endif
             SafeClick(ele);
         }
@@ -270,9 +262,9 @@ namespace experiment
             return pos;
         }
 
-        public CnBlogRobot.ArticleInfo GetArticleInfo()
+        public csdnModifier.ArticleInfo GoToEditPage()
         {
-            CnBlogRobot.ArticleInfo info = new CnBlogRobot.ArticleInfo();
+            csdnModifier.ArticleInfo info = new csdnModifier.ArticleInfo();
 
             // <span class="read-count">阅读数：884</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
@@ -284,7 +276,7 @@ namespace experiment
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < CnBlogRobot.m_MinReadCount)
+                    if (info.readCount < csdnModifier.m_MinReadCount)
                         return info;
                     else
                         break;
@@ -328,6 +320,8 @@ namespace experiment
                     break;
                 }
             }
+
+            SafeNavigate("https://mp.csdn.net/mdeditor");
 
             return info;
         }
@@ -453,16 +447,21 @@ namespace experiment
 
         public bool IsLogedin()
         {
-            //TODO: This is not trustful
-            if (GetEleByTagAndOuterHtml("img", "avatar.csdn.net") != null)
+            // <img class="login_img" src="//profile.csdnimg.cn/9/5/2/2_ugghhj">
+            if (GetEleByTagAndOuterHtml("img", "login_img\" src=\"//profile") != null)
                 return true;
             return false;
         }
 
         public bool Login(string uName,string password)
         {
-            // <input type="text" id="input1" value="" class="input-text" onkeydown="check_enter(event)">
-            HtmlElement ele = this.Document.GetElementById("input1");
+            if (!ClickAccountLogin())
+            {
+                Log.WriteLog(LogType.NetworkWarning, "ClickAccountLogin failed");
+                return false;
+            }
+
+            HtmlElement ele = this.Document.GetElementById("username");
             if(ele == null)
             {
                 ele = this.Document.GetElementById("all");
@@ -471,8 +470,8 @@ namespace experiment
             ele.SetAttribute("value", uName);
 
 
-            // <input type="password" id="input2" value="" class="input-text" onkeydown="check_enter(event)">
-            ele = this.Document.GetElementById("input2");
+            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
+            ele = this.Document.GetElementById("password-number");
             if (ele != null)
             {
                 ele.Focus(); SendKeys.Send(" ");
@@ -494,17 +493,6 @@ namespace experiment
             //SafeNavigate("//passport.csdn.net/account/logout");
             //if(ClickEleByTagAndOuterHtml("a", "退出"))
             //    NavigateToLoginPage();
-        }
-
-        public bool ClickVerify()
-        {
-            // <span class="geetest_wait_dot geetest_dot_1"></span>
-            HtmlElement ele = GetEleByTagAndOuterHtml("span", "geetest_wait_dot geetest_dot_1");
-            if (ele == null)
-                return false;
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X + 1, p.Y + 1);
-            return true;
         }
 
         public bool MouseClickEle(string tag, string outerhtml)
