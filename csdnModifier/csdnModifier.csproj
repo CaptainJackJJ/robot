@@ -66,11 +66,6 @@
     <Compile Include="CsdnBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="workingObjectDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>workingObjectDataSet.xsd</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="csdnModifierForm.resx">
       <DependentUpon>csdnModifierForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,17 +88,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="workingObjectDataSet.xsc">
-      <DependentUpon>workingObjectDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="workingObjectDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>workingObjectDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="workingObjectDataSet.xss">
-      <DependentUpon>workingObjectDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

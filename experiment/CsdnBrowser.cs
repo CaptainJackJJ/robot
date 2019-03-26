@@ -14,9 +14,6 @@ namespace experiment
 
     class CsdnBrowser : WebBrowser
     {
-        int m_articleTypeOffset;
-        int m_articleFieldOffset;
-
         const string m_head = @"
 <p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
 
@@ -31,9 +28,6 @@ namespace experiment
         {
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
-
-            DataManagerSqlLite dm = new DataManagerSqlLite("parameters.db");
-            dm.GetParams(ref m_articleTypeOffset, ref m_articleFieldOffset);
         }
 
         // Override to allow custom script error handling.
@@ -223,12 +217,12 @@ namespace experiment
             HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
             Point p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleTypeOffset);
+            Tools.Click(p.X, p.Y + 17);
 
             ele = GetEleByTagAndOuterHtml("select", "编程语言");
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + m_articleFieldOffset);
+            Tools.Click(p.X, p.Y + 200);
         }
 
         public void Publish()
