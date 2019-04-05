@@ -135,7 +135,8 @@ namespace experiment
             ele.SetAttribute("value", m_articleTitle);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.InnerText = m_head + m_articleContent + m_tail;
+            //ele.InnerText = m_head + m_articleContent + m_tail;
+            ele.InnerText = m_articleContent;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
             SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
