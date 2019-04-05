@@ -113,7 +113,7 @@ namespace experiment
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
             string sql = "SELECT * FROM objectInfo WHERE"
                 + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
-                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0)) LIMIT 1";
+                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0 AND isObjectFinished = 0)) LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -132,7 +132,7 @@ namespace experiment
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
                 info.lastWorkingDay = Convert.ToDateTime(info.lastWorkingDay).ToShortDateString();
-            info.isObjectFinished = data.GetBoolean(8);
+            info.isObjectFinished = false;
             info.isReadyForWork = data.GetBoolean(9);
 
             today = Convert.ToDateTime(today).ToShortDateString();
