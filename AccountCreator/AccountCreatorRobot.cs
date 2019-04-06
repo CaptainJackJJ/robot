@@ -491,7 +491,7 @@ namespace AccountCreator
         private string GetPhoneFileName()
         {
             // 蚂蚁短信记录2018112018年11月19日
-            return "蚂蚁短信记录" + DateTime.Now.ToString("yyyyMM") + DateTime.Now.ToString("yyyy年MM月dd日") + ".txt";
+            return "蚂蚁短信记录" + DateTime.Now.ToString("yyyy%M") + DateTime.Now.ToString("yyyy年%M月%d日") + ".txt";
         }
 
         private string GetPhone()
