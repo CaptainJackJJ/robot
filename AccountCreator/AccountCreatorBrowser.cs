@@ -361,10 +361,10 @@ namespace AccountCreator
         {
             Follow();
 
-            // <img class="login_img" src="//avatar.csdn.net/A/7/B/2_qq_43717814.jpg">
+            // <img class="login_img" src="//profile.csdnimg.cn/D/A/D/2_qq_44880498">
             HtmlElement ele = GetEleByTagAndOuterHtml("img", "login_img");
             int indexS = ele.OuterHtml.IndexOf("qq");
-            int indexE = ele.OuterHtml.IndexOf(".jpg");
+            int indexE = ele.OuterHtml.Length - 2;
             return ele.OuterHtml.Substring(indexS, indexE - indexS);
         }
 
