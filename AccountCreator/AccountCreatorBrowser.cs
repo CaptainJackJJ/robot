@@ -359,7 +359,7 @@ namespace AccountCreator
 
         public string GetUsernameForQQ()
         {
-            Follow();
+            //Follow();
 
             // <img class="login_img" src="//profile.csdnimg.cn/D/A/D/2_qq_44880498">
             HtmlElement ele = GetEleByTagAndOuterHtml("img", "login_img");
