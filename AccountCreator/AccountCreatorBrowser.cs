@@ -247,7 +247,7 @@ namespace AccountCreator
                 ele.ScrollIntoView(true);
 
                 Point p = GetOffset(ele);
-                Tools.Click(p.X + 3, 200);
+                Tools.Click(p.X + 3, 170);
 
                 return true;
             }
