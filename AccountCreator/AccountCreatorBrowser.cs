@@ -233,7 +233,7 @@ namespace AccountCreator
 
             Point p = GetOffset(ele);
 
-            Tools.Click(p.X + 3, 300);
+            Tools.Click(p.X + 3, 200);
 
             return false;
         }
