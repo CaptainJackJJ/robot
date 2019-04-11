@@ -233,13 +233,15 @@ namespace AccountCreator
 
             Point p = GetOffset(ele);
 
-            Tools.Click(p.X + 3, 200);
+            Tools.Click(p.X + 3, 170);
 
             return false;
         }
 
         public bool MoveToCodeStyle()
         {
+            Tools.Click(685, 547);
+
             //<select class="selectStyle" id="codeStyle" name="codeStyle">
             HtmlElement ele = this.Document.GetElementById("codeStyle");
             if (ele != null)
@@ -247,7 +249,7 @@ namespace AccountCreator
                 ele.ScrollIntoView(true);
 
                 Point p = GetOffset(ele);
-                Tools.Click(p.X + 3, 170);
+                Tools.Click(p.X + 3, 160);
 
                 return true;
             }

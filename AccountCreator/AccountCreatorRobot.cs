@@ -274,7 +274,7 @@ namespace AccountCreator
         private void GoToProfile()
         {
             m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
-            
+
             m_timerBrain.Enabled = false;
             System.Media.SystemSounds.Beep.Play();
         }
