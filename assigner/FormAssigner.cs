@@ -46,7 +46,7 @@ namespace assigner
 
                 DataManagerSqlLiteAssigner.WorkingObjectInfo workingObjInfo = new DataManagerSqlLiteAssigner.WorkingObjectInfo();
                 workingObjInfo.url = objInfo.url;
-                workingObjInfo.userName = accountInfo.phone;
+                workingObjInfo.userName = accountInfo.userName;
                 workingObjInfo.password = accountInfo.password;
                 workingObjInfo.lastListPageUrl = objInfo.lastListPageUrl;
                 workingObjInfo.isReadyForWork = true; // TODO: set true if this account has no workingObj, else false.
