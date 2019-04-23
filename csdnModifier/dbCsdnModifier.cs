@@ -111,9 +111,7 @@ namespace experiment
         public WorkingObjectInfo GetWorkingObjectInfo()
         {
             string today = DateTime.Today.ToString(new CultureInfo("ko")).Substring(0,10) + " 00:00:00.000";
-            string sql = "SELECT * FROM objectInfo WHERE"
-                + " (lastWorkingDay < '" + today + "' OR lastWorkingDay IS NULL OR"
-                + " (lastWorkingDay = '" + today + "' AND needFinishNum > 0)) LIMIT 1";
+            string sql = "SELECT * FROM objectInfo WHERE isObjectFinished = 0 LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
