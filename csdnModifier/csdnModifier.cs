@@ -244,6 +244,10 @@ namespace experiment
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
                 if(!m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo))
                 {
+                    MessageBox.Show("publish max");
+
+                    Environment.Exit(0);
+
                     UseBackupObj();
                 }
 
@@ -298,32 +302,32 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
-            if (m_articleInfo.readCount < m_MinReadCount)
-            {
-                //m_timesDetectLessMinReadCount++;
-                //if (m_timesDetectLessMinReadCount < 3)
-                //{
-                //    m_step = EnumStep.GoToListPage;
-                //    return;
-                //}
+            //if (m_articleInfo.readCount < m_MinReadCount)
+            //{
+            //    //m_timesDetectLessMinReadCount++;
+            //    //if (m_timesDetectLessMinReadCount < 3)
+            //    //{
+            //    //    m_step = EnumStep.GoToListPage;
+            //    //    return;
+            //    //}
 
-                //this working object is done.
-                m_timesDetectLessMinReadCount = 0;
+            //    //this working object is done.
+            //    m_timesDetectLessMinReadCount = 0;
 
-                UseBackupObj();
+            //    UseBackupObj();
 
-                Log.WriteLog(LogType.Trace, "read count is too small, so object is done");
-                return;
-            }
+            //    Log.WriteLog(LogType.Trace, "read count is too small, so object is done");
+            //    return;
+            //}
 
             m_timesDetectLessMinReadCount = 0;
 
-            if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
-                || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
-            {
-                Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");
-                return;
-            }
+            //if (String.IsNullOrEmpty(m_articleInfo.title) || m_articleInfo.title == "undefined"
+            //    || String.IsNullOrEmpty(m_articleInfo.url) || m_articleInfo.url == "undefined")
+            //{
+            //    Log.WriteLog(LogType.NetworkWarning, "articleInfo is empty");
+            //    return;
+            //}
             m_step = EnumStep.Edit;
             Log.WriteLog(LogType.Debug, m_articleInfo.title);
         }

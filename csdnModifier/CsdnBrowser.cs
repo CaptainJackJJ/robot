@@ -270,10 +270,11 @@ namespace experiment
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < csdnModifier.m_MinReadCount)
-                        return info;
-                    else
-                        break;
+                    //if (info.readCount < csdnModifier.m_MinReadCount)
+                    //    return info;
+                    //else
+                    //    break;
+                    break;
                 }
             }
 
@@ -296,26 +297,30 @@ namespace experiment
                 }
             }
 
-            collection = this.Document.GetElementsByTagName("div");
-            foreach (HtmlElement ele in collection)
-            {
-                if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
-                    (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
-                {                    
-                    if (ele.OuterHtml.Length > 100000)
-                    {
-                        Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
-                            + info.url + " , original len is " + ele.OuterHtml.Length);
+            //collection = this.Document.GetElementsByTagName("div");
+            //foreach (HtmlElement ele in collection)
+            //{
+            //    if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
+            //        (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
+            //    {                    
+            //        if (ele.OuterHtml.Length > 100000)
+            //        {
+            //            Log.WriteLog(LogType.Notice, "article too large, cut end content. url is :"
+            //                + info.url + " , original len is " + ele.OuterHtml.Length);
 
-                        m_articleContent = ele.OuterHtml.Substring(0, 100000);
-                    }
-                    else
-                        m_articleContent = ele.OuterHtml;
-                    break;
-                }
-            }
+            //            m_articleContent = ele.OuterHtml.Substring(0, 100000);
+            //        }
+            //        else
+            //            m_articleContent = ele.OuterHtml;
+            //        break;
+            //    }
+            //}
 
-            SafeNavigate("https://mp.csdn.net/mdeditor");
+            // <a class="href-article-edit" href="https://mp.csdn.net/postedit/84313923">编辑</a>
+            HtmlElement ele1 = GetEleByTagAndOuterHtml("a", "编辑");
+            SafeClick(ele1);
+
+            //SafeNavigate("https://mp.csdn.net/mdeditor");
 
             return info;
         }
