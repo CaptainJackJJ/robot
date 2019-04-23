@@ -490,8 +490,8 @@ namespace experiment
             //<a href="//passport.csdn.net/account/logout">退出</a>
             ClickEleByTagAndOuterHtml("a", "退出");
             //SafeNavigate("//passport.csdn.net/account/logout");
-            //if(ClickEleByTagAndOuterHtml("a", "退出"))
-            //    NavigateToLoginPage();
+            if (ClickEleByTagAndOuterHtml("a", "退出"))
+                NavigateToLoginPage();
         }
 
         public bool MouseClickEle(string tag, string outerhtml)
