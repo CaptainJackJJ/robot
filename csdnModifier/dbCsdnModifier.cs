@@ -124,8 +124,8 @@ namespace experiment
             info.url = data.GetString(1);
             info.userName = data.GetString(2);
             info.password = data.GetString(3);
-            info.lastListPageUrl = data.GetString(4);
-            info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
+            info.lastListPageUrl = Convert.ToString(data.GetValue(4));
+            info.lastFinishedArticleUrlInList = Convert.ToString(data.GetValue(5));
             info.needFinishNum = data.GetInt16(6);
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
@@ -147,6 +147,11 @@ namespace experiment
 
             data.Close();
             data.Dispose();
+
+            if (string.IsNullOrEmpty(info.lastListPageUrl))
+            {
+                info.lastListPageUrl = @"https://blog.csdn.net/" + info.userName + @"?orderby=ViewCount";
+            }
 
             return info;       
         }
