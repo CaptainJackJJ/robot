@@ -15,10 +15,10 @@ namespace experiment
     class CsdnBrowser : WebBrowser
     {
         const string m_head = @"
-<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，哈哈～我正在学习中，觉得太牛了，所以分享给大家！<a href=""http://www.captainbed.net/csdn"">点这里可以跳转到教程</a></p>";
 
         const string m_tail = @"
-<p>分享一下我老师大神的人工智能教程。零基础！通俗易懂！风趣幽默！还带黄段子！希望你也加入到我们人工智能的队伍中来！<a href=""https://blog.csdn.net/jiangjunshow/article/details/77338485"">https://blog.csdn.net/jiangjunshow</a></p>";
+<p><a href=""http://www.captainbed.net/csdn"">浏览人工智能教程</a></p>";
 
 
         string m_articleContent = "";
@@ -135,7 +135,7 @@ namespace experiment
             ele.SetAttribute("value", m_articleTitle);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.InnerText = m_head + m_articleContent + m_tail;
+            ele.InnerText = m_head + ele.InnerText + m_tail;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
             SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
