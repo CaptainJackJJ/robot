@@ -223,7 +223,7 @@ namespace experiment
 
             if(m_browser.isPublishedMax())
             {
-                m_DataManagerSqlLite.SetObjDailyJobDone(m_workingObjectInfo.id);
+                MessageBox.Show("publish max");
 
                 Environment.Exit(0);
 
@@ -395,7 +395,7 @@ namespace experiment
                         return;
                     }
 
-                    UseBackupObj();
+                    m_DataManagerSqlLite.SetObjDone(m_workingObjectInfo.id);
 
                     Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     //this working object is done.
