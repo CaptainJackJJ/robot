@@ -400,6 +400,7 @@ namespace experiment
                     }
 
                     m_DataManagerSqlLite.SetObjDone(m_workingObjectInfo.id);
+                    Environment.Exit(0);
 
                     Log.WriteLog(LogType.Notice, "list is empty, so object is done");
                     //this working object is done.
