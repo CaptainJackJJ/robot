@@ -153,6 +153,7 @@ namespace experiment
                         WaitSucess();
                         break;
                     case EnumStep.Finished:
+                        Environment.Exit(0);
                         //m_timerBrain.Stop();
                         //MessageBox.Show("今天的工作已完成");
                         return;
@@ -168,6 +169,8 @@ namespace experiment
                 Log.WriteLog(LogType.Exception, "Exception happened in step " + m_step.ToString()
                      + ", Exception info: " + e.ToString());
                 // this exception maybe just cause by doc which is not loaded complete. Network is not trustful.
+                if(m_step == EnumStep.Edit)
+                    Environment.Exit(0);
 #endif              
             }
             finally
@@ -277,7 +280,7 @@ namespace experiment
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
-                Environment.Exit(0);
+                m_step = EnumStep.Finished;
             }
             else
             {
@@ -356,7 +359,7 @@ namespace experiment
 
         private void GoToArticlePage()
         {
-            if (!m_browser.Url.ToString().Contains("orderby=ViewCount"))
+            if (!m_browser.Url.ToString().Contains("article/list"))
             {
                 m_step = EnumStep.GoToListPage;
                 return;

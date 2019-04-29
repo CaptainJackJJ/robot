@@ -15,7 +15,7 @@ namespace experiment
     class CsdnBrowser : WebBrowser
     {
         const string m_head = @"
-<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，哈哈～我正在学习中，觉得太牛了，所以分享给大家！<a href=""http://www.captainbed.net/csdn"">点这里可以跳转到教程</a></p>";
+<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，哈哈～我正在学习中，觉得太牛了，所以分享给大家！点<a href=""http://www.captainbed.net/csdn"">这里</a>可以跳转到教程</p>";
 
         const string m_tail = @"
 <p><a href=""http://www.captainbed.net/csdn"">浏览人工智能教程</a></p>";
@@ -138,14 +138,15 @@ namespace experiment
             ele.InnerText = m_head + ele.InnerText + m_tail;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
-            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
-            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
-            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
-            ele.InnerText = m_articleTitle;
-            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
-            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X + 3, p.Y + 1);
+
+            //SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
+            //// <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
+            //ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
+            //ele.InnerText = m_articleTitle;
+            ////SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
+            //ele = GetEleByTagAndOuterHtml("button", "保存摘要");
+            //Point p = GetOffset(ele);
+            //Tools.DoubleClick(p.X + 3, p.Y + 1);
         }
 
         public bool isMissContent()
@@ -214,15 +215,15 @@ namespace experiment
         {
             SafeClick(GetEleByTagAndOuterHtml("button", "发布文章"));
 
-            HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 17);
+            //HtmlElement ele = GetEleByTagAndOuterHtml("select", "原创");
+            //Point p = GetOffset(ele);
+            //Tools.DoubleClick(p.X, p.Y);
+            //Tools.Click(p.X, p.Y + 17);
 
-            ele = GetEleByTagAndOuterHtml("select", "编程语言");
-            p = GetOffset(ele);
-            Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 200);
+            //ele = GetEleByTagAndOuterHtml("select", "编程语言");
+            //p = GetOffset(ele);
+            //Tools.DoubleClick(p.X, p.Y);
+            //Tools.Click(p.X, p.Y + 200);
         }
 
         public void Publish()
@@ -358,16 +359,17 @@ namespace experiment
             foreach (HtmlElement ele in collection)
             {
                 // reach the list end.
-                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
+                if (timesOfFindLastArticle == 3 && !ele.OuterHtml.Contains("article/details"))
                 {
                     return false;
                 }
-                if (ele.OuterHtml.Contains("article/details"))
+                // <a class="btn-opt" href="https://mp.csdn.net/postedit/89350412" target="_blank" data-type="edit">编辑</a>
+                if (ele.OuterHtml.Contains("article/details") || ele.OuterHtml.Contains("编辑"))
                 {
                     if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
                         continue; // this ele is hidden                    
 
-                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
+                    if (lastArticleId == "" || timesOfFindLastArticle == 3) // Use first article || selfblog every article has three link
                     {
                         ClickArticleInList(ele.OuterHtml);
                         return true;
