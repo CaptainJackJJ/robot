@@ -222,7 +222,10 @@ namespace experiment
             Tools.DoubleClick(p.X, p.Y);
             Tools.Click(p.X, p.Y + 17);
 
-            ele = GetEleByTagAndOuterHtml("select", "编程语言");
+            string lng = "编程语言";
+            if(DataManagerSqlLite.bRandon)
+                lng = "人工智能";
+            ele = GetEleByTagAndOuterHtml("select", lng);
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
             Tools.Click(p.X, p.Y + 200);
