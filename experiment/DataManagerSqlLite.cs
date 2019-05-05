@@ -11,6 +11,8 @@ namespace experiment
 {
     class DataManagerSqlLite
  {
+        public readonly bool bRandon = true;
+
         public class WorkingObjectInfo
         {
             public long id;
@@ -127,8 +129,13 @@ namespace experiment
             info.url = data.GetString(1);
             info.userName = data.GetString(2);
             info.password = data.GetString(3);
-            info.lastListPageUrl = data.GetString(4);
-            info.lastFinishedArticleUrlInList = data.GetValue(5).ToString();
+            try
+            {
+                info.lastListPageUrl = Convert.ToString(data.GetValue(4));
+                info.lastFinishedArticleUrlInList = Convert.ToString(data.GetValue(5));
+            }
+            catch
+            { }
             info.needFinishNum = data.GetInt16(6);
             info.lastWorkingDay = data.GetValue(7).ToString();
             if (info.lastWorkingDay != "")
@@ -151,6 +158,15 @@ namespace experiment
 
             data.Close();
             data.Dispose();
+
+            if (bRandon)
+            {
+                Random reum = new Random();
+                string strPageNum = reum.Next(5).ToString();
+
+                // https://blog.csdn.net/qq_44929388/article/list/1?orderby=UpdateTime
+                info.lastListPageUrl = @"https://blog.csdn.net/qq_44929388/article/list/" + strPageNum + @"?orderby=UpdateTime";
+            }
 
             return info;       
         }
