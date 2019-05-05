@@ -298,7 +298,7 @@ namespace experiment
         private void GoToEditPage()
         {
             m_articleInfo = m_browser.GoToEditPage();
-            if (m_articleInfo.readCount < m_MinReadCount)
+            if (!DataManagerSqlLite.bRandon && m_articleInfo.readCount < m_MinReadCount)
             {
                 //m_timesDetectLessMinReadCount++;
                 //if (m_timesDetectLessMinReadCount < 3)

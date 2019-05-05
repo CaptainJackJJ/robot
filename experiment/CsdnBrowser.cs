@@ -273,10 +273,15 @@ namespace experiment
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     info.readCount = Convert.ToUInt64(count);
-                    if (info.readCount < BlogRobot.m_MinReadCount)
-                        return info;
-                    else
+                    if (DataManagerSqlLite.bRandon)
                         break;
+                    else
+                    {
+                        if (info.readCount < BlogRobot.m_MinReadCount)
+                            return info;
+                        else
+                            break;
+                    }
                 }
             }
 
