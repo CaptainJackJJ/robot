@@ -266,6 +266,23 @@ namespace experiment
             return pos;
         }
 
+        public void BeFans()
+        {
+            // <button class=" long-height hover-box btn-like " title="点赞">
+            ClickEleByTagAndOuterHtml("button", "\"点赞\"");
+
+            // <button class="btn-bookmark low-height hover-box" title="收藏">
+            ClickEleByTagAndOuterHtml("button", "\"收藏\"");
+        }
+
+        public void Follow()
+        {
+            // <a class="btn btn-sm btn-red-hollow attention" id="btnAttent" target="_blank">关注</a>
+            HtmlElement ele = this.Document.GetElementById("btnAttent");
+            if (ele.OuterHtml.Contains(">关注<"))
+                SafeClick(ele);
+        }
+
         public BlogRobot.ArticleInfo GoToEditPage()
         {
             BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();

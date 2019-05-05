@@ -297,6 +297,12 @@ namespace experiment
 
         private void GoToEditPage()
         {
+            if(DataManagerSqlLite.bRandon)
+            {
+                m_browser.BeFans();
+                m_browser.Follow();
+            }
+
             m_articleInfo = m_browser.GoToEditPage();
             if (!DataManagerSqlLite.bRandon && m_articleInfo.readCount < m_MinReadCount)
             {
