@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
+using System.Collections;
+
 namespace experiment
 {
 
@@ -338,45 +340,75 @@ namespace experiment
             m_articleContent = "";
             isNetDealy = false;
 
-            short timesOfFindLastArticle = 0;
-            string lastArticleId = "";
-            if (!String.IsNullOrEmpty(lastArticleUrl))
+            if (DataManagerSqlLite.bRandon)
             {
-                lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
-                // add "target" string to avoid next article's id is include in front article's content.
-
-                // This link of article is not same as the link of artcile which is in list, but the ID is same
-                /* https://blog.csdn.net/laoyang360/article/details/52244917 */
-                // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-            }
-
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
-            foreach (HtmlElement ele in collection)
-            {
-                // reach the list end.
-                if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
+                ArrayList articles = new ArrayList(); 
+                HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
+                foreach (HtmlElement ele in collection)
                 {
-                    return false;
-                }
-                if (ele.OuterHtml.Contains("article/details"))
-                {
-                    if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
-                        continue; // this ele is hidden                    
-
-                    if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
+                    // reach the list end.
+                    if (articles.Count > 0 && !ele.OuterHtml.Contains("article/details"))
                     {
-                        ClickArticleInList(ele.OuterHtml);
-                        return true;
+                        break;
                     }
+                    if (ele.OuterHtml.Contains("article/details"))
+                    {
+                        if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
+                            continue; // this ele is hidden    
+                        articles.Add(ele.OuterHtml);
+                    }
+                }
 
-                    /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
-                        Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
-                        1：http://blog.csdn.net/rlhua/article/details/12624275
-                        2：http://blog.csdn.net/rlhua/articl...      </a>
-                    */
-                    // use substring to avoid OuterHtml contarin's other article's link
-                    if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
-                        timesOfFindLastArticle++;
+                if (articles.Count > 0)
+                {
+                    Random rnd = new Random();
+                    int index = rnd.Next(articles.Count);
+                    ClickArticleInList(articles[index].ToString());
+                    return true;
+                }
+            }
+            else
+            {
+                short timesOfFindLastArticle = 0;
+                string lastArticleId = "";
+                if (!String.IsNullOrEmpty(lastArticleUrl))
+                {
+                    lastArticleId = lastArticleUrl.Substring(lastArticleUrl.LastIndexOf("/") + 1);
+                    // add "target" string to avoid next article's id is include in front article's content.
+
+                    // This link of article is not same as the link of artcile which is in list, but the ID is same
+                    /* https://blog.csdn.net/laoyang360/article/details/52244917 */
+                    // <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
+                }
+
+                HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
+                foreach (HtmlElement ele in collection)
+                {
+                    // reach the list end.
+                    if (timesOfFindLastArticle == 2 && !ele.OuterHtml.Contains("article/details"))
+                    {
+                        return false;
+                    }
+                    if (ele.OuterHtml.Contains("article/details"))
+                    {
+                        if (ele.Parent.Parent.OuterHtml.Contains("display: none"))
+                            continue; // this ele is hidden                    
+
+                        if (lastArticleId == "" || timesOfFindLastArticle == 2) // Use first article || every article has two link
+                        {
+                            ClickArticleInList(ele.OuterHtml);
+                            return true;
+                        }
+
+                        /* <a href="https://blog.csdn.net/rlhua/article/details/16961497" target="_blank">
+                            Oracle OCP 11G &nbsp;052答案解析目录(V8.02&amp;V9.02)V8.02
+                            1：http://blog.csdn.net/rlhua/article/details/12624275
+                            2：http://blog.csdn.net/rlhua/articl...      </a>
+                        */
+                        // use substring to avoid OuterHtml contarin's other article's link
+                        if (ele.OuterHtml.Substring(0, ele.OuterHtml.IndexOf(">")).Contains(lastArticleId))
+                            timesOfFindLastArticle++;
+                    }
                 }
             }
 

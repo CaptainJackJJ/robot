@@ -11,7 +11,7 @@ namespace experiment
 {
     class DataManagerSqlLite
  {
-        public readonly bool bRandon = true;
+        public static readonly bool bRandon = true;
 
         public class WorkingObjectInfo
         {
@@ -162,7 +162,7 @@ namespace experiment
             if (bRandon)
             {
                 Random reum = new Random();
-                string strPageNum = reum.Next(5).ToString();
+                string strPageNum = (reum.Next(5) + 1).ToString();
 
                 // https://blog.csdn.net/qq_44929388/article/list/1?orderby=UpdateTime
                 info.lastListPageUrl = @"https://blog.csdn.net/qq_44929388/article/list/" + strPageNum + @"?orderby=UpdateTime";

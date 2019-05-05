@@ -352,7 +352,7 @@ namespace experiment
 
         private void GoToArticlePage()
         {
-            if (!m_browser.Url.ToString().Contains("orderby=ViewCount"))
+            if (!m_browser.Url.ToString().Contains("orderby=UpdateTime"))
             {
                 m_step = EnumStep.GoToListPage;
                 return;
