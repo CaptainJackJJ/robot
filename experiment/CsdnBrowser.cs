@@ -223,12 +223,16 @@ namespace experiment
             Tools.Click(p.X, p.Y + 17);
 
             string lng = "编程语言";
-            if(DataManagerSqlLite.bRandon)
+            int lngPos = 200;
+            if (DataManagerSqlLite.bRandon)
+            {
                 lng = "人工智能";
+                lngPos = 20;
+            }
             ele = GetEleByTagAndOuterHtml("select", lng);
             p = GetOffset(ele);
             Tools.DoubleClick(p.X, p.Y);
-            Tools.Click(p.X, p.Y + 200);
+            Tools.Click(p.X, p.Y + lngPos);
         }
 
         public void Publish()
