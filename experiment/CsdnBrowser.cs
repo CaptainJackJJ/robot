@@ -138,6 +138,21 @@ namespace experiment
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
             //ele.InnerText = m_head + m_articleContent + m_tail;
+
+            int s = m_articleContent.IndexOf("<svg");
+            int e = m_articleContent.IndexOf("</svg");
+            if(e > 0 && s > 0)
+                m_articleContent = m_articleContent.Remove(s, e - s + 6);
+
+
+            //int s = m_articleContent.IndexOf("-->");
+            //int e = m_articleContent.IndexOf("<div class=\"htmledit_views");
+            //if(e < 0)
+            //{
+            //    e = m_articleContent.IndexOf("<div class=\"markdown_views");
+            //}
+            //m_articleContent = m_articleContent.Remove(s+3, e - s-3);
+
             ele.InnerText = m_articleContent;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 

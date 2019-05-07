@@ -512,8 +512,13 @@ namespace experiment
 
         private void Login()
         {
+#if DEBUG
+
+#else
             if (DateTime.Now.Hour < 9 || DateTime.Now.Hour >= 22)
                 return;
+#endif
+
 
             if (m_browser.IsLogedin())
             {
