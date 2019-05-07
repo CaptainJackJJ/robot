@@ -141,14 +141,17 @@ namespace experiment
             ele.InnerText = m_articleContent;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
-            SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
-            // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
-            ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
-            ele.InnerText = m_articleTitle;
-            //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
-            ele = GetEleByTagAndOuterHtml("button", "保存摘要");
-            Point p = GetOffset(ele);
-            Tools.DoubleClick(p.X + 3, p.Y + 1);
+            if (!DataManagerSqlLite.bRandon)
+            {
+                SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
+                // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
+                ele = GetEleByTagAndOuterHtml("textarea", "rows=\"7");
+                ele.InnerText = m_articleTitle;
+                //SafeClick(GetEleByTagAndOuterHtml("button", "保存摘要"));
+                ele = GetEleByTagAndOuterHtml("button", "保存摘要");
+                Point p = GetOffset(ele);
+                Tools.DoubleClick(p.X + 3, p.Y + 1);
+            }
         }
 
         public bool isMissContent()
