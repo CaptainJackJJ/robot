@@ -70,7 +70,7 @@ namespace experiment
 #if DEBUG
             m_timerBrain.Interval = 2000;
 #else
-            m_timerBrain.Interval = 7000;
+            m_timerBrain.Interval = 6500;
 #endif
         }
 
