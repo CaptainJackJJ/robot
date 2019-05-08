@@ -156,7 +156,7 @@ namespace experiment
             ele.InnerText = m_articleContent;
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
 
-            if (!DataManagerSqlLite.bRandon)
+            //if (!DataManagerSqlLite.bRandon)
             {
                 SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
                 // <textarea rows="7" maxlength="256" class="textfield" id="BYKAfYzlCEVs2ygo"></textarea>
