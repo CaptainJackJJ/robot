@@ -440,6 +440,12 @@ namespace AccountCreator
 
         private void GetUsernameForQQ()
         {
+            if (!m_browser.IsLogedin())
+            {
+                m_browser.NavigateToLoginPage();
+                m_step = EnumStep.Login;
+                return;
+            }
             m_accountInfo.userName = m_browser.GetUsernameForQQ();
             m_step = EnumStep.GoToConfigurePage;
         }
