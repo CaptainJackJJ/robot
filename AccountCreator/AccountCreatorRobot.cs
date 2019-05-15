@@ -180,8 +180,8 @@ namespace AccountCreator
                         ConfirmChangeCodeStyle();
                         break;
                     case EnumStep.Finished:
-                        m_timerBrain.Stop();
-                        MessageBox.Show("已完成");
+                        System.Media.SystemSounds.Beep.Play();
+                        m_timerBrain.Stop();                        
                         return;
                 }
             }
@@ -275,8 +275,9 @@ namespace AccountCreator
         {
             m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
 
-            m_timerBrain.Enabled = false;
-            System.Media.SystemSounds.Beep.Play();
+            //m_timerBrain.Enabled = false;
+            m_step = EnumStep.Finished;
+            SetDoneUnsetAccount();
         }
 
         private void ConfirmLoginWithAccount()
@@ -401,11 +402,12 @@ namespace AccountCreator
         private void ConfirmChangePassword()
         {
             m_browser.MouseClickEle("button", "确认");
-            m_step = EnumStep.Finished;
+            //m_step = EnumStep.Finished;            
 
             m_accountDb.AddAccountInfo(m_accountInfo);
             EmptyPhone();
-            System.Media.SystemSounds.Beep.Play();
+            //System.Media.SystemSounds.Beep.Play();
+            SetTaskType(EnumTaskType.Set);
         }
 
         private void ChangePassword()
