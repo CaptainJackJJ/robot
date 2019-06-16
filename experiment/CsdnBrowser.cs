@@ -304,25 +304,33 @@ namespace experiment
         public BlogRobot.ArticleInfo GoToEditPage()
         {
             BlogRobot.ArticleInfo info = new BlogRobot.ArticleInfo();
+            HtmlElementCollection collection = null;
 
             // <span class="read-count">阅读数：884</span>
-            HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
+            collection = this.Document.GetElementsByTagName("span");
+            if (DataManagerSqlLite.bRandon)
             {
-                if (ele.OuterHtml.Contains("阅读数"))
+                info.readCount = 0;
+            }
+            else
+            {
+                foreach (HtmlElement ele in collection)
                 {
-                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
-                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
-                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
-                    info.readCount = Convert.ToUInt64(count);
-                    if (DataManagerSqlLite.bRandon)
-                        break;
-                    else
+                    if (ele.OuterHtml.Contains("阅读数"))
                     {
-                        if (info.readCount < BlogRobot.m_MinReadCount)
-                            return info;
-                        else
+                        int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+                        int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
+                        string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
+                        info.readCount = Convert.ToUInt64(count);
+                        if (DataManagerSqlLite.bRandon)
                             break;
+                        else
+                        {
+                            if (info.readCount < BlogRobot.m_MinReadCount)
+                                return info;
+                            else
+                                break;
+                        }
                     }
                 }
             }
