@@ -504,18 +504,28 @@ namespace AccountCreator
 
         private string GetPhone()
         {
-            using (System.IO.StreamReader sr = System.IO.File.OpenText(GetPhoneFileName()))
+            try
             {
-                string s = sr.ReadLine();
-                if (s == null)
+                using (System.IO.StreamReader sr = System.IO.File.OpenText(GetPhoneFileName()))
                 {
-                    return "";
+                    string s = sr.ReadLine();
+                    if (s == null)
+                    {
+                        return "";
+                    }
+                    //2018年11月19日20时37分,17045676221,
+                    int indexS = s.IndexOf(",") + 1;
+                    int indexE = s.IndexOf(",", indexS);
+                    return s.Substring(indexS, indexE - indexS);
                 }
-                //2018年11月19日20时37分,17045676221,
-                int indexS = s.IndexOf(",") + 1;
-                int indexE = s.IndexOf(",", indexS);
-                return s.Substring(indexS, indexE - indexS);                
             }
+            catch(Exception e)
+            {
+                m_timerBrain.Stop();
+                MessageBox.Show("读取手机号时出错。要先获取验证码，并在手机上登录后再打开本软件。错误信息是：" + e.Message);
+                Environment.Exit(0);
+            }
+            return "";
         }
 
         private void GoToLogoutPage()
