@@ -393,11 +393,9 @@ namespace AccountCreator
             SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest");
         }
 
-        public void Logout(bool isGoToQQLoginPage = true)
+        public void Logout()
         {
             ClickEleByTagAndOuterHtml("a", "退出");
-            if(isGoToQQLoginPage)
-                NavigateToLoginPage();
         }
 
         public bool IsLogedin()

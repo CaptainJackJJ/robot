@@ -67,8 +67,11 @@ namespace AccountCreator
 
             m_timerBrain = timerBrain;
             m_timerBrain.Interval = 2000;
-
+#if DEBUG
+            m_accountDb = new AccountCreatorDb("Account_debug.db");
+#else
             m_accountDb = new AccountCreatorDb("Account.db");
+#endif
         }
 
         public void SetTaskType(EnumTaskType type)
@@ -349,7 +352,7 @@ namespace AccountCreator
         {
             if (m_browser.IsLogedin())
             {
-                m_browser.Logout(false);
+                m_browser.Logout();
                 if(m_taskType == EnumTaskType.BeFan)
                 {
                     m_step = EnumStep.GoToAccountLoginPage;
@@ -389,7 +392,7 @@ namespace AccountCreator
             if(m_accountInfo != null)
             {
                 m_accountDb.SetUnsetAccount(m_accountInfo);
-                m_browser.Logout(false);
+                m_browser.Logout();
             }
         }
 
@@ -477,13 +480,20 @@ namespace AccountCreator
 
         private void Logout()
         {
-            m_browser.Logout();
-            if(m_taskType == EnumTaskType.Create)
-                m_step = EnumStep.Login;
-            else if (m_taskType == EnumTaskType.BeFan)
+            if (m_browser.IsLogedin())
             {
-                m_timerBrain.Enabled = false;
-                System.Media.SystemSounds.Beep.Play();
+                m_browser.Logout();
+            }
+            else
+            {
+                m_browser.NavigateToLoginPage();
+                if (m_taskType == EnumTaskType.Create)
+                    m_step = EnumStep.Login;
+                else if (m_taskType == EnumTaskType.BeFan)
+                {
+                    m_timerBrain.Enabled = false;
+                    System.Media.SystemSounds.Beep.Play();
+                }
             }
         }
 
