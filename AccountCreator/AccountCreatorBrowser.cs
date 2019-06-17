@@ -383,7 +383,7 @@ namespace AccountCreator
 
         public bool Login()
         {
-            Tools.DoubleClick(666, 300);
+            Tools.DoubleClick(600, 300);
 
             return true;
         }
