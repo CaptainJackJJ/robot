@@ -398,6 +398,14 @@ namespace AccountCreator
             ClickEleByTagAndOuterHtml("a", "退出");
         }
 
+        public bool IsBindQQ()
+        {
+            // <span class="info-text"><!----> <!----> <!----> 暂不支持除微信外的其他第三方账号注册。 <!----> <!----> <!----> <!----> <!----> <!----></span>
+            if (GetEleByTagAndOuterHtml("span", "暂不支持") != null)
+                return false;
+            return true;
+        }
+
         public bool IsLogedin()
         {
             // <img class="login_img" src="//profile.csdnimg.cn/9/5/2/2_ugghhj">

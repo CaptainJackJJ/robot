@@ -464,6 +464,7 @@ namespace AccountCreator
             }
 
             m_browser.Login();
+            
             m_step = EnumStep.GoToMyAticle;
 
             m_isFirstTimeTryLogin = true;
