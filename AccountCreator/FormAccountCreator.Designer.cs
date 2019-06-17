@@ -45,6 +45,7 @@
             this.buttonCreateAccount.TabIndex = 2;
             this.buttonCreateAccount.Text = "Create Account";
             this.buttonCreateAccount.UseVisualStyleBackColor = true;
+            this.buttonCreateAccount.Visible = false;
             this.buttonCreateAccount.Click += new System.EventHandler(this.buttonCreateAccount_Click);
             // 
             // timer1
@@ -59,6 +60,7 @@
             this.buttonSetAccount.TabIndex = 3;
             this.buttonSetAccount.Text = "Set Account";
             this.buttonSetAccount.UseVisualStyleBackColor = true;
+            this.buttonSetAccount.Visible = false;
             this.buttonSetAccount.Click += new System.EventHandler(this.buttonSetAccount_Click);
             // 
             // buttonSetDone
@@ -70,6 +72,7 @@
             this.buttonSetDone.TabIndex = 3;
             this.buttonSetDone.Text = "Set Done";
             this.buttonSetDone.UseVisualStyleBackColor = true;
+            this.buttonSetDone.Visible = false;
             this.buttonSetDone.Click += new System.EventHandler(this.buttonSetDone_Click);
             // 
             // webBrowser1
@@ -88,6 +91,7 @@
             this.buttonBeFan.TabIndex = 4;
             this.buttonBeFan.Text = "beFan";
             this.buttonBeFan.UseVisualStyleBackColor = true;
+            this.buttonBeFan.Visible = false;
             this.buttonBeFan.Click += new System.EventHandler(this.buttonBeFan_Click);
             // 
             // FormAccountCreator

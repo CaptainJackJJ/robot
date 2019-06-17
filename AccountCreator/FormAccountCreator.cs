@@ -23,6 +23,8 @@ namespace AccountCreator
 
             timer1.Enabled = false;
             m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
+
+            CreateAccount();
         }
 
         private void FormAccountCreator_Load(object sender, EventArgs e)
@@ -32,10 +34,15 @@ namespace AccountCreator
             webBrowser1.Size = new Size(this.Size.Width, this.Size.Height - y);
         }
 
-        private void buttonCreateAccount_Click(object sender, EventArgs e)
+        private void CreateAccount()
         {
             m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.Create);
             timer1.Enabled = true;
+        }
+
+        private void buttonCreateAccount_Click(object sender, EventArgs e)
+        {
+            CreateAccount();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
