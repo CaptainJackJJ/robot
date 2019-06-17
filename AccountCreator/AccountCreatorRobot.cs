@@ -530,6 +530,8 @@ namespace AccountCreator
 
         private void GoToLogoutPage()
         {
+#if DEBUG
+#else
             m_accountInfo.phone = GetPhone();
             if (m_accountInfo.phone == "")
             {
@@ -537,6 +539,7 @@ namespace AccountCreator
                 MessageBox.Show("phone is empty");
                 return;
             }
+#endif
 
             m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
             m_step = EnumStep.Logout;
