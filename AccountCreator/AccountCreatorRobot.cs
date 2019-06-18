@@ -24,6 +24,7 @@ namespace AccountCreator
             GoToLogoutPage,
             Logout,
             Login,
+            CheckQqLogedin,
             BeFans,
             GetUsernameForQQ,
             ConfirmChangePassword,
@@ -33,7 +34,6 @@ namespace AccountCreator
             GoToListPage,
             GoToNextArticlePage,
             GoToProfile,
-            GoToBindPage,
             Unbind,
             ConfirmUnbind,
             GoToConfigurePage,
@@ -117,6 +117,9 @@ namespace AccountCreator
                     case EnumStep.Login:
                         Login();
                         break;
+                    case EnumStep.CheckQqLogedin:
+                        CheckQqLogedin();
+                        break;
                     case EnumStep.BeFans:
                         BeFans();
                         break;
@@ -143,9 +146,6 @@ namespace AccountCreator
                         break;
                     case EnumStep.GoToProfile:
                         GoToProfile();
-                        break;
-                    case EnumStep.GoToBindPage:
-                        GoToBindPage();
                         break;
                     case EnumStep.Unbind:
                         Unbind();
@@ -184,7 +184,6 @@ namespace AccountCreator
         private void ConfirmChangeCodeStyle()
         {
             m_browser.ConfirmChangeCodeStyle();
-            //m_step = EnumStep.GoToBindPage;
 
             if (m_taskType == EnumTaskType.Create)
             {
@@ -223,15 +222,9 @@ namespace AccountCreator
         {
             if (m_browser.ConfirmUnbind())
             {
-                //m_TimesTryUnbind++;
-                //if (m_TimesTryUnbind < 2)
-                //{
-                //    m_step = EnumStep.Unbind;
-                //    return;
-                //}
-                //m_TimesTryUnbind = 0;
-                if (m_taskType == EnumTaskType.Create)
+                if (m_taskType == EnumTaskType.UnBind)
                 {
+                    m_step = EnumStep.Logout;
                 }
                 else
                 {
@@ -244,21 +237,16 @@ namespace AccountCreator
         {
             if (!m_browser.Url.ToString().Contains("account/bind"))
             {
+                m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
                 return;
             }
 
             if (m_browser.Unbind())
             {
-                //m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 m_step = EnumStep.ConfirmUnbind;
             }
         }
 
-        private void GoToBindPage()
-        {
-            m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
-            m_step = EnumStep.Unbind;
-        }
         private void GoToProfile()
         {
             m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
@@ -280,6 +268,10 @@ namespace AccountCreator
             if (m_taskType == EnumTaskType.BeFan)
             {
                 m_step = EnumStep.GoToListPage;
+            }
+            else if (m_taskType == EnumTaskType.UnBind)
+            {
+                m_step = EnumStep.Unbind;
             }
             else
             {
@@ -465,8 +457,41 @@ namespace AccountCreator
 
             m_browser.Login();
 
-            m_step = EnumStep.GetUsernameForQQ;
+            m_step = EnumStep.CheckQqLogedin;
         }
+
+        private void CheckQqLogedin()
+        {
+            if (m_browser.IsInQqLoginPage())
+            {
+                Login();
+                return;
+            }
+            if(m_browser.IsQqLogedin())
+            {
+                if (m_taskType == EnumTaskType.Create)
+                {
+                    m_step = EnumStep.GetUsernameForQQ;
+                }
+                else if (m_taskType == EnumTaskType.UnBind)
+                {
+                    m_step = EnumStep.Unbind;
+                }
+            }
+            else
+            {
+                if (m_taskType == EnumTaskType.Create)
+                {
+                    m_step = EnumStep.Login;
+                }
+                else if (m_taskType == EnumTaskType.UnBind)
+                {
+                    SetTaskType(EnumTaskType.Set);
+                }
+            }
+        }
+
+
 
         private void Logout()
         {
@@ -485,7 +510,7 @@ namespace AccountCreator
             else
             {
                 m_browser.NavigateToLoginPage();
-                if (m_taskType == EnumTaskType.Create)
+                if (m_taskType == EnumTaskType.Create || m_taskType == EnumTaskType.UnBind)
                     m_step = EnumStep.Login;
                 else if (m_taskType == EnumTaskType.BeFan)
                 {

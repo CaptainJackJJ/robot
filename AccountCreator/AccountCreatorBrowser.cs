@@ -457,7 +457,7 @@ namespace AccountCreator
             CleanTempFiles();
         }
 
-        public bool IsBindQQ()
+        public bool IsQqLogedin()
         {
             // <span class="info-text"><!----> <!----> <!----> 暂不支持除微信外的其他第三方账号注册。 <!----> <!----> <!----> <!----> <!----> <!----></span>
             if (GetEleByTagAndOuterHtml("span", "暂不支持") != null)
