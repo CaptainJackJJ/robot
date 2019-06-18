@@ -24,10 +24,8 @@ namespace AccountCreator
             GoToLogoutPage,
             Logout,
             Login,
-            GoToMyAticle,
             BeFans,
             GetUsernameForQQ,
-            GoToChangePasswordPage,
             ConfirmChangePassword,
             ChangePassword,
             GoToAccountLoginPage,
@@ -117,17 +115,11 @@ namespace AccountCreator
                     case EnumStep.Login:
                         Login();
                         break;
-                    case EnumStep.GoToMyAticle:
-                        GoToMyAticle();
-                        break;
                     case EnumStep.BeFans:
                         BeFans();
                         break;
                     case EnumStep.GetUsernameForQQ:
                         GetUsernameForQQ();
-                        break;
-                    case EnumStep.GoToChangePasswordPage:
-                        GoToChangePasswordPage();
                         break;
                     case EnumStep.ChangePassword:
                         ChangePassword();
@@ -196,7 +188,8 @@ namespace AccountCreator
             //m_step = EnumStep.GoToBindPage;
 
             if (m_taskType == EnumTaskType.Create)
-                m_step = EnumStep.GoToChangePasswordPage;
+            {
+            }
             else
             {
                 m_step = EnumStep.Logout;
@@ -239,7 +232,8 @@ namespace AccountCreator
                 //}
                 //m_TimesTryUnbind = 0;
                 if (m_taskType == EnumTaskType.Create)
-                    m_step = EnumStep.GoToChangePasswordPage;
+                {
+                }
                 else
                 {
                     m_step = EnumStep.Logout;
@@ -396,30 +390,30 @@ namespace AccountCreator
 
         private void ConfirmChangePassword()
         {
-            m_browser.MouseClickEle("button", "确认");
+            if(!m_browser.MouseClickEle("button", "确认"))
+            {
+                m_step = EnumStep.ChangePassword;
+                return;
+            }
             //m_step = EnumStep.Finished;            
 
             m_accountDb.AddAccountInfo(m_accountInfo);
-            EmptyPhone();
-            //System.Media.SystemSounds.Beep.Play();
-            SetTaskType(EnumTaskType.Set);
+
+            m_step = EnumStep.LoginWithAccount;
         }
 
         private void ChangePassword()
         {
             if (!m_browser.Url.ToString().Contains("account/password"))
-                m_step = EnumStep.GoToChangePasswordPage;
+            {
+                m_browser.SafeNavigate("https://i.csdn.net/#/account/password");
+                return;
+            }
             if (!m_browser.ChangePassword())
                 return;
             m_step = EnumStep.ConfirmChangePassword;
         }
-
-        private void GoToChangePasswordPage()
-        {
-            m_browser.SafeNavigate("https://i.csdn.net/#/account/password");
-            m_step = EnumStep.ChangePassword;
-        }
-
+        
         private void BeFans()
         {
             string strUrl = m_browser.Url.ToString();
@@ -437,6 +431,11 @@ namespace AccountCreator
 
         private void GetUsernameForQQ()
         {
+            if (m_browser.Url.ToString() != "https://blog.csdn.net/jiangjunshow/article/details/77338485")
+            {
+                m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
+                return;
+            }
             if (!m_browser.IsLogedin())
             {
                 m_browser.NavigateToLoginPage();
@@ -444,16 +443,10 @@ namespace AccountCreator
                 return;
             }
             m_accountInfo.userName = m_browser.GetUsernameForQQ();
-            m_step = EnumStep.GoToConfigurePage;
-        }
+            m_browser.BeFans();
+            m_browser.Follow();
 
-        private void GoToMyAticle()
-        {
-            m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
-            if (m_taskType == EnumTaskType.Create)
-                m_step = EnumStep.GetUsernameForQQ;
-            else
-                m_step = EnumStep.GoToBindPage;            
+            m_step = EnumStep.ChangePassword;
         }
 
         private void Login()
@@ -465,10 +458,8 @@ namespace AccountCreator
             }
 
             m_browser.Login();
-            
-            m_step = EnumStep.GoToMyAticle;
 
-            m_isFirstTimeTryLogin = true;
+            m_step = EnumStep.GetUsernameForQQ;
         }
 
 
