@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace AccountCreator
 {
@@ -470,11 +471,69 @@ namespace AccountCreator
             m_isFirstTimeTryLogin = true;
         }
 
+
+        /// <summary>
+        /// 清除文件夹
+        /// </summary>
+        /// <param name="path">文件夹路径</param>
+        static void FolderClear(string path)
+        {
+            try
+            {
+                System.IO.DirectoryInfo diPath = new System.IO.DirectoryInfo(path);
+                foreach (System.IO.FileInfo fiCurrFile in diPath.GetFiles())
+                {
+                    fiCurrFile.Delete();
+                    //FileDelete(fiCurrFile.FullName);
+
+                }
+                foreach (System.IO.DirectoryInfo diSubFolder in diPath.GetDirectories())
+                {
+                    FolderClear(diSubFolder.FullName); // Call recursively for all subfolders
+                }
+            }
+            catch
+            { }
+        }
+        /// <summary>
+        /// 执行命令行
+        /// </summary>
+        /// <param name="cmd"></param>
+        static void RunCmd(string cmd)
+        {
+            ProcessStartInfo p = new ProcessStartInfo();
+            p.FileName = "cmd.exe";
+            p.Arguments = "/c " + cmd;
+            p.WindowStyle = ProcessWindowStyle.Hidden;  // Use a hidden window
+            Process pro = Process.Start(p);
+            pro.WaitForExit();
+        }
+        /// <summary>
+        /// 删除临时文件
+        /// </summary>
+        public static void CleanTempFiles()
+        {
+            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
+
+            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));
+
+            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
+        }
+
         private void Logout()
         {
+            if (m_browser.Url.ToString() != "https://blog.csdn.net/jiangjunshow/article/details/77338485")
+            {
+                m_step = EnumStep.GoToLogoutPage;
+                return;
+            }
+
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout();
+                CleanTempFiles();
+                m_step = EnumStep.GoToLogoutPage;
+                return;
             }
             else
             {
