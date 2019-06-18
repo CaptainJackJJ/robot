@@ -33,7 +33,7 @@ namespace AccountCreator
             ConfirmLoginWithAccount,
             GoToListPage,
             GoToNextArticlePage,
-            GoToProfile,
+            CheckIsInProfilePage,
             Unbind,
             ConfirmUnbind,
             GoToConfigurePage,
@@ -86,11 +86,11 @@ namespace AccountCreator
             {
                 m_step = EnumStep.GoToLogoutPage;
             }
-            else if (m_taskType == EnumTaskType.UnBind)
+            else if (m_taskType == EnumTaskType.UnBind || m_taskType == EnumTaskType.Set)
             {
-                m_step = EnumStep.LoginWithAccount;
+                m_step = EnumStep.LoginWithAccount; // when unBind,this is for checking password is ok.
             }
-            else if (m_taskType == EnumTaskType.Set || m_taskType == EnumTaskType.BeFan)
+            else if (m_taskType == EnumTaskType.BeFan)
             {
             }
             //else
@@ -144,8 +144,8 @@ namespace AccountCreator
                     case EnumStep.GoToNextArticlePage:
                         GoToNextArticlePage();
                         break;
-                    case EnumStep.GoToProfile:
-                        GoToProfile();
+                    case EnumStep.CheckIsInProfilePage:
+                        CheckIsInProfilePage();
                         break;
                     case EnumStep.Unbind:
                         Unbind();
@@ -237,9 +237,11 @@ namespace AccountCreator
         {
             if (!m_browser.Url.ToString().Contains("account/bind"))
             {
-                m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
+                m_step = EnumStep.LoginWithAccount;
                 return;
             }
+
+            EmptyPhone();
 
             if (m_browser.Unbind())
             {
@@ -247,13 +249,17 @@ namespace AccountCreator
             }
         }
 
-        private void GoToProfile()
+        private void CheckIsInProfilePage()
         {
-            m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
-
-            //m_timerBrain.Enabled = false;
-            m_step = EnumStep.Finished;
-            SetDoneUnsetAccount();
+            if (m_browser.Url.ToString().Contains("profile"))
+            {
+                SetDoneUnsetAccount();
+                m_step = EnumStep.Finished;                
+            }
+            else
+            {
+                m_step = EnumStep.LoginWithAccount;
+            }
         }
 
         private void ConfirmLoginWithAccount()
@@ -273,9 +279,10 @@ namespace AccountCreator
             {
                 m_step = EnumStep.Unbind;
             }
-            else
+            else if (m_taskType == EnumTaskType.Set)
             {
-                m_step = EnumStep.GoToProfile;
+                m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+                m_step = EnumStep.CheckIsInProfilePage;
             }
         }
 
@@ -330,18 +337,8 @@ namespace AccountCreator
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout();
-
-                if (m_taskType == EnumTaskType.UnBind)
-                {
-                    m_browser.SafeNavigate("https://passport.csdn.net/account/login");
-                    return;
-                }
-
-                if(m_taskType == EnumTaskType.BeFan)
-                {
-                    m_step = EnumStep.LoginWithAccount;
-                    return;
-                }
+                m_browser.SafeNavigate("https://passport.csdn.net/account/login");
+                return;
             }
             else
             {
