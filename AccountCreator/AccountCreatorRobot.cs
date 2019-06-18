@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
-using System.Diagnostics;
 
 namespace AccountCreator
 {
@@ -16,6 +15,7 @@ namespace AccountCreator
             Create,
             Set,
             BeFan,
+            UnBind,
         }
 
         enum EnumStep
@@ -28,7 +28,6 @@ namespace AccountCreator
             GetUsernameForQQ,
             ConfirmChangePassword,
             ChangePassword,
-            GoToAccountLoginPage,
             LoginWithAccount,
             ConfirmLoginWithAccount,
             GoToListPage,
@@ -47,7 +46,7 @@ namespace AccountCreator
         public static string m_password = "FiSKpJuHc12345";
 
         EnumTaskType m_taskType = EnumTaskType.Create;
-        EnumStep m_step = EnumStep.GoToAccountLoginPage;
+        EnumStep m_step = EnumStep.None;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -87,9 +86,12 @@ namespace AccountCreator
             {
                 m_step = EnumStep.GoToLogoutPage;
             }
+            else if (m_taskType == EnumTaskType.UnBind)
+            {
+                m_step = EnumStep.LoginWithAccount;
+            }
             else if (m_taskType == EnumTaskType.Set || m_taskType == EnumTaskType.BeFan)
             {
-                m_step = EnumStep.GoToAccountLoginPage;
             }
             //else
             //{
@@ -126,9 +128,6 @@ namespace AccountCreator
                         break;
                     case EnumStep.ConfirmChangePassword:
                         ConfirmChangePassword();
-                        break;
-                    case EnumStep.GoToAccountLoginPage:
-                        GoToAccountLoginPage();
                         break;
                     case EnumStep.LoginWithAccount:
                         LoginWithAccount();
@@ -339,19 +338,32 @@ namespace AccountCreator
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout();
+
+                if (m_taskType == EnumTaskType.UnBind)
+                {
+                    m_browser.SafeNavigate("https://passport.csdn.net/account/login");
+                    return;
+                }
+
                 if(m_taskType == EnumTaskType.BeFan)
                 {
-                    m_step = EnumStep.GoToAccountLoginPage;
+                    m_step = EnumStep.LoginWithAccount;
                     return;
                 }
             }
             else
             {
-                if (m_taskType == EnumTaskType.Set)
+                if (!m_browser.Url.ToString().Contains("passport.csdn.net/account/login"))
+                {
+                    m_browser.SafeNavigate("https://passport.csdn.net/account/login");
+                    return;
+                }
+
+                if (m_taskType == EnumTaskType.UnBind || m_taskType == EnumTaskType.Set)
                 {
                     m_accountInfo = m_accountDb.GetUnsetAccount();
                 }
-                else
+                else if (m_taskType == EnumTaskType.BeFan)
                 {
                     m_accountInfo = m_accountDb.GetFan();
                 }
@@ -359,7 +371,7 @@ namespace AccountCreator
                 if (m_accountInfo == null)
                 {
                     m_timerBrain.Stop();
-                    MessageBox.Show("account is null");
+                    MessageBox.Show("没有找到未设置的账号");
                     
                     return;
                 }
@@ -382,12 +394,6 @@ namespace AccountCreator
             }
         }
 
-        private void GoToAccountLoginPage()
-        {
-            m_browser.SafeNavigate("https://passport.csdn.net/account/login");
-            m_step = EnumStep.LoginWithAccount;
-        }
-
         private void ConfirmChangePassword()
         {
             if(!m_browser.MouseClickEle("button", "确认"))
@@ -399,7 +405,7 @@ namespace AccountCreator
 
             m_accountDb.AddAccountInfo(m_accountInfo);
 
-            m_step = EnumStep.LoginWithAccount;
+            SetTaskType(EnumTaskType.UnBind);
         }
 
         private void ChangePassword()
@@ -462,55 +468,6 @@ namespace AccountCreator
             m_step = EnumStep.GetUsernameForQQ;
         }
 
-
-        /// <summary>
-        /// 清除文件夹
-        /// </summary>
-        /// <param name="path">文件夹路径</param>
-        static void FolderClear(string path)
-        {
-            try
-            {
-                System.IO.DirectoryInfo diPath = new System.IO.DirectoryInfo(path);
-                foreach (System.IO.FileInfo fiCurrFile in diPath.GetFiles())
-                {
-                    fiCurrFile.Delete();
-                    //FileDelete(fiCurrFile.FullName);
-
-                }
-                foreach (System.IO.DirectoryInfo diSubFolder in diPath.GetDirectories())
-                {
-                    FolderClear(diSubFolder.FullName); // Call recursively for all subfolders
-                }
-            }
-            catch
-            { }
-        }
-        /// <summary>
-        /// 执行命令行
-        /// </summary>
-        /// <param name="cmd"></param>
-        static void RunCmd(string cmd)
-        {
-            ProcessStartInfo p = new ProcessStartInfo();
-            p.FileName = "cmd.exe";
-            p.Arguments = "/c " + cmd;
-            p.WindowStyle = ProcessWindowStyle.Hidden;  // Use a hidden window
-            Process pro = Process.Start(p);
-            pro.WaitForExit();
-        }
-        /// <summary>
-        /// 删除临时文件
-        /// </summary>
-        public static void CleanTempFiles()
-        {
-            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
-
-            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));
-
-            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
-        }
-
         private void Logout()
         {
             if (m_browser.Url.ToString() != "https://blog.csdn.net/jiangjunshow/article/details/77338485")
@@ -522,7 +479,6 @@ namespace AccountCreator
             if (m_browser.IsLogedin())
             {
                 m_browser.Logout();
-                CleanTempFiles();
                 m_step = EnumStep.GoToLogoutPage;
                 return;
             }
