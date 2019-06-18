@@ -458,9 +458,9 @@ namespace AccountCreator
 
         private void Login()
         {
-            if (m_isFirstTimeTryLogin)
+            if (!m_browser.IsInQqLoginPage())
             {
-                m_isFirstTimeTryLogin = false;
+                m_browser.NavigateToLoginPage();
                 return;
             }
 

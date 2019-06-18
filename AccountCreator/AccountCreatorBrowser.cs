@@ -388,6 +388,15 @@ namespace AccountCreator
             return true;
         }
 
+        public bool IsInQqLoginPage()
+        {
+            if(this.Url.ToString() == "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest")
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void NavigateToLoginPage()
         {
             SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest");
