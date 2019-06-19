@@ -74,7 +74,7 @@ namespace AccountCreator
         {
             m_taskType = type;
 #if DEBUG
-                m_timerBrain.Interval = 5000;
+                m_timerBrain.Interval = 3000;
                 m_taskType = EnumTaskType.UnBind;
 #else
                 m_timerBrain.Interval = 10000;
@@ -221,14 +221,27 @@ namespace AccountCreator
 
         private void ConfirmUnbind()
         {
-            m_browser.ConfirmUnbind();            
+            if(m_browser.ConfirmUnbind())
+            {
+                m_step = EnumStep.LoginWithQQ;
+            }
+            else
+            {
+                m_step = EnumStep.Unbind;
+            }
         }
 
         private void Unbind()
         {
-            if (!m_browser.Url.ToString().Contains("account/bind"))
+            if(!m_browser.IsLogedin())
             {
                 m_step = EnumStep.LoginWithAccount;
+                return;
+            }
+
+            if (!m_browser.Url.ToString().Contains("account/bind"))
+            {
+                m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
                 return;
             }
 
