@@ -461,7 +461,7 @@ namespace AccountCreator
             //RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
         }
 
-        int m_bPreLogout = 1;
+        bool m_bPreLogout = true;
 
         public bool MakeSureNotLogedin()
         {
@@ -473,24 +473,20 @@ namespace AccountCreator
 
             if (IsLogedin())
             {
-                if(m_bPreLogout == 3)
-                    m_bPreLogout = 2;
-
-                if (m_bPreLogout == 1)
+                if (m_bPreLogout)
                 {
                     Tools.SetCursorPos(1271, 92);
-                    m_bPreLogout = 2;
-                    return false;
+                    m_bPreLogout = false;
                 }
-                else if (m_bPreLogout == 2)
-                {
-                    m_bPreLogout = 3;
+                else
+                {                    
                     Tools.DoubleClick(1220, 490);
-                    return false;
+                    m_bPreLogout = true;
                 }
+                return false;
             }
 
-            m_bPreLogout = 1;
+            m_bPreLogout = true;
             return true;
         }
 
