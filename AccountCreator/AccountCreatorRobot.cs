@@ -74,9 +74,9 @@ namespace AccountCreator
         {
             m_taskType = type;
 #if DEBUG
-                m_timerBrain.Interval = 3000;
+                m_timerBrain.Interval = 2000;
 #else
-                m_timerBrain.Interval = 3000;
+                m_timerBrain.Interval = 2000;
 #endif
 
             
