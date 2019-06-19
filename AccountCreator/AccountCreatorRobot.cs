@@ -236,7 +236,6 @@ namespace AccountCreator
                 return;
             }
 
-            //m_browser.Refresh();
             if (!m_browser.Url.ToString().Contains("account/bind"))
             {
                 m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
@@ -248,6 +247,10 @@ namespace AccountCreator
             if (m_browser.Unbind())
             {
                 m_step = EnumStep.ConfirmUnbind;
+            }
+            else
+            {
+                m_browser.Refresh();
             }
         }
 
@@ -264,7 +267,7 @@ namespace AccountCreator
                 m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 return;
             }
-
+            m_browser.Refresh();
             m_step = EnumStep.Finished;  
             SetDoneUnsetAccount();
         }
