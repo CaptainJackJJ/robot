@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace AccountCreator
 {
     class AccountCreatorRobot
-    {
+    {      
         public enum EnumTaskType
         {
             Create,
@@ -21,9 +21,7 @@ namespace AccountCreator
         enum EnumStep
         {
             None,
-            GoToLogoutPage,
-            Logout,
-            Login,
+            LoginWithQQ,
             CheckQqLogedin,
             BeFans,
             GetUsernameForQQ,
@@ -74,17 +72,28 @@ namespace AccountCreator
 
         public void SetTaskType(EnumTaskType type)
         {
-
+            m_taskType = type;
 #if DEBUG
-                m_timerBrain.Interval = 2000;
+                m_timerBrain.Interval = 5000;
+                m_taskType = EnumTaskType.UnBind;
 #else
                 m_timerBrain.Interval = 10000;
 #endif
 
-            m_taskType = type;
+            
             if (m_taskType == EnumTaskType.Create)
             {
-                m_step = EnumStep.GoToLogoutPage;
+#if DEBUG
+#else
+            m_accountInfo.phone = GetPhone();
+            if (m_accountInfo.phone == "")
+            {
+                m_timerBrain.Enabled = false;
+                MessageBox.Show("phone is empty");
+                return;
+            }
+#endif
+                m_step = EnumStep.LoginWithQQ;
             }
             else if (m_taskType == EnumTaskType.UnBind || m_taskType == EnumTaskType.Set)
             {
@@ -103,19 +112,12 @@ namespace AccountCreator
         public void timerBrain()
         {
             m_browser.CloseSecurityAlert();
-            
             try
             {
                 switch(m_step)
                 {
-                    case EnumStep.GoToLogoutPage:
-                        GoToLogoutPage();
-                        break;
-                    case EnumStep.Logout:
-                        Logout();
-                        break;
-                    case EnumStep.Login:
-                        Login();
+                    case EnumStep.LoginWithQQ:
+                        LoginWithQQ();
                         break;
                     case EnumStep.CheckQqLogedin:
                         CheckQqLogedin();
@@ -190,7 +192,6 @@ namespace AccountCreator
             }
             else
             {
-                m_step = EnumStep.Logout;
             }
         }
 
@@ -220,17 +221,7 @@ namespace AccountCreator
 
         private void ConfirmUnbind()
         {
-            if (m_browser.ConfirmUnbind())
-            {
-                if (m_taskType == EnumTaskType.UnBind)
-                {
-                    m_step = EnumStep.Logout;
-                }
-                else
-                {
-                    m_step = EnumStep.Logout;
-                }
-            }
+            m_browser.ConfirmUnbind();            
         }
 
         private void Unbind()
@@ -334,17 +325,15 @@ namespace AccountCreator
 
         private void LoginWithAccount()
         {
-            if (m_browser.IsLogedin())
+            if (!m_browser.MakeSureNotLogedin())
             {
-                m_browser.Logout();
-                m_browser.SafeNavigate("https://passport.csdn.net/account/login");
                 return;
             }
             else
             {
-                if (!m_browser.Url.ToString().Contains("passport.csdn.net/account/login"))
+                if (!m_browser.Url.ToString().Contains("passport.csdn.net/login"))
                 {
-                    m_browser.SafeNavigate("https://passport.csdn.net/account/login");
+                    m_browser.SafeNavigate("https://passport.csdn.net/login");
                     return;
                 }
 
@@ -379,7 +368,6 @@ namespace AccountCreator
             if(m_accountInfo != null)
             {
                 m_accountDb.SetUnsetAccount(m_accountInfo);
-                m_browser.Logout();
             }
         }
 
@@ -434,7 +422,7 @@ namespace AccountCreator
             if (!m_browser.IsLogedin())
             {
                 m_browser.NavigateToLoginPage();
-                m_step = EnumStep.Login;
+                m_step = EnumStep.LoginWithQQ;
                 return;
             }
             m_accountInfo.userName = m_browser.GetUsernameForQQ();
@@ -444,8 +432,13 @@ namespace AccountCreator
             m_step = EnumStep.ChangePassword;
         }
 
-        private void Login()
+        private void LoginWithQQ()
         {
+            if (!m_browser.MakeSureNotLogedin())
+            {
+                return;
+            }
+
             if (!m_browser.IsInQqLoginPage())
             {
                 m_browser.NavigateToLoginPage();
@@ -461,7 +454,7 @@ namespace AccountCreator
         {
             if (m_browser.IsInQqLoginPage())
             {
-                Login();
+                LoginWithQQ();
                 return;
             }
             if(m_browser.IsQqLogedin())
@@ -479,40 +472,11 @@ namespace AccountCreator
             {
                 if (m_taskType == EnumTaskType.Create)
                 {
-                    m_step = EnumStep.Login;
+                    m_step = EnumStep.LoginWithQQ;
                 }
                 else if (m_taskType == EnumTaskType.UnBind)
                 {
                     SetTaskType(EnumTaskType.Set);
-                }
-            }
-        }
-
-
-
-        private void Logout()
-        {
-            if (m_browser.Url.ToString() != "https://blog.csdn.net/jiangjunshow/article/details/77338485")
-            {
-                m_step = EnumStep.GoToLogoutPage;
-                return;
-            }
-
-            if (m_browser.IsLogedin())
-            {
-                m_browser.Logout();
-                m_step = EnumStep.GoToLogoutPage;
-                return;
-            }
-            else
-            {
-                m_browser.NavigateToLoginPage();
-                if (m_taskType == EnumTaskType.Create || m_taskType == EnumTaskType.UnBind)
-                    m_step = EnumStep.Login;
-                else if (m_taskType == EnumTaskType.BeFan)
-                {
-                    m_timerBrain.Enabled = false;
-                    System.Media.SystemSounds.Beep.Play();
                 }
             }
         }
@@ -556,23 +520,6 @@ namespace AccountCreator
                 Environment.Exit(0);
             }
             return "";
-        }
-
-        private void GoToLogoutPage()
-        {
-#if DEBUG
-#else
-            m_accountInfo.phone = GetPhone();
-            if (m_accountInfo.phone == "")
-            {
-                m_timerBrain.Enabled = false;
-                MessageBox.Show("phone is empty");
-                return;
-            }
-#endif
-
-            m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
-            m_step = EnumStep.Logout;
         }
     }
 }

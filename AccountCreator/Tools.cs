@@ -215,6 +215,7 @@ namespace AccountCreator
         const int MOUSEEVENTF_ABSOLUTE = 0x8000; //标示是否采用绝对坐标
         const int MOUSEEVENTF_WHEEL = 0x800;
 
+
         public static void Click(int x, int y)
         {
             SetCursorPos(x, y);

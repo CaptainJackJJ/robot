@@ -8,11 +8,14 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Threading;
 
 namespace AccountCreator
 {
     class AccountCreatorBrowser : WebBrowser
     {
+        public static readonly string m_strCaptainArticlePage = "https://blog.csdn.net/jiangjunshow/article/details/77338485";
+
         public AccountCreatorBrowser()
         {
             this.ScriptErrorsSuppressed = false;
@@ -398,6 +401,13 @@ namespace AccountCreator
             return false;
         }
 
+        public bool IsAtCsdn()
+        {
+            if (this.Url == null)
+                return false;
+            return this.Url.ToString().Contains("csdn");
+        }
+
         public void NavigateToLoginPage()
         {
             SafeNavigate("https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=100270989&response_type=code&redirect_uri=https%3A%2F%2Fpassport.csdn.net%2Faccount%2Flogin%3FpcAuthType%3Dqq%26state%3Dtest");
@@ -444,17 +454,44 @@ namespace AccountCreator
         /// </summary>
         public static void CleanTempFiles()
         {
-            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
+            //FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
 
             FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));
 
-            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
+            //RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
         }
 
-        public void Logout()
+        int m_bPreLogout = 1;
+
+        public bool MakeSureNotLogedin()
         {
-            ClickEleByTagAndOuterHtml("a", "退出");
-            CleanTempFiles();
+            if (!IsAtCsdn())
+            {
+                SafeNavigate(m_strCaptainArticlePage);
+                return false;
+            }
+
+            if (IsLogedin())
+            {
+                if(m_bPreLogout == 3)
+                    m_bPreLogout = 2;
+
+                if (m_bPreLogout == 1)
+                {
+                    Tools.SetCursorPos(1271, 92);
+                    m_bPreLogout = 2;
+                    return false;
+                }
+                else if (m_bPreLogout == 2)
+                {
+                    m_bPreLogout = 3;
+                    Tools.DoubleClick(1220, 490);
+                    return false;
+                }
+            }
+
+            m_bPreLogout = 1;
+            return true;
         }
 
         public bool IsQqLogedin()
