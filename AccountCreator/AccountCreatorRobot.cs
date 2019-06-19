@@ -236,6 +236,7 @@ namespace AccountCreator
                 return;
             }
 
+            //m_browser.Refresh();
             if (!m_browser.Url.ToString().Contains("account/bind"))
             {
                 m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
@@ -471,7 +472,11 @@ namespace AccountCreator
                 LoginWithQQ();
                 return;
             }
-            if(m_browser.IsQqLogedin())
+            bool bDelay = false;
+            bool bLogedin = m_browser.IsQqLogedin(ref bDelay);
+            if(bDelay)
+                return;
+            if (bLogedin)
             {
                 if (m_taskType == EnumTaskType.Create)
                 {

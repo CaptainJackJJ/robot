@@ -490,12 +490,25 @@ namespace AccountCreator
             return true;
         }
 
-        public bool IsQqLogedin()
+        public bool IsQqLogedin(ref bool bDelay)
         {
+            bDelay = false;
+            // https://passport.csdn.net/sign#callback
+            if (!this.Url.ToString().Contains("sign#callback"))
+                return true;
+
             // <span class="info-text"><!----> <!----> <!----> 暂不支持除微信外的其他第三方账号注册。 <!----> <!----> <!----> <!----> <!----> <!----></span>
             if (GetEleByTagAndOuterHtml("span", "暂不支持") != null)
+            {
                 return false;
-            return true;
+            }// <p class="cert-p-text">为保证你的账号安全，强烈推荐绑定邮箱</p>
+            else if (GetEleByTagAndOuterHtml("p", "账号安全") != null)
+            {
+                return true;
+            }
+
+            bDelay = true;
+            return false;
         }
 
         public bool IsLogedin()
