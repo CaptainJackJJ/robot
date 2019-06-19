@@ -75,9 +75,8 @@ namespace AccountCreator
             m_taskType = type;
 #if DEBUG
                 m_timerBrain.Interval = 3000;
-                m_taskType = EnumTaskType.UnBind;
 #else
-                m_timerBrain.Interval = 10000;
+                m_timerBrain.Interval = 3000;
 #endif
 
             
@@ -255,15 +254,20 @@ namespace AccountCreator
 
         private void CheckIsInProfilePage()
         {
-            if (m_browser.Url.ToString().Contains("profile"))
-            {
-                SetDoneUnsetAccount();
-                m_step = EnumStep.Finished;                
-            }
-            else
+            if (!m_browser.IsLogedin())
             {
                 m_step = EnumStep.LoginWithAccount;
+                return;
             }
+
+            if (!m_browser.Url.ToString().Contains("profile"))
+            {
+                m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
+                return;
+            }
+
+            m_step = EnumStep.Finished;  
+            SetDoneUnsetAccount();
         }
 
         private void ConfirmLoginWithAccount()
@@ -285,7 +289,6 @@ namespace AccountCreator
             }
             else if (m_taskType == EnumTaskType.Set)
             {
-                m_browser.SafeNavigate("https://i.csdn.net/#/uc/profile");
                 m_step = EnumStep.CheckIsInProfilePage;
             }
         }
