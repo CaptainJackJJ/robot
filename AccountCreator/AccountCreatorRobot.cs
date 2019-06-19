@@ -82,16 +82,14 @@ namespace AccountCreator
             
             if (m_taskType == EnumTaskType.Create)
             {
-#if DEBUG
-#else
-            m_accountInfo.phone = GetPhone();
-            if (m_accountInfo.phone == "")
-            {
-                m_timerBrain.Enabled = false;
-                MessageBox.Show("phone is empty");
-                return;
-            }
-#endif
+                m_accountInfo.phone = GetPhone();
+                if (m_accountInfo.phone == "")
+                {
+                    m_timerBrain.Enabled = false;
+                    MessageBox.Show("phone is empty");
+                    return;
+                }
+
                 m_step = EnumStep.LoginWithQQ;
             }
             else if (m_taskType == EnumTaskType.UnBind || m_taskType == EnumTaskType.Set)
