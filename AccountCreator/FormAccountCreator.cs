@@ -76,5 +76,10 @@ namespace AccountCreator
             m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.BeFan);
             timer1.Enabled = true;
         }
+
+        private void button_unbind_Click(object sender, EventArgs e)
+        {
+            m_Robot.SetTaskType(AccountCreatorRobot.EnumTaskType.UnBind);
+        }
     }
 }
