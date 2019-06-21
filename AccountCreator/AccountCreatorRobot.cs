@@ -270,6 +270,7 @@ namespace AccountCreator
             m_browser.Refresh();
             m_step = EnumStep.Finished;  
             SetDoneUnsetAccount();
+            UpdateCreateNum();
         }
 
         private void ConfirmLoginWithAccount()
@@ -542,6 +543,64 @@ namespace AccountCreator
                 Environment.Exit(0);
             }
             return "";
+        }
+
+        static int s_createNum = 0;
+
+        private static string GetCreateNumFileName()
+        {
+            return "CreateNum" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+        }
+
+        public static int GetCreateNum(ref bool limited)
+        {
+            limited = false;
+            try
+            {
+                using (System.IO.StreamReader sr = System.IO.File.OpenText(GetCreateNumFileName()))
+                {
+                    string s = sr.ReadLine();
+                    if (s == null)
+                    {
+                        return 0;
+                    }
+                    s_createNum = Convert.ToInt32(s.Substring(0, 1));
+                    int hour = Convert.ToInt32(s.Substring(2, 2));
+                    if(s_createNum == 5)
+                    {
+                        if((Convert.ToInt32(DateTime.Now.ToString("HH")) - hour) < 3)
+                        {
+                            limited = true;
+                        }
+                    }
+                    s_createNum++;
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            return s_createNum;
+        }
+
+        static public void UpdateCreateNum()
+        {
+            try
+            {
+                System.IO.FileStream stream = System.IO.File.Open(GetCreateNumFileName(), System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
+                stream.SetLength(0);
+                stream.Close();
+                stream.Dispose();
+
+                using (System.IO.StreamWriter sw = System.IO.File.AppendText(GetCreateNumFileName()))
+                {
+                    sw.WriteLine(s_createNum.ToString() + ":" + DateTime.Now.ToString("HH"));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("更新账号创建次数时出错。错误信息是：" + e.Message);
+            }
         }
     }
 }

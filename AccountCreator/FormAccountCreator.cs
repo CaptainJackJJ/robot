@@ -17,19 +17,28 @@ namespace AccountCreator
         public FormAccountCreator()
         {
             InitializeComponent();
-
-            Tools.SetWebBrowserFeatures(11);
-            this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
-
-            timer1.Enabled = false;
-            m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
-
-            CreateAccount();
         }
 
 
         private void FormAccountCreator_Load(object sender, EventArgs e)
         {
+            Tools.SetWebBrowserFeatures(11);
+            this.Text = this.Text + "_IE" + Tools.GetBrowserVersion().ToString();
+
+            bool limited = false;
+            int createNum = AccountCreatorRobot.GetCreateNum(ref limited);
+            label_createNum.Text = createNum.ToString();
+            if(limited)
+            {
+                MessageBox.Show("已经创建5个了，要等3个小时后才能创建新的。要看清楚，这样会扣工资的");
+                Environment.Exit(0);
+            }
+
+            timer1.Enabled = false;
+            m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
+
+            CreateAccount();
+
             int y = 50;
             webBrowser1.Location = new Point(0, y);
             webBrowser1.Size = new Size(this.Size.Width, this.Size.Height - y);

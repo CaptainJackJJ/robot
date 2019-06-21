@@ -33,9 +33,10 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.buttonSetAccount = new System.Windows.Forms.Button();
             this.buttonSetDone = new System.Windows.Forms.Button();
-            this.webBrowser1 = new AccountCreator.AccountCreatorBrowser();
             this.buttonBeFan = new System.Windows.Forms.Button();
             this.button_unbind = new System.Windows.Forms.Button();
+            this.label_createNum = new System.Windows.Forms.Label();
+            this.webBrowser1 = new AccountCreator.AccountCreatorBrowser();
             this.SuspendLayout();
             // 
             // buttonCreateAccount
@@ -76,14 +77,6 @@
             this.buttonSetDone.Visible = false;
             this.buttonSetDone.Click += new System.EventHandler(this.buttonSetDone_Click);
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(-3, 48);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(929, 201);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // buttonBeFan
             // 
             this.buttonBeFan.Location = new System.Drawing.Point(812, 3);
@@ -97,7 +90,7 @@
             // 
             // button_unbind
             // 
-            this.button_unbind.Location = new System.Drawing.Point(377, 3);
+            this.button_unbind.Location = new System.Drawing.Point(9, 3);
             this.button_unbind.Name = "button_unbind";
             this.button_unbind.Size = new System.Drawing.Size(93, 39);
             this.button_unbind.TabIndex = 5;
@@ -105,11 +98,30 @@
             this.button_unbind.UseVisualStyleBackColor = true;
             this.button_unbind.Click += new System.EventHandler(this.button_unbind_Click);
             // 
+            // label_createNum
+            // 
+            this.label_createNum.AutoSize = true;
+            this.label_createNum.Font = new System.Drawing.Font("SimSun", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_createNum.Location = new System.Drawing.Point(658, 3);
+            this.label_createNum.Name = "label_createNum";
+            this.label_createNum.Size = new System.Drawing.Size(33, 35);
+            this.label_createNum.TabIndex = 6;
+            this.label_createNum.Text = "0";
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(-3, 48);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(929, 201);
+            this.webBrowser1.TabIndex = 0;
+            // 
             // FormAccountCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 261);
+            this.Controls.Add(this.label_createNum);
             this.Controls.Add(this.button_unbind);
             this.Controls.Add(this.buttonBeFan);
             this.Controls.Add(this.buttonSetDone);
@@ -121,6 +133,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormAccountCreator_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -133,6 +146,7 @@
         private System.Windows.Forms.Button buttonSetDone;
         private System.Windows.Forms.Button buttonBeFan;
         private System.Windows.Forms.Button button_unbind;
+        private System.Windows.Forms.Label label_createNum;
     }
 }
 
