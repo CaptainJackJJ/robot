@@ -33,6 +33,11 @@ namespace AccountCreator
                 MessageBox.Show("已经创建5个了，要等3个小时后才能创建新的。要看清楚，这样会扣工资的");
                 Environment.Exit(0);
             }
+            if (createNum > 10)
+            {
+                MessageBox.Show("已经创建10个了。要看清楚，这样会扣工资的");
+                Environment.Exit(0);
+            }
 
             timer1.Enabled = false;
             m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
