@@ -562,7 +562,8 @@ namespace AccountCreator
                     string s = sr.ReadLine();
                     if (s == null)
                     {
-                        return 0;
+                        s_createNum = 1;
+                        return s_createNum;
                     }
                     s_createNum = Convert.ToInt32(s.Substring(0, 1));
                     int hour = Convert.ToInt32(s.Substring(2, 2));
