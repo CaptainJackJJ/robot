@@ -18,6 +18,7 @@ namespace AccountCreator
 
         public AccountCreatorBrowser()
         {
+            CleanTempFiles();
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
@@ -454,11 +455,11 @@ namespace AccountCreator
         /// </summary>
         public static void CleanTempFiles()
         {
-            //FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
+            FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
 
             FolderClear(Environment.GetFolderPath(Environment.SpecialFolder.Cookies));
 
-            //RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
+            RunCmd("RunDll32.exe InetCpl.cpl,ClearMyTracksByProcess 22783");
         }
 
         bool m_bPreLogout = true;

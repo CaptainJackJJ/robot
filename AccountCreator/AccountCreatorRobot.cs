@@ -230,15 +230,15 @@ namespace AccountCreator
 
         private void Unbind()
         {
-            if(!m_browser.IsLogedin())
-            {
-                m_step = EnumStep.LoginWithAccount;
-                return;
-            }
-
             if (!m_browser.Url.ToString().Contains("account/bind"))
             {
                 m_browser.SafeNavigate("https://i.csdn.net/#/account/bind");
+                return;
+            }
+
+            if(!m_browser.IsLogedin())
+            {
+                m_step = EnumStep.LoginWithAccount;
                 return;
             }
 
