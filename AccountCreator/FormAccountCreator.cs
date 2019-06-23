@@ -41,8 +41,7 @@ namespace AccountCreator
 
             timer1.Enabled = false;
             m_Robot = new AccountCreatorRobot(webBrowser1, timer1);
-
-            CreateAccount();
+            timer1.Enabled = true;
 
             int y = 50;
             webBrowser1.Location = new Point(0, y);

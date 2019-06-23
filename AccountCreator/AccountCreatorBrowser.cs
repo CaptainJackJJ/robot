@@ -18,7 +18,7 @@ namespace AccountCreator
 
         public AccountCreatorBrowser()
         {
-            CleanTempFiles();
+            //CleanTempFiles();
             this.ScriptErrorsSuppressed = false;
             this.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
         }
@@ -265,20 +265,24 @@ namespace AccountCreator
         public bool ConfirmUnbind()
         {
             //<button data-v-7f7d303e="" class="confirm_btn">确定</button>
-            if (MouseClickEle("button", "确定"))
-                return true;
-            return false;
+            MouseClickEle("button", "确定");
+            return true;
         }
 
         public bool Unbind()
         {
+            HtmlElement ele_bind = GetEleByTagAndOuterHtml("a", "绑定");
+
             //<a data-v-7f7d303e="" href="javascript:void(0)" class="handle_text remove_text">解绑</a>
             if(ClickEleByTagAndOuterHtml("a", "解绑"))
             {
                 return true;
             }
 
-            return false;            
+            if (ele_bind == null)
+                return false;
+            else
+                return true;
         }
 
         public bool LoginWithAccount(string uName, string password)

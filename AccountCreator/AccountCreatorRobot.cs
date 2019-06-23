@@ -16,6 +16,7 @@ namespace AccountCreator
             Set,
             BeFan,
             UnBind,
+            None,
         }
 
         enum EnumStep
@@ -68,6 +69,8 @@ namespace AccountCreator
 #else
             m_accountDb = new AccountCreatorDb("Account.db");
 #endif
+
+            SetTaskType(GetTaskType());
         }
 
         public void SetTaskType(EnumTaskType type)
@@ -86,11 +89,11 @@ namespace AccountCreator
                 if (m_accountInfo.phone == "")
                 {
                     m_timerBrain.Enabled = false;
-                    MessageBox.Show("phone is empty");
+                    MessageBox.Show("找不到手机号码，获取验证码了吗");
                     return;
                 }
 
-                m_step = EnumStep.LoginWithQQ;
+                m_step = EnumStep.LoginWithQQ;                
             }
             else if (m_taskType == EnumTaskType.UnBind || m_taskType == EnumTaskType.Set)
             {
@@ -104,6 +107,8 @@ namespace AccountCreator
             //    m_browser.NavigateToLoginPage();
             //    m_step = EnumStep.Login;
             //}
+
+            SaveTaskType();
         }
 
         public void timerBrain()
@@ -166,7 +171,8 @@ namespace AccountCreator
                         break;
                     case EnumStep.Finished:
                         System.Media.SystemSounds.Beep.Play();
-                        m_timerBrain.Stop();                        
+                        m_timerBrain.Stop();
+                        SetTaskType(EnumTaskType.None);
                         return;
                 }
             }
@@ -579,6 +585,7 @@ namespace AccountCreator
             }
             catch (Exception e)
             {
+                s_createNum = 1;
             }
             return s_createNum;
         }
@@ -602,6 +609,67 @@ namespace AccountCreator
             {
                 MessageBox.Show("更新账号创建次数时出错。错误信息是：" + e.Message);
             }
+        }
+
+        private string GetTaskTypeFileName()
+        {
+            return "TaskType.txt";
+        }
+
+        private void SaveTaskType()
+        {
+            try
+            {
+                System.IO.FileStream stream = System.IO.File.Open(GetTaskTypeFileName(), System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
+                stream.SetLength(0);
+                stream.Close();
+                stream.Dispose();
+
+                using (System.IO.StreamWriter sw = System.IO.File.AppendText(GetTaskTypeFileName()))
+                {
+                    sw.WriteLine(m_taskType.ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("更新任务类型时出错。错误信息是：" + e.Message);
+            }
+        }
+
+        private EnumTaskType GetTaskType()
+        {
+            EnumTaskType taskType = EnumTaskType.Create;
+            try
+            {
+                using (System.IO.StreamReader sr = System.IO.File.OpenText(GetTaskTypeFileName()))
+                {
+                    string s = sr.ReadLine();
+                    if (s != null)
+                    {
+                        switch(s)
+                        {
+                            case "Create":
+                            case "None":
+                                taskType = EnumTaskType.Create;
+                                break;
+                            case "UnBind":
+                                taskType = EnumTaskType.UnBind;
+                                break;
+                            case "Set":
+                                taskType = EnumTaskType.Set;
+                                break;
+                            case "BeFan":
+                                taskType = EnumTaskType.BeFan;
+                                break;
+                        }
+                    }                    
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            return taskType;
         }
     }
 }

@@ -96,6 +96,7 @@
             this.button_unbind.TabIndex = 5;
             this.button_unbind.Text = "unbind";
             this.button_unbind.UseVisualStyleBackColor = true;
+            this.button_unbind.Visible = false;
             this.button_unbind.Click += new System.EventHandler(this.button_unbind_Click);
             // 
             // label_createNum
