@@ -14,7 +14,7 @@ namespace AccountCreator
 {
     class AccountCreatorBrowser : WebBrowser
     {
-        public static readonly string m_strCaptainArticlePage = "https://blog.csdn.net/jiangjunshow/article/details/77338485";
+        public static readonly string m_strCaptainArticlePage = "https://blog.csdn.net/qq_44929388/article/details/89522570";
 
         public AccountCreatorBrowser()
         {

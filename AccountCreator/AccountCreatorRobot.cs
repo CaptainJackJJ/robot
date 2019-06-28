@@ -439,9 +439,9 @@ namespace AccountCreator
 
         private void GetUsernameForQQ()
         {
-            if (m_browser.Url.ToString() != "https://blog.csdn.net/jiangjunshow/article/details/77338485")
+            if (m_browser.Url.ToString() != AccountCreatorBrowser.m_strCaptainArticlePage)
             {
-                m_browser.SafeNavigate("https://blog.csdn.net/jiangjunshow/article/details/77338485");
+                m_browser.SafeNavigate(AccountCreatorBrowser.m_strCaptainArticlePage);
                 return;
             }
             if (!m_browser.IsLogedin())
