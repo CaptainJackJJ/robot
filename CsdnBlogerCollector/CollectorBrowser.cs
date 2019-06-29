@@ -291,10 +291,24 @@ namespace WorkObjCollector
                     int OriginalArticleNum = GetOriginalArticleNum();
                     int FansNum = GetFansNum();
                     int LikeNum = GetLikeNum();
+                    int CommentsNum = GetCommentsNum();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetCommentsNum()
+        {
+            // <dl class="text-center" title="5080">
+            //      <dt>评论</dt>
+            //      <dd><span class="count">5080</span></dd>
+            // </dl>       
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>评论</dt>");
+            // "评论835"
+            string html = element.Parent.InnerText;
+            html = html.Replace("评论", "");
+            return Convert.ToInt32(html);
         }
 
         int GetLikeNum()
