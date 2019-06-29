@@ -242,6 +242,9 @@ namespace WorkObjCollector
             int indexStart,indexEnd;
             UInt64 readCount;
 
+            // <dt>访问：</dt>
+            // <dd title="8285617">
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "访问：");
 
 
             // <span class="read-num">阅读数：139843</span>

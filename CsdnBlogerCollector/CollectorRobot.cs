@@ -29,7 +29,7 @@ namespace WorkObjCollector
         UInt16 m_timesOfStep = 0;
         readonly UInt16 m_maxSteps = 3 * 20;
 
-        string m_lastObjArticleListPage;
+        string m_lastBlogerUrl;
 
         readonly UInt64 m_minReadCount = 5000;
         readonly UInt16 m_minArticleCount = 1;
@@ -44,7 +44,7 @@ namespace WorkObjCollector
             m_timerBrain.Interval = 2000;
 
             m_checkedObjDb = new ObjDb("CheckedCsdnBloger.db");
-            m_lastObjArticleListPage = m_checkedObjDb.GetLastCheckedObject() + m_listPageUrlTail;
+            m_lastBlogerUrl = m_checkedObjDb.GetLastCheckedObject();
 
             m_objDb = new ObjDb("CsdnBloger.db");
         }
@@ -106,7 +106,7 @@ namespace WorkObjCollector
             }
 
             m_checkedObjDb.AddCheckedObject(objUrl);
-            m_lastObjArticleListPage = objUrl + m_listPageUrlTail;
+            m_lastBlogerUrl = objUrl;
             m_step = EnumStep.GoToObjArticleListPage;
         }
 
@@ -120,7 +120,7 @@ namespace WorkObjCollector
             }
 
             bool isNeedCheck = true;
-            if(m_objDb.IsObjectCollected(m_lastObjArticleListPage))
+            if (m_objDb.IsObjectCollected(m_lastBlogerUrl))
             {
                 isNeedCheck = false;
             }
@@ -133,7 +133,7 @@ namespace WorkObjCollector
                 return;
             if(isNeedCollect)
             {
-                if (!m_objDb.CollectObject(m_lastObjArticleListPage))
+                if (!m_objDb.CollectObject(m_lastBlogerUrl))
                     return;
             }
 
@@ -142,7 +142,7 @@ namespace WorkObjCollector
 
         private void GoToObjArticleListPage()
         {
-            m_browser.SafeNavigate(m_lastObjArticleListPage);
+            m_browser.SafeNavigate(m_lastBlogerUrl + m_listPageUrlTail);
             m_step = EnumStep.CheckObjThenGoToFirstArticle;
         }
     }

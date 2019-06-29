@@ -54,7 +54,7 @@
             this.ClientSize = new System.Drawing.Size(902, 286);
             this.Controls.Add(this.webBrowser1);
             this.Name = "FormCollector";
-            this.Text = "WorkObjCollector";
+            this.Text = "CsdnBlogerCollector";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormCollector_Load);
             this.ResumeLayout(false);

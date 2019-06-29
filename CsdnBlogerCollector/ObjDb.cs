@@ -76,7 +76,7 @@ namespace WorkObjCollector
 
         public string GetLastCheckedObject()
         {
-            string sql = "SELECT * FROM obj ORDER BY rowid DESC LIMIT 1";
+            string sql = "SELECT * FROM bloger ORDER BY rowid DESC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -93,7 +93,7 @@ namespace WorkObjCollector
         }
         public bool AddCheckedObject(string url)
         {
-            string sql = "INSERT INTO obj ( url )"
+            string sql = "INSERT INTO bloger ( url )"
             + " VALUES ('" + url + "')";
 
             if (ExecuteNonQuery(sql) <= 0)
@@ -107,7 +107,7 @@ namespace WorkObjCollector
 
         public bool IsObjectChecked(string url)
         {
-            string sql = "SELECT * FROM obj WHERE url = '" + url + "'";
+            string sql = "SELECT * FROM bloger WHERE url = '" + url + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -121,9 +121,9 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool IsObjectCollected(string urlArticleListPage)
+        public bool IsObjectCollected(string urlBloger)
         {
-            string sql = "SELECT * FROM object WHERE lastListPageUrl = '" + urlArticleListPage + "'";
+            string sql = "SELECT * FROM bloger WHERE bloger_url = '" + urlBloger + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -137,11 +137,10 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool CollectObject(string urlArticleListPage)
+        public bool CollectObject(string urlBloger)
         {
-            string url = urlArticleListPage.Replace(CollectorRobot.m_listPageUrlTail, "");
-            string sql = "INSERT INTO object ( objectUrl, lastListPageUrl )"
-            + " VALUES ('" + url + "','" + urlArticleListPage + "')";
+            string sql = "INSERT INTO bloger ( bloger_url )"
+            + " VALUES ('" + urlBloger + "')";
 
             if (ExecuteNonQuery(sql) <= 0)
             {
