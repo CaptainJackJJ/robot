@@ -292,10 +292,21 @@ namespace WorkObjCollector
                     int FansNum = GetFansNum();
                     int LikeNum = GetLikeNum();
                     int CommentsNum = GetCommentsNum();
+                    int Degree = GetDegree();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetDegree()
+        {
+            //<a href="https://blog.csdn.net/home/help.html#level" title="8级,点击查看等级说明" target="_blank">      
+            HtmlElement element = GetEleByTagAndOuterHtml("a", "点击查看等级说明");
+            string html = element.OuterHtml;
+            int index = html.IndexOf("级");
+            string str = html.Substring(index-1, 1);
+            return Convert.ToInt32(str);
         }
 
         int GetCommentsNum()
