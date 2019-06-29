@@ -231,6 +231,19 @@ namespace WorkObjCollector
             return true;
         }
 
+        Int64 GetTotalReadCount()
+        {
+            //<dl>
+            //  <dt>访问：</dt>
+            //  <dd title="8285617">
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "访问：");
+            string html = element.Parent.Children[1].OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.LastIndexOf("\"");
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt64(str);
+        }
+
         public void CheckObjThenGoToFirstArticle(bool isNeedCheck, UInt64 minReadCount, UInt16 minArticleCount,
             ref bool isNeedCollect, ref bool isNetDealy)
         {
@@ -242,21 +255,10 @@ namespace WorkObjCollector
             int indexStart,indexEnd;
             UInt64 readCount;
 
-            // <dt>访问：</dt>
-            // <dd title="8285617">
-            HtmlElement element = GetEleByTagAndOuterHtml("dt", "访问：");
-
-
             // <span class="read-num">阅读数：139843</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
             foreach (HtmlElement ele in collection)
             {
-                // reach the list end.
-                //if (timesFoundReadCount > 0 && !ele.OuterHtml.Contains("article/details"))
-                //{
-                //    break;
-                //}
-
                 if (ele.OuterHtml.Contains("阅读数："))
                 {
                     if (ele.Parent.Parent.Parent.OuterHtml.Contains("display: none"))
@@ -289,6 +291,16 @@ namespace WorkObjCollector
                 isNetDealy = true;
             else
             {
+                Int64 totalReadCount = GetTotalReadCount();
+                if (totalReadCount < 500000)
+                {
+                    isNeedCollect = false;
+                }
+                else
+                {
+
+                }
+
                 ClickArticleInList(outerHtmlFirstArticle);
             }
         }
