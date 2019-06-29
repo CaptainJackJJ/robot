@@ -230,19 +230,7 @@ namespace WorkObjCollector
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
-
-        Int64 GetTotalReadCount()
-        {
-            //<dl>
-            //  <dt>访问：</dt>
-            //  <dd title="8285617">
-            HtmlElement element = GetEleByTagAndOuterHtml("dt", "访问：");
-            string html = element.Parent.Children[1].OuterHtml;
-            int start = html.IndexOf("\"");
-            int end = html.LastIndexOf("\"");
-            string str = html.Substring(start + 1, end - start - 1);
-            return Convert.ToInt64(str);
-        }
+        
 
         public void CheckObjThenGoToFirstArticle(bool isNeedCheck, UInt64 minReadCount, UInt16 minArticleCount,
             ref bool isNeedCollect, ref bool isNetDealy)
@@ -259,7 +247,7 @@ namespace WorkObjCollector
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
             foreach (HtmlElement ele in collection)
             {
-                if (ele.OuterHtml.Contains("阅读数："))
+                if (ele.OuterHtml.Contains("阅读数"))
                 {
                     if (ele.Parent.Parent.Parent.OuterHtml.Contains("display: none"))
                         continue; // this ele is hidden                    
@@ -273,9 +261,11 @@ namespace WorkObjCollector
                             break;
                     }
 
-                    indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+                    // <span class="read-num">阅读数 <span class="num">571586</span> </span>
+                    indexStart = ele.OuterHtml.IndexOf("\"num\">") + 6;
                     indexEnd = ele.OuterHtml.LastIndexOf("</span>");
-                    readCount = Convert.ToUInt64(ele.OuterHtml.Substring(indexStart, indexEnd - indexStart));
+                    string str = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart - 8);
+                    readCount = Convert.ToUInt64(str);
                     if (readCount < minReadCount)
                         break;
 
@@ -298,11 +288,31 @@ namespace WorkObjCollector
                 }
                 else
                 {
-
+                    int OriginalArticleNum = GetOriginalArticleNum();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetOriginalArticleNum()
+        {
+            //<a href="https://blog.csdn.net/morewindows?t=1"><span class="count">156</span></a>
+            HtmlElement element = GetEleByTagAndOuterHtml("a", "t=1\"><span");
+            return Convert.ToInt32(element.InnerText);
+        }
+
+        Int64 GetTotalReadCount()
+        {
+            //<dl>
+            //  <dt>访问：</dt>
+            //  <dd title="8285617">
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "访问：");
+            string html = element.Parent.Children[1].OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.LastIndexOf("\"");
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt64(str);
         }
 
         private void ClickArticleInList(string ArticleOuterHtml)
