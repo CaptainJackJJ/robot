@@ -242,6 +242,8 @@ namespace WorkObjCollector
             int indexStart,indexEnd;
             UInt64 readCount;
 
+
+
             // <span class="read-num">阅读数：139843</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
             foreach (HtmlElement ele in collection)

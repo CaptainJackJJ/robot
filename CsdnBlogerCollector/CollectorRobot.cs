@@ -31,8 +31,8 @@ namespace WorkObjCollector
 
         string m_lastObjArticleListPage;
 
-        readonly UInt64 m_minReadCount = 3000;
-        readonly UInt16 m_minArticleCount = 5;
+        readonly UInt64 m_minReadCount = 5000;
+        readonly UInt16 m_minArticleCount = 1;
         public static string m_listPageUrlTail = "?orderby=ViewCount";
 
         public CollectorRobot(CollectorBrowser w, Timer timerBrain)
@@ -43,10 +43,10 @@ namespace WorkObjCollector
             m_timerBrain.Enabled = true;
             m_timerBrain.Interval = 2000;
 
-            m_checkedObjDb = new ObjDb("CheckedObj.db");
+            m_checkedObjDb = new ObjDb("CheckedCsdnBloger.db");
             m_lastObjArticleListPage = m_checkedObjDb.GetLastCheckedObject() + m_listPageUrlTail;
 
-            m_objDb = new ObjDb("Object.db");
+            m_objDb = new ObjDb("CsdnBloger.db");
         }
 
         public void timerBrain()
