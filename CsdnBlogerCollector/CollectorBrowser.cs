@@ -289,10 +289,22 @@ namespace WorkObjCollector
                 else
                 {
                     int OriginalArticleNum = GetOriginalArticleNum();
+                    int FansNum = GetFansNum();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetFansNum()
+        {
+            // <dl title="21161" class="text-center" id="fanBox">            
+            HtmlElement element = this.Document.GetElementById("fanBox");
+            string html = element.OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.IndexOf("\"", start + 1);
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt32(str);
         }
 
         int GetOriginalArticleNum()
