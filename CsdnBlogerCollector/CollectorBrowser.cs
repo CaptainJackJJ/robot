@@ -294,10 +294,29 @@ namespace WorkObjCollector
                     int CommentsNum = GetCommentsNum();
                     int Degree = GetDegree();
                     int Score = GetScore();
+                    int Ranking = GetRanking();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetRanking()
+        {
+            // <dl title="173">
+            //      <dt>排名：</dt>
+            //  <dd>173</dd>
+            // </dl>     
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>排名：</dt>");
+            // <dl title="173">
+            //      <dt>排名：</dt>
+            //      <dd>173</dd>
+            // </dl>
+            string html = element.Parent.OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.IndexOf("\"", start + 1);
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt32(str);
         }
 
         int GetScore()
