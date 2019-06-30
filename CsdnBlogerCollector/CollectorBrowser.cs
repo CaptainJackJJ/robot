@@ -281,7 +281,15 @@ namespace WorkObjCollector
             }
 
             if (timesFoundReadCount == 0)
-                isNetDealy = true;
+            {
+                // <h6>空空如也</h6>
+                HtmlElement element = GetEleByTagAndOuterHtml("h6", "空空如也");
+                if (element == null)
+                { isNetDealy = true; }
+                else
+                { isNetDealy = false; }
+                
+            }
             else
             {
                 totalReadCount = GetTotalReadCount();
