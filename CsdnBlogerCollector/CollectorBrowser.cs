@@ -295,10 +295,26 @@ namespace WorkObjCollector
                     int Degree = GetDegree();
                     int Score = GetScore();
                     int Ranking = GetRanking();
+                    bool isExpert = IsExpert();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        bool IsExpert()
+        {
+            //<p class="flag expert">
+            //    <svg class="icon" aria-hidden="true">
+            //      <use xlink:href="#csdnc-blogexpert"></use>
+            //    </svg>
+            //    博客专家
+            // </p>
+            HtmlElement element = GetEleByTagAndOuterHtml("use", "csdnc-blogexpert");
+            if(element == null)
+            { return false; }
+            else
+            { return true; }
         }
 
         int GetRanking()
@@ -308,10 +324,6 @@ namespace WorkObjCollector
             //  <dd>173</dd>
             // </dl>     
             HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>排名：</dt>");
-            // <dl title="173">
-            //      <dt>排名：</dt>
-            //      <dd>173</dd>
-            // </dl>
             string html = element.Parent.OuterHtml;
             int start = html.IndexOf("\"");
             int end = html.IndexOf("\"", start + 1);
