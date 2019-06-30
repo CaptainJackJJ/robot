@@ -137,10 +137,13 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool CollectObject(string urlBloger)
+        public bool CollectObject(string urlBloger,Int64 totalReadCount, int maxReadCount,int OriginalArticleNum,int FansNum,int LikeNum,
+            int CommentsNum,int Degree,int Score,int Ranking,bool isExpert)
         {
-            string sql = "INSERT INTO bloger ( bloger_url )"
-            + " VALUES ('" + urlBloger + "')";
+            string sql = "INSERT INTO bloger ( bloger_url,total_read_count,max_read_count,is_expert,original_article_num,degree,fans_num"
+                + ",like_num,comment_num,ranking,score )"
+                + " VALUES ('" + urlBloger + "'," + totalReadCount + "," + maxReadCount + "," + isExpert + "," + OriginalArticleNum + ","
+             + Degree + "," + FansNum + "," + LikeNum + "," + CommentsNum + ","+ Ranking + ","+ Score + ")";
 
             if (ExecuteNonQuery(sql) <= 0)
             {

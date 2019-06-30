@@ -230,10 +230,11 @@ namespace WorkObjCollector
             Log.WriteLog(LogType.Trace, "logged in with username " + uName);
             return true;
         }
-        
 
-        public void CheckObjThenGoToFirstArticle(bool isNeedCheck, UInt64 minReadCount, UInt16 minArticleCount,
-            ref bool isNeedCollect, ref bool isNetDealy)
+        public void CheckObjThenGoToFirstArticle(bool isNeedCheck, int minReadCount, UInt16 minArticleCount,
+            ref bool isNeedCollect, ref bool isNetDealy, ref Int64 totalReadCount, ref int maxReadCount, 
+            ref int OriginalArticleNum, ref int FansNum, ref int LikeNum, ref int CommentsNum
+            , ref int Degree, ref int Score, ref int Ranking, ref bool isExpert)
         {
             isNetDealy = isNeedCollect = false;
 
@@ -241,7 +242,7 @@ namespace WorkObjCollector
             string outerHtmlFirstArticle = "";
 
             int indexStart,indexEnd;
-            UInt64 readCount;
+            int readCount;
 
             // <span class="read-num">阅读数：139843</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
@@ -265,12 +266,14 @@ namespace WorkObjCollector
                     indexStart = ele.OuterHtml.IndexOf("\"num\">") + 6;
                     indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string str = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart - 8);
-                    readCount = Convert.ToUInt64(str);
+                    readCount = Convert.ToInt32(str);
                     if (readCount < minReadCount)
                         break;
 
                     if (timesFoundReadCount == minArticleCount)
                     {
+                        if (maxReadCount <= 0)
+                            maxReadCount = readCount;
                         isNeedCollect = true;
                         break;
                     }
@@ -281,21 +284,21 @@ namespace WorkObjCollector
                 isNetDealy = true;
             else
             {
-                Int64 totalReadCount = GetTotalReadCount();
+                totalReadCount = GetTotalReadCount();
                 if (totalReadCount < 500000)
                 {
                     isNeedCollect = false;
                 }
                 else
                 {
-                    int OriginalArticleNum = GetOriginalArticleNum();
-                    int FansNum = GetFansNum();
-                    int LikeNum = GetLikeNum();
-                    int CommentsNum = GetCommentsNum();
-                    int Degree = GetDegree();
-                    int Score = GetScore();
-                    int Ranking = GetRanking();
-                    bool isExpert = IsExpert();
+                    OriginalArticleNum = GetOriginalArticleNum();
+                    FansNum = GetFansNum();
+                    LikeNum = GetLikeNum();
+                    CommentsNum = GetCommentsNum();
+                    Degree = GetDegree();
+                    Score = GetScore();
+                    Ranking = GetRanking();
+                    isExpert = IsExpert();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
@@ -310,7 +313,7 @@ namespace WorkObjCollector
             //    </svg>
             //    博客专家
             // </p>
-            HtmlElement element = GetEleByTagAndOuterHtml("use", "csdnc-blogexpert");
+            HtmlElement element = GetEleByTagAndOuterHtml("p", "博客专家");
             if(element == null)
             { return false; }
             else

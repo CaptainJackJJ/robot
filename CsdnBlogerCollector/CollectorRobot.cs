@@ -31,7 +31,7 @@ namespace WorkObjCollector
 
         string m_lastBlogerUrl;
 
-        readonly UInt64 m_minReadCount = 5000;
+        readonly int m_minReadCount = 5000;
         readonly UInt16 m_minArticleCount = 1;
         public static string m_listPageUrlTail = "?orderby=ViewCount";
 
@@ -127,14 +127,22 @@ namespace WorkObjCollector
             
             bool isNeedCollect = false;
             bool isDelay = false;
-            m_browser.CheckObjThenGoToFirstArticle(isNeedCheck, m_minReadCount, m_minArticleCount, ref isNeedCollect, ref isDelay);
+            Int64 totalReadCount = 0; bool isExpert = false; int maxReadCount = 0;
+            int OriginalArticleNum = 0;int FansNum= 0;int LikeNum= 0;int CommentsNum= 0;int Degree= 0; int Score= 0;int Ranking= 0;            
+
+            m_browser.CheckObjThenGoToFirstArticle(isNeedCheck, m_minReadCount, m_minArticleCount, ref isNeedCollect, ref isDelay,
+                ref totalReadCount,ref maxReadCount,ref OriginalArticleNum, ref FansNum, ref LikeNum, ref CommentsNum, ref Degree, ref Score, 
+                ref Ranking, ref isExpert);
             
             if (isDelay)
                 return;
             if(isNeedCollect)
             {
-                if (!m_objDb.CollectObject(m_lastBlogerUrl))
+                if (!m_objDb.CollectObject(m_lastBlogerUrl, totalReadCount, maxReadCount, OriginalArticleNum, 
+                    FansNum, LikeNum, CommentsNum, Degree, Score, Ranking, isExpert))
+                {
                     return;
+                }
             }
 
             m_step = EnumStep.LookForNewObj;
