@@ -386,9 +386,11 @@ namespace WorkObjCollector
             // </dl>           
             HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>喜欢</dt>");
             // "喜欢835"
-            string html = element.Parent.InnerText;
-            html = html.Replace("喜欢","");
-            return Convert.ToInt32(html);
+            string html = element.Parent.OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.IndexOf("\"", start + 1);
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt32(str);
         }
 
         int GetFansNum()
