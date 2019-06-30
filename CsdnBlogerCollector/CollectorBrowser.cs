@@ -293,10 +293,28 @@ namespace WorkObjCollector
                     int LikeNum = GetLikeNum();
                     int CommentsNum = GetCommentsNum();
                     int Degree = GetDegree();
+                    int Score = GetScore();
                 }
 
                 ClickArticleInList(outerHtmlFirstArticle);
             }
+        }
+
+        int GetScore()
+        {
+            // <dl class="text-center" title="5080">
+            //      <dt>积分：</dt>
+            //      <dd><span class="count">5080</span></dd>
+            // </dl>       
+            HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>积分：</dt>");
+            // <dl> 
+            //  <dt>积分：</dt>
+            //  <dd title="38924">
+            string html = element.Parent.OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.IndexOf("\"", start + 1);
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt32(str);
         }
 
         int GetDegree()
@@ -316,10 +334,14 @@ namespace WorkObjCollector
             //      <dd><span class="count">5080</span></dd>
             // </dl>       
             HtmlElement element = GetEleByTagAndOuterHtml("dt", "<dt>评论</dt>");
-            // "评论835"
-            string html = element.Parent.InnerText;
-            html = html.Replace("评论", "");
-            return Convert.ToInt32(html);
+            // <dl> 
+            //  <dt>评论</dt>
+            //  <dd title="38924">
+            string html = element.Parent.OuterHtml;
+            int start = html.IndexOf("\"");
+            int end = html.IndexOf("\"", start + 1);
+            string str = html.Substring(start + 1, end - start - 1);
+            return Convert.ToInt32(str);
         }
 
         int GetLikeNum()
