@@ -98,8 +98,7 @@ namespace WorkObjCollector
         {
             string objUrl = m_browser.LookForNewObj(m_checkedObjDb);
             string csdn = "https://blog.csdn.net";
-            string urlHead = objUrl.Substring(0, csdn.Length);
-            if (objUrl == "" || urlHead != csdn)
+            if (objUrl == "" || objUrl.Substring(0, csdn.Length) != csdn)
             {
                 Log.WriteLog(LogType.Error, "can not found new obj, so go to newarticles");
                 m_browser.SafeNavigate("https://www.csdn.net/nav/newarticles");
