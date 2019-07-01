@@ -167,7 +167,7 @@ namespace WorkObjCollector
             {
                 if (ele.OuterHtml.Contains("https://blog.csdn.net/"))
                 {
-                    indexStart = ele.OuterHtml.IndexOf("https:");
+                    indexStart = ele.OuterHtml.IndexOf("https://blog.csdn.net/");
                     indexEnd = ele.OuterHtml.IndexOf("/article/details");
                     if (indexEnd <= 0)
                         continue;
