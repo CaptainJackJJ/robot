@@ -168,7 +168,7 @@ namespace WorkObjCollector
                 if (ele.OuterHtml.Contains("https://blog.csdn.net/"))
                 {
                     indexStart = ele.OuterHtml.IndexOf("https://blog.csdn.net/");
-                    indexEnd = ele.OuterHtml.IndexOf("/article/details");
+                    indexEnd = ele.OuterHtml.IndexOf("/article/details",indexStart);
                     if (indexEnd <= 0)
                         continue;
                     objUrl = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
