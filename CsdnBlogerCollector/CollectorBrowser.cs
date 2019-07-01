@@ -416,6 +416,8 @@ namespace WorkObjCollector
         {
             //<a href="https://blog.csdn.net/morewindows?t=1"><span class="count">156</span></a>
             HtmlElement element = GetEleByTagAndOuterHtml("a", "t=1\"><span");
+            if (element == null)
+                return 0;
             return Convert.ToInt32(element.InnerText);
         }
 
