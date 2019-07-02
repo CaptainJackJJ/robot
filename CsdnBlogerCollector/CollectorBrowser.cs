@@ -172,6 +172,8 @@ namespace WorkObjCollector
                     if (indexEnd <= 0)
                         continue;
                     objUrl = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
+                    if (objUrl.Length > 100)
+                        return "";
                     if (!checkedObjDb.IsObjectChecked(objUrl))
                         return objUrl;
                 }
