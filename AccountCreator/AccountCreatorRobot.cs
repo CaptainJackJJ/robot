@@ -407,7 +407,8 @@ namespace AccountCreator
 
             m_accountDb.AddAccountInfo(m_accountInfo);
 
-            SetTaskType(EnumTaskType.UnBind);
+            SetTaskType(EnumTaskType.Set);
+            //SetTaskType(EnumTaskType.UnBind);
         }
 
         private void ChangePassword()
