@@ -164,8 +164,8 @@ namespace experiment
                 Random reum = new Random();
                 string strPageNum = (reum.Next(5) + 1).ToString();
 
-                // https://blog.csdn.net/qq_44929388/article/list/1?orderby=UpdateTime
-                info.lastListPageUrl = @"https://blog.csdn.net/qq_44929388/article/list/" + strPageNum + @"?orderby=UpdateTime";
+                // https://blog.csdn.net/qq_45140518/article/list/1?orderby=UpdateTime
+                info.lastListPageUrl = @"https://blog.csdn.net/qq_45140518/article/list/" + strPageNum + @"?orderby=UpdateTime";
             }
 
             return info;       
