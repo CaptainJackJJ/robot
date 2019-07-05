@@ -299,6 +299,7 @@ namespace AccountCreator
             else if (m_taskType == EnumTaskType.Set)
             {
                 m_step = EnumStep.CheckIsInProfilePage;
+                EmptyPhone();
             }
         }
 
