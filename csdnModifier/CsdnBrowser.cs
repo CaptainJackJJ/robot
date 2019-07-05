@@ -126,7 +126,22 @@ namespace experiment
         }
 
         public void Edit(csdnModifier.ArticleInfo articleInfo)
-        {           
+        {
+            dbCsdnModifier dbSourceBlog = new dbCsdnModifier("source_blogs.db");
+            long id = -1;
+            string blog = "";
+            bool isUseSourceBlog = true;
+            if (isUseSourceBlog)
+            {
+                bool ok = dbSourceBlog.GetBlog(ref id, ref m_articleTitle, ref blog);
+                if (!ok)
+                {
+                    Log.WriteLog(LogType.Error, "dbSourceBlog.GetBlog error");
+                    Environment.Exit(0);
+                }
+                dbSourceBlog.SetSourceBlogPublish(id);
+            }
+
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
@@ -135,8 +150,18 @@ namespace experiment
             ele.SetAttribute("value", m_articleTitle);
 
             ele = GetEleByTagAndOuterHtml("pre", "editor__inner");
-            ele.InnerText = m_head + ele.InnerText + m_tail;
+
+            if (isUseSourceBlog)
+            {
+                ele.InnerText = blog;
+            }
+            else
+            {
+                ele.InnerText = m_head + ele.InnerText + m_tail;
+            }
             //ele.FirstChild.InnerText = m_head + m_articleContent + m_tail; // this makes csdn default first text remain
+
+            
 
 
             //SafeClick(GetEleByTagAndOuterHtml("button", "摘要"));
@@ -263,21 +288,22 @@ namespace experiment
 
             // <span class="read-count">阅读数：884</span>
             HtmlElementCollection collection = this.Document.GetElementsByTagName("span");
-            foreach (HtmlElement ele in collection)
-            {
-                if (ele.OuterHtml.Contains("阅读数"))
-                {
-                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
-                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
-                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
-                    info.readCount = Convert.ToUInt64(count);
-                    //if (info.readCount < csdnModifier.m_MinReadCount)
-                    //    return info;
-                    //else
-                    //    break;
-                    break;
-                }
-            }
+            info.readCount = 10000;
+            //foreach (HtmlElement ele in collection)
+            //{
+            //    if (ele.OuterHtml.Contains("阅读数"))
+            //    {
+            //        int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+            //        int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
+            //        string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
+            //        info.readCount = Convert.ToUInt64(count);
+            //        //if (info.readCount < csdnModifier.m_MinReadCount)
+            //        //    return info;
+            //        //else
+            //        //    break;
+            //        break;
+            //    }
+            //}
 
             info.url = this.Document.Url.ToString();
 
@@ -319,8 +345,9 @@ namespace experiment
 
             // <a class="href-article-edit" href="https://mp.csdn.net/postedit/84313923">编辑</a>
             HtmlElement ele1 = GetEleByTagAndOuterHtml("a", "编辑");
-            SafeClick(ele1);
+            SafeClick(ele1); 
 
+            // do not use this when modify. because this will publish new article
             //SafeNavigate("https://mp.csdn.net/mdeditor");
 
             return info;

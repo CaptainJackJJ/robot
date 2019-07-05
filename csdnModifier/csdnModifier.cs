@@ -70,7 +70,7 @@ namespace experiment
 #if DEBUG
             m_timerBrain.Interval = 2000;
 #else
-            m_timerBrain.Interval = 8000;
+            m_timerBrain.Interval = 6000;
 #endif
         }
 
@@ -278,11 +278,11 @@ namespace experiment
                 Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
             }
 
-            if (m_workingObjectInfo.needFinishNum <= 0)
-            {
-                m_step = EnumStep.Finished;
-            }
-            else
+            //if (m_workingObjectInfo.needFinishNum <= 0)
+            //{
+            //    m_step = EnumStep.Finished;
+            //}
+            //else
             {
                 m_step = EnumStep.GoToListPage;
             }

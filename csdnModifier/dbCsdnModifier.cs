@@ -193,6 +193,39 @@ namespace experiment
             return info;
         }
 
+        public bool GetBlog(ref long id, ref string title, ref string blog)
+        {
+            string sql = "SELECT [rowid], * FROM source_blogs WHERE IsPubished=0 LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            WorkingObjectInfo info = new WorkingObjectInfo();
+            data.Read();
+            if (!data.HasRows)
+                return false;
+
+            id = data.GetInt32(0);
+            title = data.GetString(1);
+            blog = data.GetString(2);
+
+            data.Close();
+            data.Dispose();
+
+            return true;
+        }
+
+        public void SetSourceBlogPublish(long id)
+        {
+            string sql = "UPDATE source_blogs SET"
+            + " IsPubished = 1"
+            + " WHERE [rowid] = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetSourceBlogPublish error. sql is " + sql);
+            }
+        }
+
         public void SetObjDone(long id)
         {
             string sql = "UPDATE objectInfo SET"
