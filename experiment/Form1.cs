@@ -43,5 +43,10 @@ namespace experiment
         {
             m_blogRobot.timerBrain();
         }
+
+        private void resetNeedFinishNumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_blogRobot.ResetNeedFinishNum();
+        }
     }
 }

@@ -35,6 +35,7 @@
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRobotBrain = new System.Windows.Forms.Timer(this.components);
             this.webBrowser1 = new experiment.CsdnBrowser();
+            this.resetNeedFinishNumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.navigateToolStripMenuItem,
             this.submitToolStripMenuItem,
-            this.accountToolStripMenuItem});
+            this.accountToolStripMenuItem,
+            this.resetNeedFinishNumToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(916, 25);
@@ -86,6 +88,13 @@
             this.webBrowser1.Size = new System.Drawing.Size(916, 478);
             this.webBrowser1.TabIndex = 0;
             // 
+            // resetNeedFinishNumToolStripMenuItem
+            // 
+            this.resetNeedFinishNumToolStripMenuItem.Name = "resetNeedFinishNumToolStripMenuItem";
+            this.resetNeedFinishNumToolStripMenuItem.Size = new System.Drawing.Size(144, 21);
+            this.resetNeedFinishNumToolStripMenuItem.Text = "ResetNeedFinishNum";
+            this.resetNeedFinishNumToolStripMenuItem.Click += new System.EventHandler(this.resetNeedFinishNumToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -113,6 +122,7 @@
         private System.Windows.Forms.ToolStripMenuItem submitToolStripMenuItem;
         private System.Windows.Forms.Timer timerRobotBrain;
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetNeedFinishNumToolStripMenuItem;
     }
 }
 
