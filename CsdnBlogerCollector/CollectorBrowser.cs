@@ -247,7 +247,8 @@ namespace WorkObjCollector
             int readCount;
 
             // <div class="error_text">404
-            HtmlElement element1 = GetEleByTagAndOuterHtml("div", "\"error_text\">404");
+            // <div class="text">页面找不到了
+            HtmlElement element1 = GetEleByTagAndOuterHtml("div", "页面找不到了");
             if (element1 != null)
             { return ; }
 
