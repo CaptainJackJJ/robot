@@ -85,7 +85,16 @@ namespace AccountCreator
             
             if (m_taskType == EnumTaskType.Create)
             {
-                m_accountInfo.phone = GetPhone();
+                bool needPhone = false;
+                if(needPhone)
+                {
+                    m_accountInfo.phone = GetPhone();
+                }
+                else
+                {
+                    m_accountInfo.phone = DateTime.Now.Ticks.ToString();
+                }
+                
                 if (m_accountInfo.phone == "")
                 {
                     m_timerBrain.Enabled = false;
