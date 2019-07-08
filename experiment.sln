@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JuejinRobot", "JuejinRobot\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsdnBlogerCollector", "CsdnBlogerCollector\CsdnBlogerCollector.csproj", "{623E1059-8677-45C0-84A5-133E31044733}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csdnCommenter", "csdnCommenter\csdnCommenter.csproj", "{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{623E1059-8677-45C0-84A5-133E31044733}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623E1059-8677-45C0-84A5-133E31044733}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623E1059-8677-45C0-84A5-133E31044733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

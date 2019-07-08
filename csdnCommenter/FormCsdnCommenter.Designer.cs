@@ -33,9 +33,9 @@
             this.navigateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.submitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetNeedFinishNumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRobotBrain = new System.Windows.Forms.Timer(this.components);
             this.webBrowser1 = new experiment.CsdnBrowser();
-            this.resetNeedFinishNumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +73,13 @@
             this.accountToolStripMenuItem.Text = "account";
             this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
             // 
+            // resetNeedFinishNumToolStripMenuItem
+            // 
+            this.resetNeedFinishNumToolStripMenuItem.Name = "resetNeedFinishNumToolStripMenuItem";
+            this.resetNeedFinishNumToolStripMenuItem.Size = new System.Drawing.Size(144, 21);
+            this.resetNeedFinishNumToolStripMenuItem.Text = "ResetNeedFinishNum";
+            this.resetNeedFinishNumToolStripMenuItem.Click += new System.EventHandler(this.resetNeedFinishNumToolStripMenuItem_Click);
+            // 
             // timerRobotBrain
             // 
             this.timerRobotBrain.Enabled = true;
@@ -88,14 +95,7 @@
             this.webBrowser1.Size = new System.Drawing.Size(916, 478);
             this.webBrowser1.TabIndex = 0;
             // 
-            // resetNeedFinishNumToolStripMenuItem
-            // 
-            this.resetNeedFinishNumToolStripMenuItem.Name = "resetNeedFinishNumToolStripMenuItem";
-            this.resetNeedFinishNumToolStripMenuItem.Size = new System.Drawing.Size(144, 21);
-            this.resetNeedFinishNumToolStripMenuItem.Text = "ResetNeedFinishNum";
-            this.resetNeedFinishNumToolStripMenuItem.Click += new System.EventHandler(this.resetNeedFinishNumToolStripMenuItem_Click);
-            // 
-            // Form1
+            // FormCsdnCommenter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -103,9 +103,9 @@
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "FormCsdnCommenter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Form1";
+            this.Text = "FormCsdnCommenter";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
