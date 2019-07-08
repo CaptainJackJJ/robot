@@ -22,6 +22,7 @@ namespace experiment
             GoToLoginPage,
             Login,
             ConfirmLogin,
+            CheckAccountAlive,
             GoToListPage,
             GoToArticlePage,
             GoToEditPage,
@@ -128,6 +129,9 @@ namespace experiment
                     case EnumStep.ConfirmLogin:
                         ConfirmLogin();
                         break;
+                    case EnumStep.CheckAccountAlive:
+                        CheckAccountAlive();
+                        break;
                     case EnumStep.GoToListPage:
                         GoToListPage();
                         break;
@@ -223,7 +227,7 @@ namespace experiment
 
             if(m_browser.isPublishedMax())
             {
-                m_DataManagerSqlLite.SetObjDailyJobDone(m_workingObjectInfo.id);
+                m_DataManagerSqlLite.SetObjFinished(m_workingObjectInfo.id);
 
                 Environment.Exit(0);
 
@@ -496,7 +500,21 @@ namespace experiment
                 }
             }            
         }
+        private void CheckAccountAlive()
+        {
+            //https://passport.csdn.net/passport_fe/sign.html
+            if (!m_browser.Url.ToString().Contains("sign"))
+            {
+                Log.WriteLog(LogType.Notice, "account is locked. id is :" + m_workingObjectInfo.id);
+                m_DataManagerSqlLite.SetObjFinished(m_workingObjectInfo.id);
 
+                m_browser.Logout();
+                m_step = EnumStep.GoToLoginPage;
+                return;
+            }
+
+            m_step = EnumStep.GoToListPage;
+        }
         private void ConfirmLogin()
         {
             // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
@@ -507,7 +525,7 @@ namespace experiment
                     return;
             }
 
-            m_step = EnumStep.GoToListPage;
+            m_step = EnumStep.CheckAccountAlive;
         }
 
         public void ResetNeedFinishNum()

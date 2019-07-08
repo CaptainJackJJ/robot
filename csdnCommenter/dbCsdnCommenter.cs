@@ -241,7 +241,7 @@ namespace experiment
             return info;
         }
 
-        public void SetObjDailyJobDone(long id)
+        public void SetObjFinished(long id)
         {
             string sql = "UPDATE objectInfo SET"
             + " isObjectFinished = 1"
@@ -249,7 +249,7 @@ namespace experiment
 
             if (ExecuteNonQuery(sql) <= 0)
             {
-                Log.WriteLog(LogType.SQL, "SetObjDailyJobDone error. sql is " + sql);
+                Log.WriteLog(LogType.SQL, "SetObjFinished error. sql is " + sql);
             }
         }
 
