@@ -198,6 +198,17 @@ namespace experiment
             return info;
         }
 
+        public void SetBlogerInvited(long id)
+        {
+            string sql = "UPDATE bloger SET"
+            + " is_invited = 1"
+            + " WHERE id = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "SetBlogerInvited error. sql is " + sql);
+            }
+        }
 
 
         public WorkingObjectInfo GetFirstWorkingObject()
