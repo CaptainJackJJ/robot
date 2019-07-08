@@ -13,6 +13,12 @@ namespace experiment
  {
         public static readonly bool bRandon = true;
 
+        public class blogerInfo
+        {
+            public long id;
+            public string listUrl;
+        }
+
         public class WorkingObjectInfo
         {
             public long id;
@@ -170,6 +176,29 @@ namespace experiment
 
             return info;       
         }
+
+        public blogerInfo GetBlogerInfo()
+        {
+            string sql = "SELECT [ID],[bloger_url] FROM bloger WHERE is_invited=0 AND is_expert=1 ORDER BY total_read_count DESC LIMIT 1";
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            blogerInfo info = new blogerInfo();
+            data.Read();
+            if (!data.HasRows)
+                return null;
+
+            info.id = data.GetInt32(0);
+            info.listUrl = data.GetString(1);
+            info.listUrl += "?orderby=UpdateTime";
+
+            data.Close();
+            data.Dispose();
+
+            return info;
+        }
+
+
 
         public WorkingObjectInfo GetFirstWorkingObject()
         {
