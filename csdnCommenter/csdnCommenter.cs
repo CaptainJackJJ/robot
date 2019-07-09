@@ -25,6 +25,7 @@ namespace experiment
             CheckAccountAlive,
             GoToListPage,
             GoToArticlePage,
+            EditComment,
             GoToEditPage,
             LoginToEdit,
             Edit,
@@ -140,6 +141,9 @@ namespace experiment
                         break;
                     case EnumStep.GoToArticlePage:
                         GoToArticlePage();
+                        break;
+                    case EnumStep.EditComment:
+                        EditComment();
                         break;
                     case EnumStep.GoToEditPage:
                         GoToEditPage();
@@ -301,7 +305,11 @@ namespace experiment
             m_browser.Publish();
             m_step = EnumStep.WaitSucess;
         }
-
+        private void EditComment()
+        {
+            m_browser.EditComment();
+            m_step = EnumStep.WaitSucess;
+        }
         private void GoToEditPage()
         {
             if(dbCsdnCommenter.bRandon)
