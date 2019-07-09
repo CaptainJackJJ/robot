@@ -363,7 +363,7 @@ namespace experiment
             }
      
             bool isNetDealy = false;
-            if (m_browser.GoToArticlePage(m_workingObjectInfo.lastFinishedArticleUrlInList, ref isNetDealy))
+            if (m_browser.GoToArticlePage("", ref isNetDealy))
                 m_step = EnumStep.GoToEditPage;
             else
             {
