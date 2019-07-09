@@ -11,7 +11,7 @@ namespace experiment
 {
     class dbCsdnCommenter
  {
-        public static readonly bool bRandon = true;
+        public static readonly bool bRandon = false;
 
         public class blogerInfo
         {
