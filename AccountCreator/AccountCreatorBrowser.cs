@@ -318,6 +318,14 @@ namespace AccountCreator
             return true;
         }
 
+        public bool IsAlreadySetPassword()
+        {
+            //<label data-v-08c18f7a="">输入旧密码：</label>
+            HtmlElement ele = GetEleByTagAndOuterHtml("label", "输入旧密码");
+            if (ele != null)
+                return true;
+            return false;
+        }
 
         public bool ChangePassword()
         {

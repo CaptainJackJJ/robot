@@ -428,6 +428,15 @@ namespace AccountCreator
                 m_browser.SafeNavigate("https://i.csdn.net/#/account/password");
                 return;
             }
+
+            if(m_browser.IsAlreadySetPassword())
+            {
+                Log.WriteLog(LogType.Error, "AlreadySetPassword");                
+                m_step = EnumStep.Finished;
+                MessageBox.Show("这个账号已经设置过密码了，换一个QQ账号");
+                return;
+            }
+
             if (!m_browser.ChangePassword())
                 return;
             m_step = EnumStep.ConfirmChangePassword;
