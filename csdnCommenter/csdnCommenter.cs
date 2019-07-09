@@ -225,31 +225,14 @@ namespace experiment
 
         private void WaitSucess()
         {
-            if(m_browser.isMissContent())
+            bool isCommentTooMuch = false;
+            if (m_browser.isCommentSuccess(ref isCommentTooMuch) || isCommentTooMuch)
             {
-                m_step = EnumStep.GoToListPage;
-                m_waitSuccessTimes = 0;
-                return;
-            }
+                if (isCommentTooMuch)
+                    Log.WriteLog(LogType.Trace, "isCommentTooMuch");
 
-            if(m_browser.isPublishedMax())
-            {
-                m_DataManagerSqlLite.SetObjFinished(m_workingObjectInfo.id);
-
-                Environment.Exit(0);
-
-                //m_step = EnumStep.Login;
-                //m_waitSuccessTimes = 0;
-                //return;
-            }
-
-#if DEBUG
-            if(true)
-#else
-            if(m_browser.isSuccess())
-#endif
-            {                
-                //m_publishedArticleNum++;
+                if (!isCommentTooMuch)
+                    m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
 
                 m_workingObjectInfo.needFinishNum--;
                 m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
@@ -258,28 +241,16 @@ namespace experiment
                     UseBackupObj();
                 }
 
-                Log.WriteLog(LogType.Trace, "published:" + m_articleInfo.title);
-
+                if (!isCommentTooMuch)
+                    Log.WriteLog(LogType.Trace, "comment:" + m_blogerInfo.listUrl);
             }
             else
             {
-                if(m_browser.isUnexpectError())
-                {
-                    Log.WriteLog(LogType.Error, "occur unexpect error, so jump over this article. lastListUrl is "
-                        + m_workingObjectInfo.lastListPageUrl + ", article is " + m_articleInfo.url);
-
-                    m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                    m_step = EnumStep.GoToListPage;
-                    m_waitSuccessTimes = 0;
-
-                    return;
-                }
-
                 m_waitSuccessTimes++;
                 if (m_waitSuccessTimes < m_maxSteps)
                     return; // Keep waiting
 
-                Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_articleInfo.title);
+                Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_blogerInfo.listUrl);
             }
 
             if (m_workingObjectInfo.needFinishNum <= 0)

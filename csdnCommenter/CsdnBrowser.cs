@@ -127,6 +127,30 @@ namespace experiment
             return true;
         }
 
+        public bool isSuccess()
+        {
+            // <span class="comment">博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！</span>
+            HtmlElement ele = GetEleByTagAndOuterHtml("span", "CaptainJackJJ");
+            bool s = (ele != null && ele.Style == null);
+            if (!s)
+            {
+                // is 
+            }
+            return s;
+        }
+
+        public bool isCommentSuccess(ref bool isCommentTooMuch)
+        {
+            // <span class="comment">博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！</span>
+            HtmlElement ele = GetEleByTagAndOuterHtml("span", "CaptainJackJJ");
+            bool s = (ele != null && ele.Style == null);
+            if (!s)
+            {
+                // isCommentTooMuch 
+            }
+            return s;
+        }
+
         public void EditComment()
         {
             //<textarea class="comment-content open" name="comment_content" id="comment_content" placeholder="想对作者说点什么"></textarea>
@@ -221,17 +245,6 @@ namespace experiment
                 }
             }
             return false;
-        }
-
-        public bool isSuccess()
-        {
-            HtmlElement ele = this.Document.GetElementById("alertSuccess");
-            bool s = (ele != null && ele.Style == null);
-            if(s)
-            {
-                m_articleContent = "";
-            }
-            return s;
         }
 
         public bool isUnexpectError()
