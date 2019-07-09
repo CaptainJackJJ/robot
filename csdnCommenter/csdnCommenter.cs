@@ -485,11 +485,23 @@ namespace experiment
         private void CheckAccountAlive()
         {
             //https://passport.csdn.net/passport_fe/sign.html
-            if (!m_browser.Url.ToString().Contains("sign"))
+            bool isLocked = !m_browser.Url.ToString().Contains("sign");
+            if (isLocked)
             {
                 Log.WriteLog(LogType.Notice, "account is locked. id is :" + m_workingObjectInfo.id);
                 m_DataManagerSqlLite.SetObjFinished(m_workingObjectInfo.id);
+            }
 
+            bool isSuspended = false;
+            if(isSuspended)
+            {
+                Log.WriteLog(LogType.Notice, "account is isSuspended. id is :" + m_workingObjectInfo.id);
+                m_workingObjectInfo.needFinishNum--;
+                m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
+            }
+
+            if(isLocked || isSuspended)
+            {
                 m_browser.Logout();
                 m_step = EnumStep.GoToLoginPage;
                 return;
