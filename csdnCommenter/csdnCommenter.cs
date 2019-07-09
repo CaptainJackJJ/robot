@@ -485,7 +485,7 @@ namespace experiment
         private void CheckAccountAlive()
         {
             //https://passport.csdn.net/passport_fe/sign.html
-            bool isLocked = !m_browser.Url.ToString().Contains("sign");
+            bool isLocked = m_browser.Url.ToString().Contains("sign");
             if (isLocked)
             {
                 Log.WriteLog(LogType.Notice, "account is locked. id is :" + m_workingObjectInfo.id);
