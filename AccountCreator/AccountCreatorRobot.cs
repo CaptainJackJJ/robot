@@ -591,8 +591,11 @@ namespace AccountCreator
                         s_createNum = 1;
                         return s_createNum;
                     }
-                    s_createNum = Convert.ToInt32(s.Substring(0, 1));
-                    int hour = Convert.ToInt32(s.Substring(2, 2));
+                    int c = s.IndexOf(":");
+                    string num = s.Substring(0, c);
+                    string time = s.Substring(c + 1, 2);
+                    s_createNum = Convert.ToInt32(num);
+                    int hour = Convert.ToInt32(time);
                     if(s_createNum == 5)
                     {
                         if((Convert.ToInt32(DateTime.Now.ToString("HH")) - hour) < 3)
