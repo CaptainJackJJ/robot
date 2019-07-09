@@ -48,7 +48,9 @@ namespace experiment
         Timer m_timerBrain;
         CsdnBrowser m_browser = null;
         dbCsdnCommenter m_DataManagerSqlLite = null;
+        dbCsdnCommenter m_dbBloger = null;
         dbCsdnCommenter.WorkingObjectInfo m_workingObjectInfo;
+        dbCsdnCommenter.blogerInfo m_blogerInfo;
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
@@ -63,6 +65,7 @@ namespace experiment
         public csdnCommenter(CsdnBrowser w, Timer timerBrain)
         {
             m_DataManagerSqlLite = new dbCsdnCommenter("workingObject.db");
+            m_dbBloger = new dbCsdnCommenter("CsdnBloger.db");
 
             m_browser = w;
 
@@ -418,7 +421,7 @@ namespace experiment
         }
         private void GoToListPage()
         {
-            m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
+            m_browser.SafeNavigate(m_blogerInfo.listUrl);
             m_step = EnumStep.GoToArticlePage;
         }
 
@@ -512,6 +515,8 @@ namespace experiment
                 m_step = EnumStep.GoToLoginPage;
                 return;
             }
+
+            m_blogerInfo = m_dbBloger.GetBlogerInfo();
 
             m_step = EnumStep.GoToListPage;
         }
