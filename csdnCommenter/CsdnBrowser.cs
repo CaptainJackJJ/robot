@@ -173,6 +173,15 @@ namespace experiment
             }
         }
 
+        public void commitCommnet()
+        {
+            //<input type="submit" class="btn btn-sm btn-red btn-comment" value="发表评论">
+            if (!ClickEleByTagAndOuterHtml("input", "发表评论"))
+            {
+                Log.WriteLog(LogType.Error, "comment submit botton is not found");
+            }
+        }
+
         public void Edit(csdnCommenter.ArticleInfo articleInfo)
         {           
             HtmlElement ele = GetEleByTagAndOuterHtml("input", "article-bar__title");

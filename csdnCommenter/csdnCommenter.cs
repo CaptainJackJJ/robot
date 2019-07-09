@@ -26,6 +26,8 @@ namespace experiment
             GoToListPage,
             GoToArticlePage,
             EditComment,
+            commitCommnet,
+            refreshAfterCommit,
             GoToEditPage,
             LoginToEdit,
             Edit,
@@ -144,6 +146,12 @@ namespace experiment
                         break;
                     case EnumStep.EditComment:
                         EditComment();
+                        break;
+                    case EnumStep.commitCommnet:
+                        commitCommnet();
+                        break;
+                    case EnumStep.refreshAfterCommit:
+                        refreshAfterCommit();
                         break;
                     case EnumStep.GoToEditPage:
                         GoToEditPage();
@@ -279,8 +287,20 @@ namespace experiment
         private void EditComment()
         {
             m_browser.EditComment();
+            m_step = EnumStep.commitCommnet;
+        }
+        private void commitCommnet()
+        {
+            m_browser.commitCommnet();
+            m_step = EnumStep.refreshAfterCommit;
+        }
+
+        private void refreshAfterCommit()
+        {
+            m_browser.Refresh();
             m_step = EnumStep.WaitSucess;
         }
+
         private void GoToEditPage()
         {
             if(dbCsdnCommenter.bRandon)
@@ -364,7 +384,7 @@ namespace experiment
      
             bool isNetDealy = false;
             if (m_browser.GoToArticlePage("", ref isNetDealy))
-                m_step = EnumStep.GoToEditPage;
+                m_step = EnumStep.EditComment;
             else
             {
                 if (isNetDealy)
