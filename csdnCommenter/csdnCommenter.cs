@@ -233,37 +233,24 @@ namespace experiment
 
         private void WaitSucess()
         {
-            bool isCommentTooMuch = false;
-            if (m_browser.isCommentSuccess(ref isCommentTooMuch) || isCommentTooMuch)
+            if (m_browser.isCommentSuccess())
             {
-                if (isCommentTooMuch)
-                    Log.WriteLog(LogType.Trace, "isCommentTooMuch");
+                m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
 
-                if (!isCommentTooMuch)
-                    m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
-
-                m_workingObjectInfo.needFinishNum--;
-                m_workingObjectInfo.lastFinishedArticleUrlInList = m_articleInfo.url;
-                if(!m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo))
-                {
-                    UseBackupObj();
-                }
-
-                if (!isCommentTooMuch)
-                    Log.WriteLog(LogType.Trace, "comment:" + m_blogerInfo.listUrl);
+                Log.WriteLog(LogType.Trace, "comment:" + m_blogerInfo.listUrl);
             }
             else
             {
-                m_waitSuccessTimes++;
-                if (m_waitSuccessTimes < m_maxSteps)
-                    return; // Keep waiting
-
-                Log.WriteLog(LogType.Notice, "WaitSucess too much times:" + m_blogerInfo.listUrl);
+                Log.WriteLog(LogType.Trace, "comment fail");
             }
+
+            m_workingObjectInfo.needFinishNum--;
+            m_DataManagerSqlLite.SetWorkingObjectInfo(m_workingObjectInfo);
 
             if (m_workingObjectInfo.needFinishNum <= 0)
             {
                 Environment.Exit(0);
+                //m_step = EnumStep.EditComment;
             }
             else
             {

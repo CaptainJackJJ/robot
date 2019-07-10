@@ -139,14 +139,14 @@ namespace experiment
             return s;
         }
 
-        public bool isCommentSuccess(ref bool isCommentTooMuch)
+        public bool isCommentSuccess()
         {
             // <span class="comment">博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！</span>
             HtmlElement ele = GetEleByTagAndOuterHtml("span", "CaptainJackJJ");
             bool s = (ele != null && ele.Style == null);
             if (!s)
             {
-                // isCommentTooMuch 
+                return false;
             }
             return s;
         }

@@ -196,6 +196,7 @@ namespace experiment
             //    SendKeys.Flush();
             //}
         }
+
         #endregion Close alert dlg
 
         #region mouse control
