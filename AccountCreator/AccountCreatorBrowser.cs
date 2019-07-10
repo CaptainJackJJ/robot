@@ -361,6 +361,7 @@ namespace AccountCreator
 
         public void BeFans()
         {
+            return;
             // <button class=" long-height hover-box btn-like " title="点赞">
             ClickEleByTagAndOuterHtml("button", "\"点赞\"");
 
@@ -370,6 +371,7 @@ namespace AccountCreator
 
         public void Follow()
         {
+            return;
             // <a class="btn btn-sm btn-red-hollow attention" id="btnAttent" target="_blank">关注</a>
             HtmlElement ele = this.Document.GetElementById("btnAttent");
             if (ele.OuterHtml.Contains(">关注<"))
