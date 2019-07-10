@@ -151,13 +151,22 @@ namespace experiment
             return s;
         }
 
-        public void EditComment()
+        public void EditComment(ref bool isNotAllowComment)
         {
+            isNotAllowComment = false;
             //<textarea class="comment-content open" name="comment_content" id="comment_content" placeholder="想对作者说点什么"></textarea>
             HtmlElement ele = this.Document.GetElementById("comment_content");
             if(ele == null)
             {
-                Log.WriteLog(LogType.Error, "comment_content is not found");
+                 Log.WriteLog(LogType.Error, "comment_content is not found");
+                //<div class="unlogin-box text-center">博主设置当前文章不允许评论。
+	            HtmlElement ele1 = GetEleByTagAndOuterHtml("div","博主设置当前文章不允许评论。");
+                if (ele1 != null)
+                {
+                    Log.WriteLog(LogType.Error, "isNotAllowComment");
+                    isNotAllowComment = true;
+                    return;
+                }
             }
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press

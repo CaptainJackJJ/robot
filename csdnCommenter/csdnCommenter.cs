@@ -273,7 +273,13 @@ namespace experiment
         }
         private void EditComment()
         {
-            m_browser.EditComment();
+            bool isNotAllowComment = false;
+            m_browser.EditComment(ref isNotAllowComment);
+            if(isNotAllowComment)
+            {
+                m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
+                Environment.Exit(0);
+            }
             m_step = EnumStep.commitCommnet;
         }
         private void commitCommnet()
