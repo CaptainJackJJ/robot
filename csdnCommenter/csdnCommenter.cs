@@ -235,7 +235,7 @@ namespace experiment
         {
             if (m_browser.isCommentSuccess())
             {
-                m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
+                //m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
 
                 Log.WriteLog(LogType.Trace, "comment:" + m_blogerInfo.listUrl);
             }
@@ -515,6 +515,13 @@ namespace experiment
             }
 
             m_blogerInfo = m_dbBloger.GetBlogerInfo();
+            if(m_blogerInfo == null)
+            {
+                Log.WriteLog(LogType.Notice, "did not find blog");
+                m_step = EnumStep.Finished;
+                MessageBox.Show("did not find blog");
+                Environment.Exit(0);
+            }
 
             m_step = EnumStep.GoToListPage;
         }
