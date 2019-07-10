@@ -170,7 +170,7 @@ namespace experiment
             }
             // This line makes title input success. 
             // Maybe bacuase this simulated human key press
-            string str = "博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！";
+            string str = "博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！大家为写博付出了精力，应当获得收入作为回报！";
             ele.Focus(); SendKeys.Send(" ");
             ele.InnerText = str;
             ele.SetAttribute("value", str);
