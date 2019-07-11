@@ -235,7 +235,7 @@ namespace experiment
         {
             if (m_browser.isCommentSuccess())
             {
-                //m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
+                m_dbBloger.SetBlogerInvited(m_blogerInfo.id);
 
                 Log.WriteLog(LogType.Trace, "comment:" + m_blogerInfo.listUrl);
             }
