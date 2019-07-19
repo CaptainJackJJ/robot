@@ -14,6 +14,8 @@ namespace experiment
         {
             None,
 
+            GetFirstBlogger,
+
             GoToLoginPageForLockCheck,
             LoginForLockCheck,
             ConfirmLoginForLockCheck,
@@ -41,13 +43,14 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GoToLoginPage;
+        EnumStep m_step = EnumStep.GetFirstBlogger;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
         CsdnBrowser m_browser = null;
-        DataManagerSqlLite m_DataManagerSqlLite = null;
-        DataManagerSqlLite.WorkingObjectInfo m_workingObjectInfo;
+        dbKeyRobot m_DataManagerSqlLite = null;
+        dbKeyRobot.WorkingObjectInfo m_workingObjectInfo;
+        dbKeyRobot.BloggerInfo m_bloggerInfo;
 
         UInt16 m_timesOfSomeStep = 0;
         UInt16 m_goToArticleDelayTimes = 0;
@@ -61,7 +64,7 @@ namespace experiment
                 
         public KeyRobot(Timer timerBrain)
         {
-            m_DataManagerSqlLite = new DataManagerSqlLite("workingObject.db");
+            m_DataManagerSqlLite = new dbKeyRobot("CsdnBloger_invite.db");
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = false;
@@ -105,6 +108,9 @@ namespace experiment
             {
                 switch(m_step)
                 {
+                    case EnumStep.GetFirstBlogger:
+                        GetFirstBlogger();
+                        break;
                     case EnumStep.GoToLoginPageForLockCheck:
                         GoToLoginPageForLockCheck();
                         break;
@@ -295,14 +301,14 @@ namespace experiment
 
         private void GoToEditPage()
         {
-            if(DataManagerSqlLite.bRandon)
+            if(dbKeyRobot.bRandon)
             {
                 m_browser.BeFans();
                 m_browser.Follow();
             }
 
             m_articleInfo = m_browser.GoToEditPage();
-            if (!DataManagerSqlLite.bRandon && m_articleInfo.readCount < m_MinReadCount)
+            if (!dbKeyRobot.bRandon && m_articleInfo.readCount < m_MinReadCount)
             {
                 //m_timesDetectLessMinReadCount++;
                 //if (m_timesDetectLessMinReadCount < 3)
@@ -334,8 +340,8 @@ namespace experiment
 
         private void UseBackupObj()
         {
-            DataManagerSqlLite objDB = new DataManagerSqlLite("ObjectBackup.db");
-            DataManagerSqlLite.ObjectInfo backupObj = objDB.GetBackupObj();
+            dbKeyRobot objDB = new dbKeyRobot("ObjectBackup.db");
+            dbKeyRobot.ObjectInfo backupObj = objDB.GetBackupObj();
             if (backupObj == null)
             {
                 Log.WriteLog(LogType.Warning, "backup db is empty");
@@ -414,6 +420,15 @@ namespace experiment
         {
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
             m_step = EnumStep.GoToArticlePage;
+        }
+        private void GetFirstBlogger()
+        {
+            m_bloggerInfo = m_DataManagerSqlLite.GetFirstBlogger();
+            if(m_bloggerInfo == null)
+            {
+                m_step = EnumStep.Finished;
+                MessageBox.Show("No more blogger");
+            }
         }
 
         private void GoToLoginPageForLockCheck()

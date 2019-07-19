@@ -242,7 +242,7 @@ namespace experiment
 
             string lng = "编程语言";
             int lngPos = 200;
-            if (DataManagerSqlLite.bRandon)
+            if (dbKeyRobot.bRandon)
             {
                 lng = "人工智能";
                 lngPos = 20;
@@ -308,7 +308,7 @@ namespace experiment
 
             // <span class="read-count">阅读数：884</span>
             collection = this.Document.GetElementsByTagName("span");
-            if (DataManagerSqlLite.bRandon)
+            if (dbKeyRobot.bRandon)
             {
                 info.readCount = 0;
             }
@@ -322,7 +322,7 @@ namespace experiment
                         int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                         string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                         info.readCount = Convert.ToUInt64(count);
-                        if (DataManagerSqlLite.bRandon)
+                        if (dbKeyRobot.bRandon)
                             break;
                         else
                         {
@@ -395,7 +395,7 @@ namespace experiment
             m_articleContent = "";
             isNetDealy = false;
 
-            if (DataManagerSqlLite.bRandon)
+            if (dbKeyRobot.bRandon)
             {
                 ArrayList articles = new ArrayList(); 
                 HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
