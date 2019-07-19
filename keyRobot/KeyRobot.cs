@@ -466,14 +466,21 @@ namespace experiment
             m_browser.SafeNavigate(m_workingObjectInfo.lastListPageUrl);
             m_step = EnumStep.GoToArticlePage;
         }
-        private void GetFirstBlogger()
+        private bool GetFirstBlogger()
         {
             m_bloggerInfo = m_DataManagerSqlLite.GetFirstBlogger();
             if(m_bloggerInfo == null)
             {
                 m_step = EnumStep.Finished;
                 MessageBox.Show("No more blogger");
+                return false;
             }
+            if(m_DataManagerSqlLite.HasMany(m_bloggerInfo.ranking))
+            {
+                m_DataManagerSqlLite.DeleteBlogger(m_bloggerInfo.id);;
+                return false;
+            }
+            return true;
         }
         private void Back1AfterComment()
         {
@@ -493,7 +500,8 @@ namespace experiment
 
         private void EnterUrl()
         {
-            GetFirstBlogger();
+            if (!GetFirstBlogger())
+                return;
             Clipboard.SetDataObject(m_bloggerInfo.url);
             Tools.ctrlV();
             m_step = EnumStep.Search;

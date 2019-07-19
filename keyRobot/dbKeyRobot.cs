@@ -40,6 +40,7 @@ namespace experiment
         {
             public long id;
             public string url;
+            public int ranking;
         }
 
         private string connStr = @"data source=";
@@ -190,11 +191,43 @@ namespace experiment
 
             info.id = data.GetInt32(0);
             info.url = data.GetString(1);
+            info.ranking = data.GetInt32(12);
 
             data.Close();
             data.Dispose();
 
             return info;
+        }
+
+        public bool HasMany(int rangking)
+        {
+            string sql = "SELECT count(*) FROM bloger WHERE rangking=" + rangking.ToString();
+
+            SQLiteDataReader data = ExecuteReader(sql);
+
+            BloggerInfo info = new BloggerInfo();
+            data.Read();
+            if (!data.HasRows)
+                return false;
+
+            int count = data.GetInt32(0);
+            if (count > 1)
+                return true;
+
+            data.Close();
+            data.Dispose();
+            return false;
+        }
+
+        public void DeleteBlogger(long id)
+        {
+            string sql = "DELETE FROM bloger"
+            + " WHERE id = " + id;
+
+            if (ExecuteNonQuery(sql) <= 0)
+            {
+                Log.WriteLog(LogType.SQL, "DeleteBlogger error. sql is " + sql);
+            }
         }
 
         public void SetBloggerInvited(long id)
