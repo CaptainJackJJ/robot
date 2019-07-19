@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsdnBlogerCollector", "Csdn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csdnCommenter", "csdnCommenter\csdnCommenter.csproj", "{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "keyRobot", "keyRobot\keyRobot.csproj", "{A3CFDFF7-DFFF-454D-B6F1-070D01B99E1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63E44456-E51C-46C0-8665-CB5CD1E6FDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CFDFF7-DFFF-454D-B6F1-070D01B99E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CFDFF7-DFFF-454D-B6F1-070D01B99E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CFDFF7-DFFF-454D-B6F1-070D01B99E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CFDFF7-DFFF-454D-B6F1-070D01B99E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
