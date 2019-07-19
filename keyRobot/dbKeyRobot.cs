@@ -181,7 +181,7 @@ namespace experiment
 
         public BloggerInfo GetFirstBlogger()
         {
-            string sql = "SELECT * FROM bloger WHERE is_invited=0 AND is_expert=1 ORDER BY total_read_count DESC LIMIT 1";
+            string sql = "SELECT * FROM bloger WHERE is_invited=0 AND is_expert=0 ORDER BY total_read_count DESC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
