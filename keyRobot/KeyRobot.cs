@@ -475,7 +475,7 @@ namespace experiment
                 MessageBox.Show("No more blogger");
                 return false;
             }
-            if(m_DataManagerSqlLite.HasMany(m_bloggerInfo.ranking))
+            if (m_DataManagerSqlLite.HasMany(m_bloggerInfo.ranking, m_bloggerInfo.original_article_num))
             {
                 m_DataManagerSqlLite.DeleteBlogger(m_bloggerInfo.id);;
                 return false;

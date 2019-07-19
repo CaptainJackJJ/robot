@@ -41,6 +41,7 @@ namespace experiment
             public long id;
             public string url;
             public int ranking;
+            public int original_article_num;
         }
 
         private string connStr = @"data source=";
@@ -192,6 +193,7 @@ namespace experiment
             info.id = data.GetInt32(0);
             info.url = data.GetString(1);
             info.ranking = data.GetInt32(12);
+            info.original_article_num = data.GetInt32(7);
 
             data.Close();
             data.Dispose();
@@ -199,9 +201,9 @@ namespace experiment
             return info;
         }
 
-        public bool HasMany(int rangking)
+        public bool HasMany(int ranking, int original_article_num)
         {
-            string sql = "SELECT count(*) FROM bloger WHERE rangking=" + rangking.ToString();
+            string sql = "SELECT count(*) FROM bloger WHERE ranking=" + ranking.ToString() + " AND original_article_num=" + original_article_num;
 
             SQLiteDataReader data = ExecuteReader(sql);
 
