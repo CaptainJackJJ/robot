@@ -48,5 +48,10 @@ namespace experiment
         {
             m_blogRobot.ResetNeedFinishNum();
         }
+
+        private void button_start_Click(object sender, EventArgs e)
+        {
+            timerRobotBrain.Start();
+        }
     }
 }

@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KeyRobot.cs" />
-    <Compile Include="DataManagerSqlLite.cs" />
+    <Compile Include="dbKeyRobot.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Tools.cs" />

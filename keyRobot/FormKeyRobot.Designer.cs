@@ -36,6 +36,7 @@
             this.resetNeedFinishNumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRobotBrain = new System.Windows.Forms.Timer(this.components);
             this.webBrowser1 = new experiment.CsdnBrowser();
+            this.button_start = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,11 +95,22 @@
             this.webBrowser1.Size = new System.Drawing.Size(51, 73);
             this.webBrowser1.TabIndex = 0;
             // 
+            // button_start
+            // 
+            this.button_start.Location = new System.Drawing.Point(124, 54);
+            this.button_start.Name = "button_start";
+            this.button_start.Size = new System.Drawing.Size(89, 50);
+            this.button_start.TabIndex = 3;
+            this.button_start.Text = "start";
+            this.button_start.UseVisualStyleBackColor = true;
+            this.button_start.Click += new System.EventHandler(this.button_start_Click);
+            // 
             // FormKeyRobot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(276, 258);
+            this.Controls.Add(this.button_start);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -121,6 +133,7 @@
         private System.Windows.Forms.Timer timerRobotBrain;
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetNeedFinishNumToolStripMenuItem;
+        private System.Windows.Forms.Button button_start;
     }
 }
 

@@ -15,6 +15,10 @@ namespace experiment
             None,
 
             GetFirstBlogger,
+            Back1AfterComment,
+            Back2AfterComment,
+            RemoveOldUrl,
+            EnterUrl,
 
             GoToLoginPageForLockCheck,
             LoginForLockCheck,
@@ -80,7 +84,7 @@ namespace experiment
             //if (m_publishedArticleNum > 4)
             //    Environment.Exit(0);
 
-            m_browser.CloseSecurityAlert();
+            //m_browser.CloseSecurityAlert();
 
             if (m_lastStep == m_step && m_step != EnumStep.WaitSucess)
                 m_timesOfSomeStep++;
@@ -110,6 +114,18 @@ namespace experiment
                 {
                     case EnumStep.GetFirstBlogger:
                         GetFirstBlogger();
+                        break;
+                    case EnumStep.Back1AfterComment:
+                        Back1AfterComment();
+                        break;
+                    case EnumStep.Back2AfterComment:
+                        Back2AfterComment();
+                        break;
+                    case EnumStep.RemoveOldUrl:
+                        RemoveOldUrl();
+                        break;
+                    case EnumStep.EnterUrl:
+                        EnterUrl();
                         break;
                     case EnumStep.GoToLoginPageForLockCheck:
                         GoToLoginPageForLockCheck();
@@ -429,6 +445,28 @@ namespace experiment
                 m_step = EnumStep.Finished;
                 MessageBox.Show("No more blogger");
             }
+            m_step = EnumStep.Back1AfterComment;
+        }
+        private void Back1AfterComment()
+        {
+            Tools.Click(511,77);
+            m_step = EnumStep.Back2AfterComment;
+        }
+        private void Back2AfterComment()
+        {
+            Tools.Click(511, 77);
+            m_step = EnumStep.RemoveOldUrl;
+        }
+        private void RemoveOldUrl()
+        {
+            Tools.Click(813, 75);
+            m_step = EnumStep.EnterUrl;
+        }
+        private void EnterUrl()
+        {
+            Clipboard.SetDataObject(m_bloggerInfo.url);
+            Tools.ctrlV();
+            m_step = EnumStep.Finished;
         }
 
         private void GoToLoginPageForLockCheck()
