@@ -13,12 +13,17 @@ namespace experiment
         enum EnumStep
         {
             None,
-
-            GetFirstBlogger,
             Back1AfterComment,
             Back2AfterComment,
             RemoveOldUrl,
             EnterUrl,
+            Search,
+            GoToUser,
+            ClickUser,
+            ClickArticle,
+            ClickComment,
+            EnterComment,
+            ClickSend,
 
             GoToLoginPageForLockCheck,
             LoginForLockCheck,
@@ -47,7 +52,7 @@ namespace experiment
         }
                 
         ArticleInfo m_articleInfo;
-        EnumStep m_step = EnumStep.GetFirstBlogger;
+        EnumStep m_step = EnumStep.Back1AfterComment;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -75,7 +80,7 @@ namespace experiment
 #if DEBUG
             m_timerBrain.Interval = 2000;
 #else
-            m_timerBrain.Interval = 6666;
+            m_timerBrain.Interval = 3000;
 #endif
         }
 
@@ -93,17 +98,17 @@ namespace experiment
 
             if (m_timesOfSomeStep > m_maxSteps + 2) 
             {
-                if (m_goToArticleDelayTimes > 10 && m_timesOfSomeStep < m_maxSteps * 2)
-                {
-                    // give change to m_goToArticleDelayTimes;
-                }
-                else
-                {
-                    Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
-                    // reset
-                    Environment.Exit(0);
-                    //m_step = EnumStep.GoToLoginPage;
-                }
+                //if (m_goToArticleDelayTimes > 10 && m_timesOfSomeStep < m_maxSteps * 2)
+                //{
+                //    // give change to m_goToArticleDelayTimes;
+                //}
+                //else
+                //{
+                //    Log.WriteLog(LogType.Notice, "same step is too much, maybe occurs some big error, so reset");
+                //    // reset
+                //    Environment.Exit(0);
+                //    //m_step = EnumStep.GoToLoginPage;
+                //}
             }
 
             Heartbeat();
@@ -112,9 +117,6 @@ namespace experiment
             {
                 switch(m_step)
                 {
-                    case EnumStep.GetFirstBlogger:
-                        GetFirstBlogger();
-                        break;
                     case EnumStep.Back1AfterComment:
                         Back1AfterComment();
                         break;
@@ -126,6 +128,27 @@ namespace experiment
                         break;
                     case EnumStep.EnterUrl:
                         EnterUrl();
+                        break;
+                    case EnumStep.Search:
+                        Search();
+                        break;
+                    case EnumStep.GoToUser:
+                        GoToUser();
+                        break;
+                    case EnumStep.ClickUser:
+                        ClickUser();
+                        break;
+                    case EnumStep.ClickArticle:
+                        ClickArticle();
+                        break;
+                    case EnumStep.ClickComment:
+                        ClickComment();
+                        break;
+                    case EnumStep.EnterComment:
+                        EnterComment();
+                        break;
+                   case EnumStep.ClickSend:
+                        ClickSend();
                         break;
                     case EnumStep.GoToLoginPageForLockCheck:
                         GoToLoginPageForLockCheck();
@@ -215,6 +238,12 @@ namespace experiment
             }
             catch
             { }
+        }
+
+        public void Start()
+        {
+            m_step = EnumStep.Back1AfterComment;
+            m_timerBrain.Start();
         }
 
         private void Edit()
@@ -445,7 +474,6 @@ namespace experiment
                 m_step = EnumStep.Finished;
                 MessageBox.Show("No more blogger");
             }
-            m_step = EnumStep.Back1AfterComment;
         }
         private void Back1AfterComment()
         {
@@ -462,11 +490,54 @@ namespace experiment
             Tools.Click(813, 75);
             m_step = EnumStep.EnterUrl;
         }
+
         private void EnterUrl()
         {
+            GetFirstBlogger();
             Clipboard.SetDataObject(m_bloggerInfo.url);
             Tools.ctrlV();
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.Search;
+        }
+        private void Search()
+        {
+            Tools.Click(850, 77);
+            m_step = EnumStep.GoToUser;
+        }
+
+        private void GoToUser()
+        {
+            Tools.Click(578, 116);
+            m_step = EnumStep.ClickUser;
+        }
+        private void ClickUser()
+        {
+            Tools.Click(583, 222);
+            m_step = EnumStep.ClickArticle;
+        }
+        private void ClickArticle()
+        {
+            Tools.Click(616, 616);
+            m_step = EnumStep.ClickComment;
+        }
+
+        private void ClickComment()
+        {
+            Tools.Click(647, 704);
+            m_step = EnumStep.EnterComment;
+        }
+
+        private void EnterComment()
+        {
+            Clipboard.SetDataObject("博主您好！您的博文非常棒！我们想与您进行商务合作。若有意合作，请加V：CaptainJackJJ。若有打扰，望博友们海涵！期待更多博主加入我们！大家为写博付出了精力，应当获得收入作为回报！");
+            Tools.ctrlV();
+            m_step = EnumStep.ClickSend;
+        }
+
+        private void ClickSend()
+        {
+            Tools.Click(856, 495);
+            m_DataManagerSqlLite.SetBloggerInvited(m_bloggerInfo.id);
+            m_step = EnumStep.Back1AfterComment;
         }
 
         private void GoToLoginPageForLockCheck()

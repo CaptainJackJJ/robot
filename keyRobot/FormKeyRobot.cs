@@ -51,7 +51,12 @@ namespace experiment
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            timerRobotBrain.Start();
+            m_blogRobot.Start();
+        }
+
+        private void button_stop_Click(object sender, EventArgs e)
+        {
+            timerRobotBrain.Stop();
         }
     }
 }

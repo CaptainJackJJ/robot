@@ -35,8 +35,9 @@
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetNeedFinishNumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerRobotBrain = new System.Windows.Forms.Timer(this.components);
-            this.webBrowser1 = new experiment.CsdnBrowser();
             this.button_start = new System.Windows.Forms.Button();
+            this.webBrowser1 = new experiment.CsdnBrowser();
+            this.button_stop = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,14 +88,6 @@
             this.timerRobotBrain.Interval = 1000;
             this.timerRobotBrain.Tick += new System.EventHandler(this.timerRobotBrain_Tick);
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Location = new System.Drawing.Point(12, 68);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(51, 73);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // button_start
             // 
             this.button_start.Location = new System.Drawing.Point(124, 54);
@@ -105,11 +98,30 @@
             this.button_start.UseVisualStyleBackColor = true;
             this.button_start.Click += new System.EventHandler(this.button_start_Click);
             // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(12, 68);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(51, 73);
+            this.webBrowser1.TabIndex = 0;
+            // 
+            // button_stop
+            // 
+            this.button_stop.Location = new System.Drawing.Point(124, 142);
+            this.button_stop.Name = "button_stop";
+            this.button_stop.Size = new System.Drawing.Size(89, 63);
+            this.button_stop.TabIndex = 4;
+            this.button_stop.Text = "stop";
+            this.button_stop.UseVisualStyleBackColor = true;
+            this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
+            // 
             // FormKeyRobot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(276, 258);
+            this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.menuStrip1);
@@ -134,6 +146,7 @@
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetNeedFinishNumToolStripMenuItem;
         private System.Windows.Forms.Button button_start;
+        private System.Windows.Forms.Button button_stop;
     }
 }
 
