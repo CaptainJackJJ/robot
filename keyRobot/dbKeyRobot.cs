@@ -214,7 +214,11 @@ namespace experiment
 
             int count = data.GetInt32(0);
             if (count > 1)
+            {
+                data.Close();
+                data.Dispose();
                 return true;
+            }
 
             data.Close();
             data.Dispose();

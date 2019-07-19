@@ -482,6 +482,12 @@ namespace experiment
             }
             return true;
         }
+
+        public void DeleteBlogger()
+        {
+            m_DataManagerSqlLite.DeleteBlogger(m_bloggerInfo.id);
+        }
+
         private void Back1AfterComment()
         {
             Tools.Click(511,77);

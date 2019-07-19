@@ -38,6 +38,7 @@
             this.button_start = new System.Windows.Forms.Button();
             this.webBrowser1 = new experiment.CsdnBrowser();
             this.button_stop = new System.Windows.Forms.Button();
+            this.button_delete = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,11 +117,22 @@
             this.button_stop.UseVisualStyleBackColor = true;
             this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(12, 223);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(75, 23);
+            this.button_delete.TabIndex = 5;
+            this.button_delete.Text = "delete";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            // 
             // FormKeyRobot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(276, 258);
+            this.Controls.Add(this.button_delete);
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.webBrowser1);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.ToolStripMenuItem resetNeedFinishNumToolStripMenuItem;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_stop;
+        private System.Windows.Forms.Button button_delete;
     }
 }
 

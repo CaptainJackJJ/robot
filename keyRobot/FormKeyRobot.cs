@@ -58,5 +58,10 @@ namespace experiment
         {
             timerRobotBrain.Stop();
         }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            m_blogRobot.DeleteBlogger();
+        }
     }
 }
