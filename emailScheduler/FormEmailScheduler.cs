@@ -47,7 +47,7 @@ namespace experiment
 
         private void timerRobotBrain_Tick(object sender, EventArgs e)
         {
-            if (DateTime.Now.Hour < 8 || DateTime.Now.Hour >= 22)
+            if (DateTime.Now.Hour < 8 || DateTime.Now.Hour > 22)
                 return;
             webBrowser1.Navigate("https://captainbed.vip/wp-json/my/discount_email");
         }
