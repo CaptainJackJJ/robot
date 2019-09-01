@@ -66,6 +66,7 @@ namespace exam
             //answer_top_class3
             string[] answer_true = { "abc", "a", "c", "b", "ac", "abc", "b", "c", "a", "abc", "abc", "a", "a", "b", "b", "bc", "abd"
                                              , "a", "b", "b", "b"};
+            
             if(radioButton_top_class2.Checked)
             {
                 string [] answer_temp = {"b","d","c","a","c","abd","b","c","b","b","bc","ab","c","b","ab","a","a","a","abcd","a"};
@@ -78,8 +79,9 @@ namespace exam
                 answer_true = answer_temp;
             }
 
-            richTextBox_answer.Text = richTextBox_answer.Text.Replace("，", ",").Replace("\n", ",").Replace(" ","").Replace("\t","").Replace("\r",",");
-            richTextBox_answer.Text = richTextBox_answer.Text.Replace(".", ",").Replace("、", ",").ToLower();
+            richTextBox_answer.Text = richTextBox_answer.Text.Replace("\n", ",").Replace(" ","").Replace("\t","").Replace("\r",",");
+            richTextBox_answer.Text = richTextBox_answer.Text.Replace("，", ",").Replace(".", ",").Replace("。", ",").Replace("、", ",").ToLower();
+            richTextBox_answer.Text = richTextBox_answer.Text.Replace(":", ",").Replace("：", ",").Replace("；", ",").Replace(";", ",");
             string[] answer = remove_answer_index(richTextBox_answer.Text.Split(','));
 
             List<int> wrong_answer_index = new List<int>();
@@ -95,8 +97,8 @@ namespace exam
             if (((radioButton_top_class3.Checked || radioButton_top_class2.Checked) && wrong_answer_index.Count <= 1) ||
                (radioButton_vip_class3.Checked && wrong_answer_index.Count <= 3))
             {
-                textBox_result.Text = "pass";
-                add_pass_log(textBox_id.Text + "," + textBox_email.Text);
+                textBox_result.Text = textBox_id.Text + "：pass";
+                add_pass_log("\r\t\r\t" + textBox_id.Text + "\r\t" + textBox_email.Text);
             }
             else if(((radioButton_top_class3.Checked || radioButton_top_class2.Checked) && wrong_answer_index.Count > 1) ||
                 (radioButton_vip_class3.Checked && wrong_answer_index.Count > 3))
@@ -121,6 +123,8 @@ namespace exam
                 MessageBox.Show("id or answer is empty");
                 return;
             }
+
+            textBox_result.Text = richTextBox_detail.Text = "";
 
             evaluate();
         }
