@@ -42,6 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.radioButton_top_class4 = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // button_evaluate
@@ -94,19 +95,17 @@
             // radioButton_top_class3
             // 
             this.radioButton_top_class3.AutoSize = true;
-            this.radioButton_top_class3.Checked = true;
-            this.radioButton_top_class3.Location = new System.Drawing.Point(38, 4);
+            this.radioButton_top_class3.Location = new System.Drawing.Point(160, 4);
             this.radioButton_top_class3.Name = "radioButton_top_class3";
             this.radioButton_top_class3.Size = new System.Drawing.Size(83, 16);
             this.radioButton_top_class3.TabIndex = 3;
-            this.radioButton_top_class3.TabStop = true;
             this.radioButton_top_class3.Text = "top_class3";
             this.radioButton_top_class3.UseVisualStyleBackColor = true;
             // 
             // radioButton_top_class2
             // 
             this.radioButton_top_class2.AutoSize = true;
-            this.radioButton_top_class2.Location = new System.Drawing.Point(166, 4);
+            this.radioButton_top_class2.Location = new System.Drawing.Point(266, 4);
             this.radioButton_top_class2.Name = "radioButton_top_class2";
             this.radioButton_top_class2.Size = new System.Drawing.Size(83, 16);
             this.radioButton_top_class2.TabIndex = 3;
@@ -116,7 +115,7 @@
             // radioButton_vip_class3
             // 
             this.radioButton_vip_class3.AutoSize = true;
-            this.radioButton_vip_class3.Location = new System.Drawing.Point(301, 4);
+            this.radioButton_vip_class3.Location = new System.Drawing.Point(372, 4);
             this.radioButton_vip_class3.Name = "radioButton_vip_class3";
             this.radioButton_vip_class3.Size = new System.Drawing.Size(83, 16);
             this.radioButton_vip_class3.TabIndex = 3;
@@ -168,6 +167,18 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "detail";
             // 
+            // radioButton_top_class4
+            // 
+            this.radioButton_top_class4.AutoSize = true;
+            this.radioButton_top_class4.Checked = true;
+            this.radioButton_top_class4.Location = new System.Drawing.Point(59, 4);
+            this.radioButton_top_class4.Name = "radioButton_top_class4";
+            this.radioButton_top_class4.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_top_class4.TabIndex = 3;
+            this.radioButton_top_class4.TabStop = true;
+            this.radioButton_top_class4.Text = "top_class4";
+            this.radioButton_top_class4.UseVisualStyleBackColor = true;
+            // 
             // Form_exam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -180,6 +191,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.radioButton_vip_class3);
             this.Controls.Add(this.radioButton_top_class2);
+            this.Controls.Add(this.radioButton_top_class4);
             this.Controls.Add(this.radioButton_top_class3);
             this.Controls.Add(this.richTextBox_detail);
             this.Controls.Add(this.richTextBox_answer);
@@ -210,6 +222,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton radioButton_top_class4;
     }
 }
 

@@ -63,13 +63,20 @@ namespace exam
 
         private void evaluate()
         {
-            //answer_top_class3
-            string[] answer_true = { "abc", "a", "c", "b", "ac", "abc", "b", "c", "a", "abc", "abc", "a", "a", "b", "b", "bc", "abd"
-                                             , "a", "b", "b", "b"};
-            
-            if(radioButton_top_class2.Checked)
+            //answer_top_class4
+
+            string[] answer_true = { "abc", "a", "a", "a", "abc", "abd", "ac", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc"};
+
+
+            if(radioButton_top_class3.Checked)
             {
-                string [] answer_temp = {"b","d","c","a","c","abd","b","c","b","b","bc","ab","c","b","ab","a","a","a","abcd","a"};
+                string[] answer_temp = { "abc", "a", "c", "b", "ac", "abc", "b", "c", "a", "abc", "abc", "a", "a", "b", "b", "bc", "abd"
+                                             , "a", "b", "b", "b"};
+                answer_true = answer_temp;
+            }
+            else if (radioButton_top_class2.Checked)
+            {
+                string[] answer_temp = { "b", "d", "c", "a", "c", "abd", "b", "c", "b", "b", "bc", "ab", "c", "b", "ab", "a", "a", "a", "abcd", "a" };
                 answer_true = answer_temp;
             }
             else if(radioButton_vip_class3.Checked)
@@ -92,15 +99,15 @@ namespace exam
                     wrong_answer_index.Add(i);
                 }
             }
-            
 
-            if (((radioButton_top_class3.Checked || radioButton_top_class2.Checked) && wrong_answer_index.Count <= 1) ||
+
+            if ((!radioButton_vip_class3.Checked && wrong_answer_index.Count <= 1) ||
                (radioButton_vip_class3.Checked && wrong_answer_index.Count <= 3))
             {
                 textBox_result.Text = textBox_id.Text + "：pass";
-                add_pass_log("\r\t\r\t" + textBox_id.Text + "\r\t" + textBox_email.Text);
+                add_pass_log("\r\t\r\t" + textBox_id.Text + "\t" + textBox_email.Text);
             }
-            else if(((radioButton_top_class3.Checked || radioButton_top_class2.Checked) && wrong_answer_index.Count > 1) ||
+            else if ((!radioButton_vip_class3.Checked && wrong_answer_index.Count > 1) ||
                 (radioButton_vip_class3.Checked && wrong_answer_index.Count > 3))
             {
                 string wrong_answer_string = textBox_id.Text;
