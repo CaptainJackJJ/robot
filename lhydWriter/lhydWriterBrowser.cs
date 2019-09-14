@@ -194,42 +194,35 @@ namespace WorkObjCollector
             return isOk;
         }
 
-        public bool Login(string uName, string password)
+        public bool LoginLhyd()
         {
-            if (!ClickAccountLogin())
-            {
-                Log.WriteLog(LogType.NetworkWarning, "ClickAccountLogin failed");
-                return false;
-            }
+            string uName = "captainjackjj@outlook.com";
+            string password = "Kila1987219";
 
-            HtmlElement ele = this.Document.GetElementById("username");
+            // <input type="text" name="log" id="user_login" class="input" value="" size="20" autocapitalize="off">
+            HtmlElement ele = this.Document.GetElementById("user_login");
             if (ele == null)
             {
-                ele = this.Document.GetElementById("all");
-                ele.Focus(); SendKeys.Send(" ");
+                return false;
             }
             ele.SetAttribute("value", uName);
 
 
-            // <input type="password" placeholder="密码" id="password-number" autocomplete="false" class="form-control form-control-icon">
-            ele = this.Document.GetElementById("password-number");
-            if (ele != null)
+            // <input type="password" name="pwd" id="user_pass" class="input" value="" size="20">
+            ele = this.Document.GetElementById("user_pass");
+            if (ele == null)
             {
-                ele.Focus(); SendKeys.Send(" ");
-            }
-            else
-            {
-                ele = this.Document.GetElementById("password");
+                return false;
             }
             ele.SetAttribute("value", password);
 
-            // <input class="logging" accesskey="l" value="登 录" tabindex="6" type="button">
-            if (!ClickEleByTagAndOuterHtml("input", "登 录"))
+            // <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="登录">
+            ele = this.Document.GetElementById("wp-submit");
+            if (ele == null)
             {
-                //<button data-type="account" class="btn btn-primary">登录</button>
-                ClickEleByTagAndOuterHtml("button", "登录");
+                return false;
             }
-            Log.WriteLog(LogType.Trace, "logged in with username " + uName);
+            SafeClick(ele);
             return true;
         }
 

@@ -17,6 +17,7 @@ namespace WorkObjCollector
             CheckObjThenGoToFirstArticle,
             LookForNewObj,
             GotoLhydLoginPage,
+            LoginLhyd,
             Finished
         }
 
@@ -78,6 +79,9 @@ namespace WorkObjCollector
                     case EnumStep.GotoLhydLoginPage:
                         GotoLhydLoginPage();
                         break;
+                    case EnumStep.LoginLhyd:
+                        LoginLhyd();
+                        break;      
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -119,14 +123,23 @@ namespace WorkObjCollector
         private void GotoLhydLoginPage()
         {
             m_browser.SafeNavigate("http://lhyd.top/wp-login.php?");
+            m_step = EnumStep.LoginLhyd;
         }
-
+        private void LoginLhyd()
+        {
+            if(!m_browser.LoginLhyd())
+            {
+                m_step = EnumStep.GotoLhydLoginPage;
+                return;
+            }
+            m_step = EnumStep.Finished;
+        }
         private void CheckObjThenGoToFirstArticle()
         {
             // https://passport.csdn.net/passport_fe/login.html
             if(m_browser.Url.ToString().Contains("passport.csdn.net"))
             {
-                m_browser.Login("sdhiiwfssf", "FiSKpJuHc12345");
+                //m_browser.Login("sdhiiwfssf", "FiSKpJuHc12345");
                 return;
             }
 
