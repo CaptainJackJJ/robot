@@ -16,10 +16,11 @@ namespace WorkObjCollector
             GoToObjArticleListPage,
             CheckObjThenGoToFirstArticle,
             LookForNewObj,
+            GotoLhydLoginPage,
             Finished
         }
 
-        EnumStep m_step = EnumStep.GoToObjArticleListPage;
+        EnumStep m_step = EnumStep.GotoLhydLoginPage;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -74,6 +75,9 @@ namespace WorkObjCollector
                     case EnumStep.LookForNewObj:
                         LookForNewObj();
                         break;
+                    case EnumStep.GotoLhydLoginPage:
+                        GotoLhydLoginPage();
+                        break;
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -94,6 +98,7 @@ namespace WorkObjCollector
             }
         }
 
+
         private void LookForNewObj()
         {
             string objUrl = m_browser.LookForNewObj(m_checkedObjDb);
@@ -109,6 +114,11 @@ namespace WorkObjCollector
             m_checkedObjDb.AddCheckedObject(objUrl);
             m_lastBlogerUrl = objUrl;
             m_step = EnumStep.GoToObjArticleListPage;
+        }
+
+        private void GotoLhydLoginPage()
+        {
+            m_browser.SafeNavigate("http://lhyd.top/wp-login.php?");
         }
 
         private void CheckObjThenGoToFirstArticle()
