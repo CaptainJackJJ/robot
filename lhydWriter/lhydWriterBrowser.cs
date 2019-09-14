@@ -225,6 +225,45 @@ namespace WorkObjCollector
             SafeClick(ele);
             return true;
         }
+        public bool EditTitle()
+        {
+            string uTitle = "人工智能教程";            
+
+            // <textarea id="post-title-0" class="editor-post-title__input" placeholder="添加标题" rows="1" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 95px;"></textarea>
+            HtmlElement ele = this.Document.GetElementById("post-title-0");
+            if (ele == null)
+            {
+                return false;
+            }
+
+            Tools.Click(500, 200);
+            Clipboard.SetDataObject(uTitle);
+            Tools.ctrlV(); 
+            
+            return true;
+        }
+
+        public void EditContent()
+        {            
+            string content = @"
+<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，哈哈～我正在学习中，觉得太牛了，所以分享给大家！点<a href=""http://www.captainbed.net/csdn"">这里</a>可以跳转到教程</p>";
+
+            Tools.Click(500, 295);
+            Clipboard.SetDataObject(content);
+            Tools.ctrlV();           
+        }
+
+        public bool Publish()
+        {
+            // <button type="button" aria-disabled="false" class="components-button editor-post-publish-button is-button is-default is-primary is-large">发布</button>
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "发布");
+            if (ele == null)
+            {
+                return false;
+            }
+            SafeClick(ele);
+            return true;
+        }
 
         public void CheckObjThenGoToFirstArticle(bool isNeedCheck, int minReadCount, UInt16 minArticleCount,
             ref bool isNeedCollect, ref bool isNetDealy, ref Int64 totalReadCount, ref int maxReadCount, 

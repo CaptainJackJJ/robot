@@ -18,6 +18,10 @@ namespace WorkObjCollector
             LookForNewObj,
             GotoLhydLoginPage,
             LoginLhyd,
+            GotoPostNewPage,
+            EditTitle,
+            EditContent,
+            Publish,
             Finished
         }
 
@@ -81,7 +85,20 @@ namespace WorkObjCollector
                         break;
                     case EnumStep.LoginLhyd:
                         LoginLhyd();
-                        break;      
+                        break;
+                    case EnumStep.GotoPostNewPage:
+                        GotoPostNewPage();
+                        break;
+                    case EnumStep.EditTitle:
+                        EditTitle();
+                        break;
+                    case EnumStep.EditContent:
+                        EditContent();
+                        break;
+                    case EnumStep.Publish:
+                        Publish();
+                        break; 
+
                     case EnumStep.Finished:
                         m_timerBrain.Stop();
                         MessageBox.Show("今天的工作已完成");
@@ -132,8 +149,37 @@ namespace WorkObjCollector
                 m_step = EnumStep.GotoLhydLoginPage;
                 return;
             }
+            m_step = EnumStep.GotoPostNewPage;
+        }
+        private void GotoPostNewPage()
+        {
+            m_browser.SafeNavigate("http://lhyd.top/wp-admin/post-new.php");
+            m_step = EnumStep.EditTitle;
+        }
+        private void EditTitle()
+        {
+            if(!m_browser.EditTitle())
+            {
+                m_step = EnumStep.GotoPostNewPage;
+                return;
+            }
+            m_step = EnumStep.EditContent;
+        }
+        private void EditContent()
+        {
+            m_browser.EditContent();
+            m_step = EnumStep.Publish;
+        }
+        private void Publish()
+        {
+            if (!m_browser.Publish())
+            {
+                m_step = EnumStep.GotoPostNewPage;
+                return;
+            }
             m_step = EnumStep.Finished;
         }
+
         private void CheckObjThenGoToFirstArticle()
         {
             // https://passport.csdn.net/passport_fe/login.html

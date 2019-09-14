@@ -200,6 +200,12 @@ namespace WorkObjCollector
 
         #region mouse control
 
+        [DllImport("User32.dll", EntryPoint = "keybd_event")]
+        public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SendMessage(int hWnd, int wMsg, uint wParam, uint lParam);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         private static extern int mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
         [DllImport("user32.dll")]
@@ -214,6 +220,20 @@ namespace WorkObjCollector
         const int MOUSEEVENTF_MIDDLEUP = 0x0040; //模拟鼠标中键抬起 
         const int MOUSEEVENTF_ABSOLUTE = 0x8000; //标示是否采用绝对坐标
         const int MOUSEEVENTF_WHEEL = 0x800;
+
+        const byte vbKeyControl = 0x11;   // CTRL 键
+        const byte vbKeyV = 86;
+
+        public static void ctrlV()
+        {
+            keybd_event(vbKeyControl, 0, 0, 0);
+            keybd_event(vbKeyV, 0, 0, 0);
+
+            //模拟松开ctrl键
+            keybd_event(vbKeyControl, 0, 2, 0);
+            //模拟松开V键
+            keybd_event(vbKeyV, 0, 2, 0);
+        }
 
         public static void Click(int x, int y)
         {
