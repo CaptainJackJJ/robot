@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "emailScheduler", "emailSche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exam", "exam\exam.csproj", "{E33F0C3C-24D8-4A35-BFC5-5637A0DDF974}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lhydWriter", "lhydWriter\lhydWriter.csproj", "{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{E33F0C3C-24D8-4A35-BFC5-5637A0DDF974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33F0C3C-24D8-4A35-BFC5-5637A0DDF974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33F0C3C-24D8-4A35-BFC5-5637A0DDF974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
