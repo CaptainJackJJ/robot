@@ -51,6 +51,12 @@ namespace WorkObjCollector
 
             m_DbCheckedUrl = new Db("CheckedCsdnUrl.db");
             m_lastCheckedUrl = m_DbCheckedUrl.GetLastCheckedUrl();
+            if (String.IsNullOrEmpty(m_lastCheckedUrl))
+            {
+                MessageBox.Show("m_lastCheckedUrl is empty");
+                Environment.Exit(0);
+            }
+            m_browser.SafeNavigate(m_lastCheckedUrl);
 
             m_DbPostedUrl = new Db("PostedCsdnUrl.db");
         }
