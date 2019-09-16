@@ -39,7 +39,6 @@ namespace WorkObjCollector
 
         string m_lastCheckedUrl;
 
-        readonly int m_minReadCount = 5000;
         readonly UInt16 m_minArticleCount = 1;
         public static string m_listPageUrlTail = "?orderby=ViewCount";
 
@@ -216,6 +215,7 @@ namespace WorkObjCollector
                 m_step = EnumStep.WaitPublishDone;
                 return;
             }
+            m_DbPostedUrl.AddUrlToDb(m_lastCheckedUrl);
             m_step = EnumStep.Finished;
         }
 
