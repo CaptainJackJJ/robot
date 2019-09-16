@@ -318,7 +318,7 @@ namespace WorkObjCollector
 
         public void EditContent()
         {   
-            Tools.Click(500, 500);
+            Tools.Click(500, 700);
 
             Clipboard.SetDataObject(m_head + m_articleContent + m_tail);
             m_articleContent = "";

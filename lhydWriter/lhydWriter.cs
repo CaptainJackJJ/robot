@@ -39,7 +39,6 @@ namespace WorkObjCollector
 
         string m_lastCheckedUrl;
 
-        readonly UInt16 m_minArticleCount = 1;
         public static string m_listPageUrlTail = "?orderby=ViewCount";
 
         public lhydWriter(lhydWriterBrowser w, Timer timerBrain)
