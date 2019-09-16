@@ -7,8 +7,8 @@
     <ProjectGuid>{09198C5E-B579-4492-BD3D-BE2E4F7D5AEF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorkObjCollector</RootNamespace>
-    <AssemblyName>WorkObjCollector</AssemblyName>
+    <RootNamespace>lhydWriter</RootNamespace>
+    <AssemblyName>lhydWriter</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

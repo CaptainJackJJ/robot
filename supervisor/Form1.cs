@@ -25,7 +25,7 @@ namespace supervisor
             {
                 string Heartbeat = "Heartbeat.txt";
 
-                System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("experiment");
+                System.Diagnostics.Process[] pro = System.Diagnostics.Process.GetProcessesByName("lhydWriter");
                 if (pro.ToList().Count <= 0)
                 {
                     System.IO.FileStream stream = System.IO.File.Open(Heartbeat, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
@@ -36,7 +36,7 @@ namespace supervisor
 
                     CleanTempFiles();
 
-                    System.Diagnostics.Process.Start("experiment.exe");
+                    System.Diagnostics.Process.Start("lhydWriter.exe");
                 }
                 else
                 {
