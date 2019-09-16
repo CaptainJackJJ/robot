@@ -175,7 +175,10 @@ namespace WorkObjCollector
                     if (url.Length > 100)
                         return "";
                     if (!DbCheckedUrl.IsUrlExisted(url) && !DbPostedUrl.IsUrlExisted(url))
+                    {
+                        SafeNavigate(url);
                         return url;
+                    }
                 }
             }
 
