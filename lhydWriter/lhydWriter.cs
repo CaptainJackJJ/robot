@@ -66,6 +66,27 @@ namespace WorkObjCollector
             m_DbPostedUrl = new Db("PostedCsdnUrl.db");
         }
 
+        private void Heartbeat()
+        {
+            try
+            {
+                string fileName = "Heartbeat.txt";
+
+                System.IO.FileStream stream = System.IO.File.Open(fileName, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
+                stream.Seek(0, System.IO.SeekOrigin.Begin);
+                stream.SetLength(0);
+                stream.Close();
+                stream.Dispose();
+
+                System.IO.StreamWriter sw = System.IO.File.AppendText(fileName);
+                sw.WriteLine(DateTime.Now.ToString("HH:mm"));
+                sw.Close();
+                sw.Dispose();
+            }
+            catch
+            { }
+        }
+
         public void timerBrain()
         {
             m_timesOfStep++;
@@ -76,7 +97,8 @@ namespace WorkObjCollector
             }
 
             m_browser.CloseSecurityAlert();
-            
+
+            Heartbeat();
             Log.WriteLog(LogType.Debug, "step is :" + m_step.ToString());
             try
             {
