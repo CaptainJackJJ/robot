@@ -49,7 +49,12 @@ namespace WorkObjCollector
 
             m_timerBrain = timerBrain;
             m_timerBrain.Enabled = true;
+
+#if DEBUG
             m_timerBrain.Interval = 2000;
+#else
+            m_timerBrain.Interval = 4000;
+#endif
 
             m_DbCheckedUrl = new Db("CheckedCsdnUrl.db");
             m_lastCheckedUrl = m_DbCheckedUrl.GetLastCheckedUrl();
