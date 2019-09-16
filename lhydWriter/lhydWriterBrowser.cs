@@ -174,7 +174,7 @@ namespace WorkObjCollector
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
             foreach (HtmlElement ele in collection)
             {
-                if (ele.OuterHtml.Contains("https://blog.csdn.net/"))
+                if (ele.OuterHtml.Contains("https://blog.csdn.net/") && ele.OuterHtml.Contains("article/details"))
                 {
                     indexStart = ele.OuterHtml.IndexOf("https://blog.csdn.net/");
                     indexEnd = ele.OuterHtml.IndexOf("target=",indexStart);
@@ -205,7 +205,7 @@ namespace WorkObjCollector
             {
                 if (ele.OuterHtml.Contains("阅读数"))
                 {
-                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+                    int indexStart = ele.OuterHtml.IndexOf("阅读数") + 4;
                     int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
                     string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
                     if(Convert.ToUInt64(count) < 10000)
@@ -302,8 +302,6 @@ namespace WorkObjCollector
         }
         public bool EditTitle()
         {
-            string uTitle = "人工智能教程";            
-
             // <textarea id="post-title-0" class="editor-post-title__input" placeholder="添加标题" rows="1" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 95px;"></textarea>
             HtmlElement ele = this.Document.GetElementById("post-title-0");
             if (ele == null)
@@ -312,7 +310,7 @@ namespace WorkObjCollector
             }
 
             Tools.Click(500, 200);
-            Clipboard.SetDataObject(uTitle);
+            Clipboard.SetDataObject(m_articleTitle);
             Tools.ctrlV(); 
             
             return true;
@@ -320,7 +318,7 @@ namespace WorkObjCollector
 
         public void EditContent()
         {   
-            Tools.Click(500, 295);
+            Tools.Click(500, 500);
 
             Clipboard.SetDataObject(m_head + m_articleContent + m_tail);
             m_articleContent = "";

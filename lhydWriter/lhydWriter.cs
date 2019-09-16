@@ -110,8 +110,7 @@ namespace WorkObjCollector
                         break; 
 
                     case EnumStep.Finished:
-                        m_timerBrain.Stop();
-                        MessageBox.Show("今天的工作已完成");
+                        Environment.Exit(0);
                         return;
                 }
             }
@@ -204,39 +203,6 @@ namespace WorkObjCollector
 
         private void CheckObjThenGoToFirstArticle()
         {
-            // https://passport.csdn.net/passport_fe/login.html
-            if(m_browser.Url.ToString().Contains("passport.csdn.net"))
-            {
-                //m_browser.Login("sdhiiwfssf", "FiSKpJuHc12345");
-                return;
-            }
-
-            bool isNeedCheck = true;
-            if (m_DbPostedUrl.IsObjectPosted(m_lastCheckedUrl))
-            {
-                isNeedCheck = false;
-            }
-            
-            bool isNeedCollect = false;
-            bool isDelay = false;
-            Int64 totalReadCount = 0; bool isExpert = false; int maxReadCount = 0;
-            int OriginalArticleNum = 0;int FansNum= 0;int LikeNum= 0;int CommentsNum= 0;int Degree= 0; int Score= 0;int Ranking= 0;            
-
-            m_browser.CheckObjThenGoToFirstArticle(isNeedCheck, m_minReadCount, m_minArticleCount, ref isNeedCollect, ref isDelay,
-                ref totalReadCount,ref maxReadCount,ref OriginalArticleNum, ref FansNum, ref LikeNum, ref CommentsNum, ref Degree, ref Score, 
-                ref Ranking, ref isExpert);
-            
-            if (isDelay)
-                return;
-            if(isNeedCollect)
-            {
-                if (!m_DbPostedUrl.AddUrlToDb(m_lastCheckedUrl))
-                {
-                    return;
-                }
-            }
-
-            m_step = EnumStep.LookForNewUrl;
         }
 
         private void GoToObjArticleListPage()
