@@ -52,7 +52,7 @@ namespace WorkObjCollector
 #if DEBUG
             m_timerBrain.Interval = 2000;
 #else
-            m_timerBrain.Interval = 4000;
+            m_timerBrain.Interval = 3000;
 #endif
 
             m_DbCheckedUrl = new Db("CheckedCsdnUrl.db");
