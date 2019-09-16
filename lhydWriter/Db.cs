@@ -10,14 +10,6 @@ namespace WorkObjCollector
 {
     class Db
     {
-        public class ObjectInfo
-        {
-            public long id;
-            public string url;
-            public string lastListPageUrl;
-            public string assignedAccount;
-        }
-
         private string connStr = @"data source=";
 
         public Db(string dbName)
@@ -74,9 +66,9 @@ namespace WorkObjCollector
             return null;
         }
 
-        public string GetLastCheckedObject()
+        public string GetLastCheckedUrl()
         {
-            string sql = "SELECT * FROM bloger ORDER BY rowid DESC LIMIT 1";
+            string sql = "SELECT * FROM urls ORDER BY rowid DESC LIMIT 1";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -91,23 +83,23 @@ namespace WorkObjCollector
 
             return url;
         }
-        public bool AddCheckedObject(string url)
+        public bool AddUrlToDb(string url)
         {
-            string sql = "INSERT INTO bloger ( url )"
+            string sql = "INSERT INTO urls ( url )"
             + " VALUES ('" + url + "')";
 
             if (ExecuteNonQuery(sql) <= 0)
             {
-                Log.WriteLog(LogType.Error, "AddCheckedObject is failed");
+                Log.WriteLog(LogType.Error, "AddUrlToDb is failed");
                 return false;
             }
 
             return true;
         }
 
-        public bool IsObjectChecked(string url)
+        public bool IsUrlChecked(string url)
         {
-            string sql = "SELECT * FROM bloger WHERE url = '" + url + "'";
+            string sql = "SELECT * FROM urls WHERE url = '" + url + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -121,9 +113,9 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool IsObjectCollected(string urlBloger)
+        public bool IsObjectPosted(string url)
         {
-            string sql = "SELECT * FROM bloger WHERE bloger_url = '" + urlBloger + "'";
+            string sql = "SELECT * FROM urls WHERE url = '" + url + "'";
 
             SQLiteDataReader data = ExecuteReader(sql);
 
@@ -133,23 +125,6 @@ namespace WorkObjCollector
 
             data.Close();
             data.Dispose();
-
-            return true;
-        }
-
-        public bool CollectObject(string urlBloger,Int64 totalReadCount, int maxReadCount,int OriginalArticleNum,int FansNum,int LikeNum,
-            int CommentsNum,int Degree,int Score,int Ranking,bool isExpert)
-        {
-            string sql = "INSERT INTO bloger ( bloger_url,total_read_count,max_read_count,is_expert,original_article_num,degree,fans_num"
-                + ",like_num,comment_num,ranking,score )"
-                + " VALUES ('" + urlBloger + "'," + totalReadCount + "," + maxReadCount + "," + isExpert + "," + OriginalArticleNum + ","
-             + Degree + "," + FansNum + "," + LikeNum + "," + CommentsNum + ","+ Ranking + ","+ Score + ")";
-
-            if (ExecuteNonQuery(sql) <= 0)
-            {
-                Log.WriteLog(LogType.Error, "AddObject is failed");
-                return false;
-            }
 
             return true;
         }

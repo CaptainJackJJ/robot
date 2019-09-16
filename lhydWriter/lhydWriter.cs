@@ -30,12 +30,12 @@ namespace WorkObjCollector
 
         Timer m_timerBrain;
         lhydWriterBrowser m_browser = null;
-        Db m_checkedObjDb,m_objDb;
+        Db m_DbCheckedUrl,m_DbPostedUrl;
 
         UInt16 m_timesOfStep = 0;
         readonly UInt16 m_maxSteps = 3 * 20;
 
-        string m_lastBlogerUrl;
+        string m_lastCheckedUrl;
 
         readonly int m_minReadCount = 5000;
         readonly UInt16 m_minArticleCount = 1;
@@ -49,10 +49,10 @@ namespace WorkObjCollector
             m_timerBrain.Enabled = true;
             m_timerBrain.Interval = 2000;
 
-            m_checkedObjDb = new Db("CheckedCsdnBloger.db");
-            m_lastBlogerUrl = m_checkedObjDb.GetLastCheckedObject();
+            m_DbCheckedUrl = new Db("CheckedCsdnUrl.db");
+            m_lastCheckedUrl = m_DbCheckedUrl.GetLastCheckedUrl();
 
-            m_objDb = new Db("CsdnBloger.db");
+            m_DbPostedUrl = new Db("PostedCsdnUrl.db");
         }
 
         public void timerBrain()
@@ -122,7 +122,7 @@ namespace WorkObjCollector
 
         private void LookForNewObj()
         {
-            string objUrl = m_browser.LookForNewObj(m_checkedObjDb);
+            string objUrl = m_browser.LookForNewObj(m_DbCheckedUrl);
             string csdn = "https://blog.csdn.net";
             if (objUrl == "" || objUrl.Substring(0, csdn.Length) != csdn)
             {
@@ -132,8 +132,8 @@ namespace WorkObjCollector
                 //Environment.Exit(0);
             }
 
-            m_checkedObjDb.AddCheckedObject(objUrl);
-            m_lastBlogerUrl = objUrl;
+            m_DbCheckedUrl.AddUrlToDb(objUrl);
+            m_lastCheckedUrl = objUrl;
             m_step = EnumStep.GoToObjArticleListPage;
         }
 
@@ -190,7 +190,7 @@ namespace WorkObjCollector
             }
 
             bool isNeedCheck = true;
-            if (m_objDb.IsObjectCollected(m_lastBlogerUrl))
+            if (m_DbPostedUrl.IsObjectPosted(m_lastCheckedUrl))
             {
                 isNeedCheck = false;
             }
@@ -208,8 +208,7 @@ namespace WorkObjCollector
                 return;
             if(isNeedCollect)
             {
-                if (!m_objDb.CollectObject(m_lastBlogerUrl, totalReadCount, maxReadCount, OriginalArticleNum, 
-                    FansNum, LikeNum, CommentsNum, Degree, Score, Ranking, isExpert))
+                if (!m_DbPostedUrl.AddUrlToDb(m_lastCheckedUrl))
                 {
                     return;
                 }
@@ -220,7 +219,7 @@ namespace WorkObjCollector
 
         private void GoToObjArticleListPage()
         {
-            m_browser.SafeNavigate(m_lastBlogerUrl + m_listPageUrlTail);
+            m_browser.SafeNavigate(m_lastCheckedUrl + m_listPageUrlTail);
             m_step = EnumStep.CheckObjThenGoToFirstArticle;
         }
     }
