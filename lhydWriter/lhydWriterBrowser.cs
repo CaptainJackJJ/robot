@@ -156,10 +156,10 @@ namespace WorkObjCollector
         }
 
 
-        public string LookForNewObj(Db checkedObjDb)
+        public string LookForNewObj(Db DbCheckedUrl, Db DbPostedUrl)
         {
             int indexStart, indexEnd;
-            string objUrl = "";
+            string url = "";
             
             // <a href="https://blog.csdn.net/fangqun663775/article/details/73614850" target="_blank" title="Java高级程序员（5年左右）面试的题目集 - F &amp; Q的专栏">	
             HtmlElementCollection collection = this.Document.GetElementsByTagName("a");
@@ -168,14 +168,14 @@ namespace WorkObjCollector
                 if (ele.OuterHtml.Contains("https://blog.csdn.net/"))
                 {
                     indexStart = ele.OuterHtml.IndexOf("https://blog.csdn.net/");
-                    indexEnd = ele.OuterHtml.IndexOf("/article/details",indexStart);
+                    indexEnd = ele.OuterHtml.IndexOf("target=",indexStart);
                     if (indexEnd <= 0)
                         continue;
-                    objUrl = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
-                    if (objUrl.Length > 100)
+                    url = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart - 2);
+                    if (url.Length > 100)
                         return "";
-                    if (!checkedObjDb.IsUrlChecked(objUrl))
-                        return objUrl;
+                    if (!DbCheckedUrl.IsUrlExisted(url) && !DbPostedUrl.IsUrlExisted(url))
+                        return url;
                 }
             }
 

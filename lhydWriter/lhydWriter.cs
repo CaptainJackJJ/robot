@@ -25,7 +25,7 @@ namespace WorkObjCollector
             Finished
         }
 
-        EnumStep m_step = EnumStep.GotoLhydLoginPage;
+        EnumStep m_step = EnumStep.LookForNewObj;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -128,9 +128,9 @@ namespace WorkObjCollector
 
         private void LookForNewObj()
         {
-            string objUrl = m_browser.LookForNewObj(m_DbCheckedUrl);
+            string url = m_browser.LookForNewObj(m_DbCheckedUrl,m_DbPostedUrl);
             string csdn = "https://blog.csdn.net";
-            if (objUrl == "" || objUrl.Substring(0, csdn.Length) != csdn)
+            if (url == "" || url.Substring(0, csdn.Length) != csdn)
             {
                 Log.WriteLog(LogType.Error, "can not found new obj, so go to newarticles");
                 m_browser.SafeNavigate("https://www.csdn.net/nav/newarticles");
@@ -138,8 +138,8 @@ namespace WorkObjCollector
                 //Environment.Exit(0);
             }
 
-            m_DbCheckedUrl.AddUrlToDb(objUrl);
-            m_lastCheckedUrl = objUrl;
+            m_DbCheckedUrl.AddUrlToDb(url);
+            m_lastCheckedUrl = url;
             m_step = EnumStep.GoToObjArticleListPage;
         }
 

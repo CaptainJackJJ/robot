@@ -97,23 +97,7 @@ namespace WorkObjCollector
             return true;
         }
 
-        public bool IsUrlChecked(string url)
-        {
-            string sql = "SELECT * FROM urls WHERE url = '" + url + "'";
-
-            SQLiteDataReader data = ExecuteReader(sql);
-
-            data.Read();
-            if (!data.HasRows)
-                return false;
-
-            data.Close();
-            data.Dispose();
-
-            return true;
-        }
-
-        public bool IsObjectPosted(string url)
+        public bool IsUrlExisted(string url)
         {
             string sql = "SELECT * FROM urls WHERE url = '" + url + "'";
 
