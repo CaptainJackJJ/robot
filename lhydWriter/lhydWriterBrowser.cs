@@ -12,6 +12,15 @@ namespace WorkObjCollector
 {
     class lhydWriterBrowser : WebBrowser
     {
+        string m_articleContent = "";
+        string m_articleTitle = "";
+        string m_head = @"
+<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，叫做床长人工智能教程，哈哈～我正在学习中，觉得太牛了，所以分享给大家！点<a href=""https://www.captainbed.net"">这里</a>可以跳转到教程</p>";
+
+        string m_tail = @"
+<p>点<a href=""https://www.captainbed.net"">这里</a>可以跳转到床长人工智能教程</p>";
+
+
         public lhydWriterBrowser()
         {
             this.ScriptErrorsSuppressed = false;
@@ -156,7 +165,7 @@ namespace WorkObjCollector
         }
 
 
-        public string LookForNewObj(Db DbCheckedUrl, Db DbPostedUrl)
+        public string LookForNewUrl(Db DbCheckedUrl, Db DbPostedUrl)
         {
             int indexStart, indexEnd;
             string url = "";
@@ -183,6 +192,69 @@ namespace WorkObjCollector
             }
 
             return "";
+        }
+
+        public bool CheckAndGetArticle()
+        {
+            HtmlElementCollection collection = null;
+
+            // <span class="read-count">阅读数：884</span>
+            collection = this.Document.GetElementsByTagName("span");
+
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("阅读数"))
+                {
+                    int indexStart = ele.OuterHtml.IndexOf("阅读数：") + 4;
+                    int indexEnd = ele.OuterHtml.LastIndexOf("</span>");
+                    string count = ele.OuterHtml.Substring(indexStart, indexEnd - indexStart);
+                    if(Convert.ToUInt64(count) < 10000)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }            
+
+            collection = this.Document.GetElementsByTagName("h1");
+            foreach (HtmlElement ele in collection)
+            {
+                if (ele.OuterHtml.Contains("title-article"))
+                {
+                    if (ele.InnerText.Length > 60)
+                    {
+                        m_articleTitle = ele.InnerText.Substring(0, 60);
+                    }
+                    else
+                        m_articleTitle = ele.InnerText;
+                    m_articleTitle = Regex.Replace(m_articleTitle, "[ \\[ \\] \\^ _*×――(^)^$%~!@#$…&%￥=<>《》!！??？:：•`·、。；,.;\"‘’“”]", " ");
+                    break;
+                }
+            }
+
+            collection = this.Document.GetElementsByTagName("div");
+            foreach (HtmlElement ele in collection)
+            {
+                if (!ele.OuterHtml.Contains("阅读数") && !ele.OuterHtml.Contains("rel=\"stylesheet\"") &&
+                    (ele.OuterHtml.Contains("markdown_views") || ele.OuterHtml.Contains("htmledit_views")))
+                {
+                    if (ele.OuterHtml.Length > 100000)
+                    {
+                        Log.WriteLog(LogType.Notice, "article too large, skip it. url is :"
+                            + this.Url.ToString() + " , original len is " + ele.OuterHtml.Length);
+
+                        return false;
+                    }
+                    else
+                        m_articleContent = ele.OuterHtml;
+                    break;
+                }
+            }
+
+            return true;
         }
 
         private bool ClickAccountLogin()
@@ -247,12 +319,11 @@ namespace WorkObjCollector
         }
 
         public void EditContent()
-        {            
-            string content = @"
-<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，哈哈～我正在学习中，觉得太牛了，所以分享给大家！点<a href=""http://www.captainbed.net/csdn"">这里</a>可以跳转到教程</p>";
-
+        {   
             Tools.Click(500, 295);
-            Clipboard.SetDataObject(content);
+
+            Clipboard.SetDataObject(m_head + m_articleContent + m_tail);
+            m_articleContent = "";
             Tools.ctrlV();           
         }
 

@@ -15,7 +15,8 @@ namespace WorkObjCollector
             None,
             GoToObjArticleListPage,
             CheckObjThenGoToFirstArticle,
-            LookForNewObj,
+            LookForNewUrl,
+            CheckAndGetArticle,
             GotoLhydLoginPage,
             LoginLhyd,
             GotoPostNewPage,
@@ -25,7 +26,7 @@ namespace WorkObjCollector
             Finished
         }
 
-        EnumStep m_step = EnumStep.LookForNewObj;
+        EnumStep m_step = EnumStep.LookForNewUrl;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -83,8 +84,11 @@ namespace WorkObjCollector
                     case EnumStep.CheckObjThenGoToFirstArticle:
                         CheckObjThenGoToFirstArticle();
                         break;
-                    case EnumStep.LookForNewObj:
-                        LookForNewObj();
+                    case EnumStep.LookForNewUrl:
+                        LookForNewUrl();
+                        break;
+                    case EnumStep.CheckAndGetArticle:
+                        CheckAndGetArticle();
                         break;
                     case EnumStep.GotoLhydLoginPage:
                         GotoLhydLoginPage();
@@ -126,9 +130,9 @@ namespace WorkObjCollector
         }
 
 
-        private void LookForNewObj()
+        private void LookForNewUrl()
         {
-            string url = m_browser.LookForNewObj(m_DbCheckedUrl,m_DbPostedUrl);
+            string url = m_browser.LookForNewUrl(m_DbCheckedUrl,m_DbPostedUrl);
             string csdn = "https://blog.csdn.net";
             if (url == "" || url.Substring(0, csdn.Length) != csdn)
             {
@@ -140,7 +144,19 @@ namespace WorkObjCollector
 
             m_DbCheckedUrl.AddUrlToDb(url);
             m_lastCheckedUrl = url;
-            m_step = EnumStep.GoToObjArticleListPage;
+            m_step = EnumStep.CheckAndGetArticle;
+        }
+
+        private void CheckAndGetArticle()
+        {
+            if(m_browser.CheckAndGetArticle())
+            {
+                m_step = EnumStep.GotoLhydLoginPage;
+            }
+            else
+            {
+                m_step = EnumStep.LookForNewUrl;
+            }
         }
 
         private void GotoLhydLoginPage()
@@ -220,7 +236,7 @@ namespace WorkObjCollector
                 }
             }
 
-            m_step = EnumStep.LookForNewObj;
+            m_step = EnumStep.LookForNewUrl;
         }
 
         private void GoToObjArticleListPage()
