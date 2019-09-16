@@ -34,7 +34,7 @@ namespace supervisor
                     stream.Close();
                     stream.Dispose();
 
-                    CleanTempFiles();
+                    //CleanTempFiles();
 
                     System.Diagnostics.Process.Start("lhydWriter.exe");
                 }

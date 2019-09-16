@@ -245,7 +245,7 @@ namespace WorkObjCollector
                 return;
             }
             m_DbPostedUrl.AddUrlToDb(m_lastCheckedUrl);
-            m_step = EnumStep.GotoLastCheckedUrl;
+            m_step = EnumStep.Finished;
         }
 
         private void CheckObjThenGoToFirstArticle()
