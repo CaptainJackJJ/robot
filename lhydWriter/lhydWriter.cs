@@ -15,6 +15,7 @@ namespace WorkObjCollector
             None,
             GoToObjArticleListPage,
             CheckObjThenGoToFirstArticle,
+            GotoLastCheckedUrl,
             LookForNewUrl,
             CheckAndGetArticle,
             GotoLhydLoginPage,
@@ -27,7 +28,7 @@ namespace WorkObjCollector
             Finished
         }
 
-        EnumStep m_step = EnumStep.LookForNewUrl;
+        EnumStep m_step = EnumStep.GotoLastCheckedUrl;
         EnumStep m_lastStep = EnumStep.None;
 
         Timer m_timerBrain;
@@ -61,7 +62,6 @@ namespace WorkObjCollector
                 MessageBox.Show("m_lastCheckedUrl is empty");
                 Environment.Exit(0);
             }
-            m_browser.SafeNavigate(m_lastCheckedUrl);
 
             m_DbPostedUrl = new Db("PostedCsdnUrl.db");
         }
@@ -87,6 +87,9 @@ namespace WorkObjCollector
                         break;
                     case EnumStep.CheckObjThenGoToFirstArticle:
                         CheckObjThenGoToFirstArticle();
+                        break;
+                    case EnumStep.GotoLastCheckedUrl:
+                        GotoLastCheckedUrl();
                         break;
                     case EnumStep.LookForNewUrl:
                         LookForNewUrl();
@@ -134,6 +137,11 @@ namespace WorkObjCollector
             }
         }
 
+        private void GotoLastCheckedUrl()
+        {
+            m_browser.SafeNavigate(m_lastCheckedUrl);
+            m_step = EnumStep.LookForNewUrl;
+        }
 
         private void LookForNewUrl()
         {
@@ -215,7 +223,7 @@ namespace WorkObjCollector
                 return;
             }
             m_DbPostedUrl.AddUrlToDb(m_lastCheckedUrl);
-            m_step = EnumStep.Finished;
+            m_step = EnumStep.GotoLastCheckedUrl;
         }
 
         private void CheckObjThenGoToFirstArticle()
