@@ -23,6 +23,7 @@ namespace WorkObjCollector
             EditTitle,
             EditContent,
             Publish,
+            WaitPublishDone,
             Finished
         }
 
@@ -107,8 +108,10 @@ namespace WorkObjCollector
                         break;
                     case EnumStep.Publish:
                         Publish();
+                        break;
+                    case EnumStep.WaitPublishDone:
+                        WaitPublishDone();
                         break; 
-
                     case EnumStep.Finished:
                         Environment.Exit(0);
                         return;
@@ -196,6 +199,16 @@ namespace WorkObjCollector
             if (!m_browser.Publish())
             {
                 m_step = EnumStep.GotoPostNewPage;
+                return;
+            }
+            m_step = EnumStep.WaitPublishDone;
+        }
+
+        private void WaitPublishDone()
+        {
+            if (m_browser.IsPublishing())
+            {
+                m_step = EnumStep.WaitPublishDone;
                 return;
             }
             m_step = EnumStep.Finished;

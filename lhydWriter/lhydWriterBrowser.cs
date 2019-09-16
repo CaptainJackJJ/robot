@@ -337,6 +337,17 @@ namespace WorkObjCollector
             return true;
         }
 
+        public bool IsPublishing()
+        {
+            // <button type="button" aria-disabled="true" class="components-button editor-post-publish-button is-button is-default is-primary is-large is-busy">正在发布…</button>
+            HtmlElement ele = GetEleByTagAndOuterHtml("button", "正在发布…");
+            if (ele == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void CheckObjThenGoToFirstArticle(bool isNeedCheck, int minReadCount, UInt16 minArticleCount,
             ref bool isNeedCollect, ref bool isNetDealy, ref Int64 totalReadCount, ref int maxReadCount, 
             ref int OriginalArticleNum, ref int FansNum, ref int LikeNum, ref int CommentsNum
