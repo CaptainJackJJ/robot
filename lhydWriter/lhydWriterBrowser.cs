@@ -15,10 +15,13 @@ namespace WorkObjCollector
         string m_articleContent = "";
         string m_articleTitle = "";
         string m_head = @"
-<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，叫做床长人工智能教程，哈哈～我正在学习中，觉得太牛了，所以分享给大家！<a href=""https://www.captainbed.net"">点这里可以跳转到教程</a></p>";
+ <p>首先给大家推荐一下我老师大神的人工智能教程。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子！<a href=""https://www.captainbed.net"">点这里可以跳转到教程</a></p>";
+
+        //string m_head = @"
+//<p>首先给大家分享一个巨牛巨牛的人工智能教程，是我无意中发现的。教程不仅零基础，通俗易懂，而且非常风趣幽默，还时不时有内涵段子，像看小说一样，叫做床长人工智能教程，哈哈～我正在学习中，觉得太牛了，所以分享给大家！<a href=""https://www.captainbed.net"">点这里可以跳转到教程</a></p>";
 
         string m_tail = @"
-<p><a href=""https://www.captainbed.net"">点这里可以跳转到床长人工智能教程</a></p>";
+<p><a href=""https://www.captainbed.net"">点这里可以跳转到人工智能教程</a></p>";
 
 
         public lhydWriterBrowser()
