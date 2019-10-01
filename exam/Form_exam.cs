@@ -51,18 +51,41 @@ namespace exam
             { }
         }
 
+        string m_log_pre = "top4-";
+        private void gen_log_pre()
+        {
+            if (radioButton_top_class4.Checked)
+            {
+                m_log_pre = "top4-";
+            }
+            else if (radioButton_top_class3.Checked)
+            {
+                m_log_pre = "top3-";
+            }
+            else if (radioButton_top_class2.Checked)
+            {
+                m_log_pre = "top2-";
+            }
+            else if (radioButton_vip_class3.Checked)
+            {
+                m_log_pre = "vip3-";
+            }
+        }
+
         private void add_pass_log(string msg)
         {
-            WriteLine("pass", msg);
+            
+            WriteLine(m_log_pre + "pass", msg);
         }
 
         private void add_not_pass_log(string msg)
         {
-            WriteLine("not_pass", msg);
+            WriteLine(m_log_pre + "not_pass", msg);
         }
 
         private void evaluate()
         {
+            gen_log_pre();
             //answer_top_class4
 
             string[] answer_true = { "abc", "a", "a", "a", "abc", "abd", "acd", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc"};
