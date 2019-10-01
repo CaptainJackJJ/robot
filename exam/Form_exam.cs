@@ -105,7 +105,9 @@ namespace exam
                (radioButton_vip_class3.Checked && wrong_answer_index.Count <= 3))
             {
                 textBox_result.Text = textBox_id.Text + "：pass";
-                add_pass_log("\r\t\r\t" + textBox_id.Text + "\t" + textBox_email.Text);
+                add_pass_log(textBox_id.Text);
+                add_pass_log(textBox_email.Text);
+                add_pass_log(" ");
             }
             else if ((!radioButton_vip_class3.Checked && wrong_answer_index.Count > 1) ||
                 (radioButton_vip_class3.Checked && wrong_answer_index.Count > 3))
