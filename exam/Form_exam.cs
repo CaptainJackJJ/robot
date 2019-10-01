@@ -65,7 +65,7 @@ namespace exam
         {
             //answer_top_class4
 
-            string[] answer_true = { "abc", "a", "a", "a", "abc", "abd", "ac", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc"};
+            string[] answer_true = { "abc", "a", "a", "a", "abc", "abd", "acd", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc"};
 
 
             if(radioButton_top_class3.Checked)
