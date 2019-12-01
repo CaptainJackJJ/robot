@@ -47,9 +47,9 @@
             // 
             // button_evaluate
             // 
-            this.button_evaluate.Location = new System.Drawing.Point(166, 173);
+            this.button_evaluate.Location = new System.Drawing.Point(192, 202);
             this.button_evaluate.Name = "button_evaluate";
-            this.button_evaluate.Size = new System.Drawing.Size(235, 52);
+            this.button_evaluate.Size = new System.Drawing.Size(274, 59);
             this.button_evaluate.TabIndex = 0;
             this.button_evaluate.Text = "evaluate";
             this.button_evaluate.UseVisualStyleBackColor = true;
@@ -57,47 +57,47 @@
             // 
             // textBox_id
             // 
-            this.textBox_id.Location = new System.Drawing.Point(59, 26);
+            this.textBox_id.Location = new System.Drawing.Point(69, 31);
             this.textBox_id.Name = "textBox_id";
-            this.textBox_id.Size = new System.Drawing.Size(135, 21);
+            this.textBox_id.Size = new System.Drawing.Size(157, 23);
             this.textBox_id.TabIndex = 1;
             // 
             // textBox_email
             // 
-            this.textBox_email.Location = new System.Drawing.Point(413, 26);
+            this.textBox_email.Location = new System.Drawing.Point(482, 31);
             this.textBox_email.Name = "textBox_email";
-            this.textBox_email.Size = new System.Drawing.Size(167, 21);
+            this.textBox_email.Size = new System.Drawing.Size(194, 23);
             this.textBox_email.TabIndex = 1;
             // 
             // richTextBox_answer
             // 
-            this.richTextBox_answer.Location = new System.Drawing.Point(59, 53);
+            this.richTextBox_answer.Location = new System.Drawing.Point(69, 62);
             this.richTextBox_answer.Name = "richTextBox_answer";
-            this.richTextBox_answer.Size = new System.Drawing.Size(521, 110);
+            this.richTextBox_answer.Size = new System.Drawing.Size(607, 128);
             this.richTextBox_answer.TabIndex = 2;
             this.richTextBox_answer.Text = "";
             // 
             // textBox_result
             // 
-            this.textBox_result.Location = new System.Drawing.Point(59, 242);
+            this.textBox_result.Location = new System.Drawing.Point(69, 283);
             this.textBox_result.Name = "textBox_result";
-            this.textBox_result.Size = new System.Drawing.Size(521, 21);
+            this.textBox_result.Size = new System.Drawing.Size(607, 23);
             this.textBox_result.TabIndex = 1;
             // 
             // richTextBox_detail
             // 
-            this.richTextBox_detail.Location = new System.Drawing.Point(59, 291);
+            this.richTextBox_detail.Location = new System.Drawing.Point(69, 339);
             this.richTextBox_detail.Name = "richTextBox_detail";
-            this.richTextBox_detail.Size = new System.Drawing.Size(521, 110);
+            this.richTextBox_detail.Size = new System.Drawing.Size(607, 128);
             this.richTextBox_detail.TabIndex = 2;
             this.richTextBox_detail.Text = "";
             // 
             // radioButton_top_class3
             // 
             this.radioButton_top_class3.AutoSize = true;
-            this.radioButton_top_class3.Location = new System.Drawing.Point(160, 4);
+            this.radioButton_top_class3.Location = new System.Drawing.Point(185, 3);
             this.radioButton_top_class3.Name = "radioButton_top_class3";
-            this.radioButton_top_class3.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_top_class3.Size = new System.Drawing.Size(95, 18);
             this.radioButton_top_class3.TabIndex = 3;
             this.radioButton_top_class3.Text = "top_class3";
             this.radioButton_top_class3.UseVisualStyleBackColor = true;
@@ -105,9 +105,9 @@
             // radioButton_top_class2
             // 
             this.radioButton_top_class2.AutoSize = true;
-            this.radioButton_top_class2.Location = new System.Drawing.Point(266, 4);
+            this.radioButton_top_class2.Location = new System.Drawing.Point(311, 3);
             this.radioButton_top_class2.Name = "radioButton_top_class2";
-            this.radioButton_top_class2.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_top_class2.Size = new System.Drawing.Size(95, 18);
             this.radioButton_top_class2.TabIndex = 3;
             this.radioButton_top_class2.Text = "top_class2";
             this.radioButton_top_class2.UseVisualStyleBackColor = true;
@@ -115,9 +115,9 @@
             // radioButton_vip_class3
             // 
             this.radioButton_vip_class3.AutoSize = true;
-            this.radioButton_vip_class3.Location = new System.Drawing.Point(372, 4);
+            this.radioButton_vip_class3.Location = new System.Drawing.Point(434, 3);
             this.radioButton_vip_class3.Name = "radioButton_vip_class3";
-            this.radioButton_vip_class3.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_vip_class3.Size = new System.Drawing.Size(95, 18);
             this.radioButton_vip_class3.TabIndex = 3;
             this.radioButton_vip_class3.Text = "vip_class3";
             this.radioButton_vip_class3.UseVisualStyleBackColor = true;
@@ -125,45 +125,45 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 29);
+            this.label1.Location = new System.Drawing.Point(14, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 12);
+            this.label1.Size = new System.Drawing.Size(21, 14);
             this.label1.TabIndex = 4;
             this.label1.Text = "id";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(372, 29);
+            this.label2.Location = new System.Drawing.Point(434, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.Size = new System.Drawing.Size(42, 14);
             this.label2.TabIndex = 4;
             this.label2.Text = "email";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 53);
+            this.label3.Location = new System.Drawing.Point(14, 62);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.Size = new System.Drawing.Size(49, 14);
             this.label3.TabIndex = 4;
             this.label3.Text = "answer";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 245);
+            this.label4.Location = new System.Drawing.Point(14, 286);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.Size = new System.Drawing.Size(49, 14);
             this.label4.TabIndex = 4;
             this.label4.Text = "result";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 291);
+            this.label5.Location = new System.Drawing.Point(14, 339);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.Size = new System.Drawing.Size(49, 14);
             this.label5.TabIndex = 4;
             this.label5.Text = "detail";
             // 
@@ -171,9 +171,9 @@
             // 
             this.radioButton_top_class4.AutoSize = true;
             this.radioButton_top_class4.Checked = true;
-            this.radioButton_top_class4.Location = new System.Drawing.Point(59, 4);
+            this.radioButton_top_class4.Location = new System.Drawing.Point(69, 3);
             this.radioButton_top_class4.Name = "radioButton_top_class4";
-            this.radioButton_top_class4.Size = new System.Drawing.Size(83, 16);
+            this.radioButton_top_class4.Size = new System.Drawing.Size(95, 18);
             this.radioButton_top_class4.TabIndex = 3;
             this.radioButton_top_class4.TabStop = true;
             this.radioButton_top_class4.Text = "top_class4";
@@ -181,9 +181,9 @@
             // 
             // Form_exam
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 432);
+            this.ClientSize = new System.Drawing.Size(701, 500);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -199,6 +199,7 @@
             this.Controls.Add(this.textBox_result);
             this.Controls.Add(this.textBox_id);
             this.Controls.Add(this.button_evaluate);
+            this.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "Form_exam";
             this.Text = "exam";
             this.ResumeLayout(false);
