@@ -83,6 +83,77 @@ namespace exam
             WriteLine(m_log_pre + "not_pass", msg);
         }
 
+        bool IsNumeric(char c) 
+        {
+            byte bt = Convert.ToByte(c);
+            ASCIIEncoding ascii = new ASCIIEncoding();
+
+            if (bt >= 48 && bt <= 57)                          //0~9数字对应十进制48－57
+            {
+                return true;
+            }
+
+            return false;                                      
+        }
+
+        bool IsAlphabet(char c)
+        {
+            byte bt = Convert.ToByte(c);
+            ASCIIEncoding ascii = new ASCIIEncoding();
+
+            if (bt >= 97 && bt <= 122)                          //a~z字母对应的十进制97－122
+            {
+                return true;
+            }
+
+            if (bt >= 65 && bt <= 90)                          //A~Z字母对应的十进制65－90
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        bool IsComma(char c)
+        {
+            if (c == ',')
+                return true;
+            return false;
+        }
+
+        private string check_comma(string answer)
+        {
+            string new_answer = "";
+            char pre_c = ' ';
+            foreach (char c in answer)
+            {
+                if (IsNumeric(c))
+                {
+                    if(IsAlphabet(pre_c))
+                    {
+                        new_answer += ',';
+                    }
+                }
+                else if (IsAlphabet(c))
+                {
+                    if (IsNumeric(pre_c))
+                    {
+                        new_answer += ',';
+                    }
+                }
+                else if (IsComma(c))
+                {
+                    if (IsComma(c))
+                    {
+                        continue;
+                    }
+                }
+                new_answer += c;
+                pre_c = c;
+            }
+            return new_answer;
+        }
+
         private void evaluate()
         {
             gen_log_pre();
@@ -112,6 +183,7 @@ namespace exam
             richTextBox_answer.Text = richTextBox_answer.Text.Replace("\n", ",").Replace(" ","").Replace("\t","").Replace("\r",",");
             richTextBox_answer.Text = richTextBox_answer.Text.Replace("，", ",").Replace(".", ",").Replace("。", ",").Replace("、", ",").ToLower();
             richTextBox_answer.Text = richTextBox_answer.Text.Replace(":", ",").Replace("：", ",").Replace("；", ",").Replace(";", ",");
+            richTextBox_answer.Text = check_comma(richTextBox_answer.Text); 
             string[] answer = remove_answer_index(richTextBox_answer.Text.Split(','));
 
             List<int> wrong_answer_index = new List<int>();
