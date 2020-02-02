@@ -51,10 +51,14 @@ namespace exam
             { }
         }
 
-        string m_log_pre = "top4-";
+        string m_log_pre = "top5-";
         private void gen_log_pre()
         {
-            if (radioButton_top_class4.Checked)
+            if (radioButton_top_class5.Checked)
+            {
+                m_log_pre = "top5-";
+            }
+            else if (radioButton_top_class4.Checked)
             {
                 m_log_pre = "top4-";
             }
@@ -157,12 +161,16 @@ namespace exam
         private void evaluate()
         {
             gen_log_pre();
-            //answer_top_class4
+            
+            //answer_top_class5
+            string[] answer_true = { "a","abc","abcd","a","a","a","abcd","ab","abc","abc","b","b","b","a","abc","a","bc","abc","abc","abd","c","c","abcd","acd","bc"};
 
-            string[] answer_true = { "abc", "a", "a", "a", "abc", "abd", "acd", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc"};
-
-
-            if(radioButton_top_class3.Checked)
+            if (radioButton_top_class4.Checked)
+            {
+                string[] answer_temp = { "abc", "a", "a", "a", "abc", "abd", "acd", "b", "abc", "ac", "ab", "abcd", "ab", "ab", "ab", "ab", "abc" };
+                answer_true = answer_temp;
+            }
+            else if(radioButton_top_class3.Checked)
             {
                 string[] answer_temp = { "abc", "a", "c", "b", "ac", "abc", "b", "c", "a", "abc", "abc", "a", "a", "b", "b", "bc", "abd"
                                              , "a", "b", "b", "b"};

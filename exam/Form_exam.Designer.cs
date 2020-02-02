@@ -43,6 +43,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.radioButton_top_class4 = new System.Windows.Forms.RadioButton();
+            this.radioButton_top_class5 = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // button_evaluate
@@ -101,7 +102,7 @@
             // radioButton_top_class3
             // 
             this.radioButton_top_class3.AutoSize = true;
-            this.radioButton_top_class3.Location = new System.Drawing.Point(211, 4);
+            this.radioButton_top_class3.Location = new System.Drawing.Point(381, 2);
             this.radioButton_top_class3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton_top_class3.Name = "radioButton_top_class3";
             this.radioButton_top_class3.Size = new System.Drawing.Size(95, 24);
@@ -112,7 +113,7 @@
             // radioButton_top_class2
             // 
             this.radioButton_top_class2.AutoSize = true;
-            this.radioButton_top_class2.Location = new System.Drawing.Point(355, 4);
+            this.radioButton_top_class2.Location = new System.Drawing.Point(532, 2);
             this.radioButton_top_class2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton_top_class2.Name = "radioButton_top_class2";
             this.radioButton_top_class2.Size = new System.Drawing.Size(95, 24);
@@ -123,7 +124,7 @@
             // radioButton_vip_class3
             // 
             this.radioButton_vip_class3.AutoSize = true;
-            this.radioButton_vip_class3.Location = new System.Drawing.Point(496, 4);
+            this.radioButton_vip_class3.Location = new System.Drawing.Point(683, 2);
             this.radioButton_vip_class3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton_vip_class3.Name = "radioButton_vip_class3";
             this.radioButton_vip_class3.Size = new System.Drawing.Size(92, 24);
@@ -179,15 +180,25 @@
             // radioButton_top_class4
             // 
             this.radioButton_top_class4.AutoSize = true;
-            this.radioButton_top_class4.Checked = true;
-            this.radioButton_top_class4.Location = new System.Drawing.Point(79, 4);
+            this.radioButton_top_class4.Location = new System.Drawing.Point(230, 2);
             this.radioButton_top_class4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton_top_class4.Name = "radioButton_top_class4";
             this.radioButton_top_class4.Size = new System.Drawing.Size(95, 24);
             this.radioButton_top_class4.TabIndex = 3;
-            this.radioButton_top_class4.TabStop = true;
             this.radioButton_top_class4.Text = "top_class4";
             this.radioButton_top_class4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_top_class5
+            // 
+            this.radioButton_top_class5.AutoSize = true;
+            this.radioButton_top_class5.Checked = true;
+            this.radioButton_top_class5.Location = new System.Drawing.Point(79, 2);
+            this.radioButton_top_class5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.radioButton_top_class5.Name = "radioButton_top_class5";
+            this.radioButton_top_class5.Size = new System.Drawing.Size(95, 24);
+            this.radioButton_top_class5.TabIndex = 3;
+            this.radioButton_top_class5.Text = "top_class5";
+            this.radioButton_top_class5.UseVisualStyleBackColor = true;
             // 
             // Form_exam
             // 
@@ -201,6 +212,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.radioButton_vip_class3);
             this.Controls.Add(this.radioButton_top_class2);
+            this.Controls.Add(this.radioButton_top_class5);
             this.Controls.Add(this.radioButton_top_class4);
             this.Controls.Add(this.radioButton_top_class3);
             this.Controls.Add(this.richTextBox_detail);
@@ -235,6 +247,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton radioButton_top_class4;
+        private System.Windows.Forms.RadioButton radioButton_top_class5;
     }
 }
 
